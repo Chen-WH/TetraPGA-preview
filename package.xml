@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>TetraPGA</name>
+  <version>0.1.0</version>
+  <description>Core geometric algebra and robotics headers, tests, and benchmarks for TetraPGA.</description>
+  <maintainer email="Chen.WH@sjtu.edu.cn">ChenWH</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>cmake</buildtool_depend>
+
+  <depend>eigen</depend>
+  <depend>urdfdom</depend>
+
+  <export>
+    <build_type>cmake</build_type>
+  </export>
+</package>

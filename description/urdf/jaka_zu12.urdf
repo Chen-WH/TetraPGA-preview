@@ -27,7 +27,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://description/meshes/jaka_zu12/base_link.STL" />
+          filename="package://TetraPGA/description/meshes/jaka_zu12/base_link.STL" />
       </geometry>
       <material
         name="">
@@ -41,7 +41,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://description/meshes/jaka_zu12/base_link.STL" />
+          filename="package://TetraPGA/description/meshes/jaka_zu12/base_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -67,7 +67,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://description/meshes/jaka_zu12/1.STL" />
+          filename="package://TetraPGA/description/meshes/jaka_zu12/1.STL" />
       </geometry>
       <material
         name="">
@@ -81,7 +81,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://description/meshes/jaka_zu12/1.STL" />
+          filename="package://TetraPGA/description/meshes/jaka_zu12/1.STL" />
       </geometry>
     </collision>
   </link>
@@ -107,7 +107,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://description/meshes/jaka_zu12/2.STL" />
+          filename="package://TetraPGA/description/meshes/jaka_zu12/2.STL" />
       </geometry>
       <material
         name="">
@@ -121,7 +121,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://description/meshes/jaka_zu12/2.STL" />
+          filename="package://TetraPGA/description/meshes/jaka_zu12/2.STL" />
       </geometry>
     </collision>
   </link>
@@ -147,7 +147,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://description/meshes/jaka_zu12/3.STL" />
+          filename="package://TetraPGA/description/meshes/jaka_zu12/3.STL" />
       </geometry>
       <material
         name="">
@@ -161,7 +161,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://description/meshes/jaka_zu12/3.STL" />
+          filename="package://TetraPGA/description/meshes/jaka_zu12/3.STL" />
       </geometry>
     </collision>
   </link>
@@ -187,7 +187,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://description/meshes/jaka_zu12/4.STL" />
+          filename="package://TetraPGA/description/meshes/jaka_zu12/4.STL" />
       </geometry>
       <material
         name="">
@@ -201,7 +201,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://description/meshes/jaka_zu12/4.STL" />
+          filename="package://TetraPGA/description/meshes/jaka_zu12/4.STL" />
       </geometry>
     </collision>
   </link>
@@ -227,7 +227,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://description/meshes/jaka_zu12/5.STL" />
+          filename="package://TetraPGA/description/meshes/jaka_zu12/5.STL" />
       </geometry>
       <material
         name="">
@@ -241,7 +241,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://description/meshes/jaka_zu12/5.STL" />
+          filename="package://TetraPGA/description/meshes/jaka_zu12/5.STL" />
       </geometry>
     </collision>
   </link>
@@ -267,7 +267,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://description/meshes/jaka_zu12/6.STL" />
+          filename="package://TetraPGA/description/meshes/jaka_zu12/6.STL" />
       </geometry>
       <material
         name="">
@@ -281,7 +281,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://description/meshes/jaka_zu12/6.STL" />
+          filename="package://TetraPGA/description/meshes/jaka_zu12/6.STL" />
       </geometry>
     </collision>
   </link>
