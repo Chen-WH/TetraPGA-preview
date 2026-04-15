@@ -103,6 +103,9 @@ if(TETRAPGA_BUILD_BENCHMARKS)
   tetrapga_add_benchmark(TetraPGA_dyn_fo_bench benchmark/TetraPGA_dyn_fo_bench.cpp)
   target_link_libraries(TetraPGA_dyn_fo_bench PRIVATE pinocchio::pinocchio)
 
+  tetrapga_add_benchmark(TetraPGA_dyn_so_bench benchmark/TetraPGA_dyn_so_bench.cpp)
+  target_link_libraries(TetraPGA_dyn_so_bench PRIVATE pinocchio::pinocchio)
+
   pkg_check_modules(COAL REQUIRED IMPORTED_TARGET coal)
 
   tetrapga_add_benchmark(TetraPGA_collision_bench benchmark/TetraPGA_collision_bench.cpp)
