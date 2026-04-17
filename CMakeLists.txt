@@ -24,6 +24,17 @@ set(CMAKE_SKIP_BUILD_RPATH TRUE)
 option(TETRAPGA_BUILD_TESTS "Build TetraPGA test executables" ON)
 option(TETRAPGA_BUILD_BENCHMARKS "Build TetraPGA benchmark executables" OFF)
 
+set(TETRAPGA_ROBOT_ASSETS_DIR_DEFAULT "${CMAKE_CURRENT_SOURCE_DIR}/../robot-assets")
+get_filename_component(TETRAPGA_ROBOT_ASSETS_DIR_DEFAULT "${TETRAPGA_ROBOT_ASSETS_DIR_DEFAULT}" ABSOLUTE)
+set(TETRAPGA_ROBOT_ASSETS_DIR "${TETRAPGA_ROBOT_ASSETS_DIR_DEFAULT}" CACHE PATH
+  "Path to the robot-assets repository used by TetraPGA tests and downstream packages")
+
+if(NOT EXISTS "${TETRAPGA_ROBOT_ASSETS_DIR}/ur10/urdf/ur10.urdf")
+  message(FATAL_ERROR
+    "TETRAPGA_ROBOT_ASSETS_DIR must point to the robot-assets repository. "
+    "Expected to find ur10/urdf/ur10.urdf under '${TETRAPGA_ROBOT_ASSETS_DIR}'.")
+endif()
+
 find_package(Eigen3 REQUIRED)
 find_package(urdfdom REQUIRED)
 
@@ -48,7 +59,7 @@ function(tetrapga_add_test target_name source_file)
   add_executable(${target_name} ${source_file})
   target_link_libraries(${target_name} PRIVATE TetraPGA::TetraPGA)
   target_compile_definitions(${target_name}
-    PRIVATE TETRAPGA_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
+    PRIVATE TETRAPGA_ROBOT_ASSETS_DIR="${TETRAPGA_ROBOT_ASSETS_DIR}")
   add_test(NAME ${target_name} COMMAND ${target_name})
 endfunction()
 
@@ -62,7 +73,7 @@ function(tetrapga_add_benchmark target_name source_file)
   )
   target_compile_definitions(${target_name}
     PRIVATE
-      TETRAPGA_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}"
+      TETRAPGA_ROBOT_ASSETS_DIR="${TETRAPGA_ROBOT_ASSETS_DIR}"
       GA4RO_HAS_CASADI_BENCH=1
   )
   target_include_directories(${target_name} PRIVATE ${CASADI_INCLUDE_DIRS})
@@ -118,7 +129,6 @@ endif()
 
 install(TARGETS TetraPGA EXPORT TetraPGATargets)
 install(DIRECTORY include/TetraPGA DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(DIRECTORY description DESTINATION ${CMAKE_INSTALL_DATADIR}/TetraPGA)
 
 write_basic_package_version_file(
   "${CMAKE_CURRENT_BINARY_DIR}/TetraPGAConfigVersion.cmake"

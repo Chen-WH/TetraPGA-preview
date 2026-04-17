@@ -182,8 +182,8 @@ Eigen::MatrixXd computePinocchioPointJacobianWorld(const pinocchio::Model& model
 }  // namespace
 
 int main() {
-    const std::string package_share_dir = std::string(TETRAPGA_SOURCE_DIR);
-    const std::string urdf_path = package_share_dir + "/description/urdf/ur10.urdf";
+    const std::string robot_assets_dir = std::string(TETRAPGA_ROBOT_ASSETS_DIR);
+    const std::string urdf_path = robot_assets_dir + "/ur10/urdf/ur10.urdf";
 
     Model<double> model = ur();
     Data<double> data(model);

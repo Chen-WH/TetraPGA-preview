@@ -240,8 +240,8 @@ void RunTetraPGACollisionGradientBenchmark(benchmark::State& state) {
 
 void RunPinocchioFCLCollisionGradientBenchmark(benchmark::State& state) {
     const int obstacle_count = static_cast<int>(state.range(0));
-    const std::string package_share_dir = std::string(TETRAPGA_SOURCE_DIR);
-    const std::string urdf_path = package_share_dir + "/description/urdf/ur10.urdf";
+    const std::string robot_assets_dir = std::string(TETRAPGA_ROBOT_ASSETS_DIR);
+    const std::string urdf_path = robot_assets_dir + "/ur10/urdf/ur10.urdf";
 
     Model<double> model = ur();
     pinocchio::Model pin_model;

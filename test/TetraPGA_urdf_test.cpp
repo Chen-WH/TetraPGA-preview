@@ -13,8 +13,8 @@
 using namespace TetraPGA;
 
 int main() {
-    const std::string package_share_dir = std::string(TETRAPGA_SOURCE_DIR);
-    const std::string urdf_path = package_share_dir + "/description/urdf/leap_hand.urdf";
+    const std::string robot_assets_dir = std::string(TETRAPGA_ROBOT_ASSETS_DIR);
+    const std::string urdf_path = robot_assets_dir + "/leap_hand/urdf/leap_hand_left.urdf";
 
     Model<double> tetra_model(urdf_path);
     if (tetra_model.n <= 1 || tetra_model.dof_a <= 0) {
