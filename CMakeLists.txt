@@ -69,15 +69,17 @@ function(tetrapga_add_benchmark target_name source_file)
     PRIVATE
       TetraPGA::TetraPGA
       benchmark::benchmark
-      ${CASADI_LIBRARIES}
   )
   target_compile_definitions(${target_name}
     PRIVATE
       TETRAPGA_ROBOT_ASSETS_DIR="${TETRAPGA_ROBOT_ASSETS_DIR}"
-      GA4RO_HAS_CASADI_BENCH=1
   )
-  target_include_directories(${target_name} PRIVATE ${CASADI_INCLUDE_DIRS})
-  target_link_directories(${target_name} PRIVATE ${CASADI_LIBRARY_DIRS})
+  if(CASADI_FOUND)
+    target_link_libraries(${target_name} PRIVATE ${CASADI_LIBRARIES})
+    target_compile_definitions(${target_name} PRIVATE GA4RO_HAS_CASADI_BENCH=1)
+    target_include_directories(${target_name} PRIVATE ${CASADI_INCLUDE_DIRS})
+    target_link_directories(${target_name} PRIVATE ${CASADI_LIBRARY_DIRS})
+  endif()
 endfunction()
 
 if(TETRAPGA_BUILD_TESTS)
@@ -106,7 +108,7 @@ if(TETRAPGA_BUILD_BENCHMARKS)
   find_package(benchmark REQUIRED)
   find_package(pinocchio REQUIRED)
   find_package(PkgConfig REQUIRED)
-  pkg_check_modules(CASADI REQUIRED casadi)
+  pkg_check_modules(CASADI QUIET casadi)
 
   tetrapga_add_benchmark(TetraPGA_dyn_bench benchmark/TetraPGA_dyn_bench.cpp)
   target_link_libraries(TetraPGA_dyn_bench PRIVATE pinocchio::pinocchio)
@@ -117,14 +119,18 @@ if(TETRAPGA_BUILD_BENCHMARKS)
   tetrapga_add_benchmark(TetraPGA_dyn_so_bench benchmark/TetraPGA_dyn_so_bench.cpp)
   target_link_libraries(TetraPGA_dyn_so_bench PRIVATE pinocchio::pinocchio)
 
-  pkg_check_modules(COAL REQUIRED IMPORTED_TARGET coal)
+  tetrapga_add_benchmark(TetraPGA_ur10_dyn_bench benchmark/TetraPGA_ur10_dyn_bench.cpp)
+  target_link_libraries(TetraPGA_ur10_dyn_bench PRIVATE pinocchio::pinocchio)
 
-  tetrapga_add_benchmark(TetraPGA_collision_bench benchmark/TetraPGA_collision_bench.cpp)
-  target_link_libraries(TetraPGA_collision_bench
-    PRIVATE
-      pinocchio::pinocchio
-      PkgConfig::COAL
-  )
+  pkg_check_modules(COAL QUIET IMPORTED_TARGET coal)
+  if(COAL_FOUND)
+    tetrapga_add_benchmark(TetraPGA_collision_bench benchmark/TetraPGA_collision_bench.cpp)
+    target_link_libraries(TetraPGA_collision_bench
+      PRIVATE
+        pinocchio::pinocchio
+        PkgConfig::COAL
+    )
+  endif()
 endif()
 
 install(TARGETS TetraPGA EXPORT TetraPGATargets)

@@ -21,7 +21,9 @@
 #include <pinocchio/algorithm/rnea.hpp>
 #include <pinocchio/algorithm/rnea-derivatives.hpp>
 #include <pinocchio/multibody/model.hpp>
+#ifdef GA4RO_HAS_CASADI_BENCH
 #include <pinocchio/autodiff/casadi-algo.hpp>
+#endif
 
 #include "TetraPGA/ModelRepo.hpp"
 
@@ -246,7 +248,7 @@ class PivotCsvReporter final : public benchmark::BenchmarkReporter {
 
   void ReportRuns(const std::vector<Run>& reports) override {
     for (const Run& run : reports) {
-      if (run.error_occurred || run.run_type != Run::RT_Iteration) {
+      if (run.run_type != Run::RT_Iteration) {
         continue;
       }
 
@@ -465,6 +467,7 @@ inline pinocchio::Model BuildPinModel(const TreeTemplateParams& params) {
   return model;
 }
 
+#ifdef GA4RO_HAS_CASADI_BENCH
 class InlineAutoDiffABADerivatives
     : public pinocchio::casadi::AutoDiffABADerivatives<double> {
  public:
@@ -578,5 +581,6 @@ class InlineAutoDiffRNEADerivatives {
   std::vector<double> v_vec_;
   std::vector<double> a_vec_;
 };
+#endif
 
 }  // namespace TetraPGA::bench
