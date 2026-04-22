@@ -246,7 +246,7 @@ class PivotCsvReporter final : public benchmark::BenchmarkReporter {
 
   void ReportRuns(const std::vector<Run>& reports) override {
     for (const Run& run : reports) {
-      if (run.error_occurred || run.run_type != Run::RT_Iteration) {
+      if (run.run_type != Run::RT_Iteration) {
         continue;
       }
 
