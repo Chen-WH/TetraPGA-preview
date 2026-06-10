@@ -1,0 +1,11 @@
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+find_dependency(Eigen3 REQUIRED)
+find_dependency(urdfdom REQUIRED)
+
+set(TetraPGA_ROBOT_ASSETS_DIR "@TETRAPGA_ROBOT_ASSETS_DIR@")
+
+include("${CMAKE_CURRENT_LIST_DIR}/TetraPGATargets.cmake")
+
+check_required_components(TetraPGA)
