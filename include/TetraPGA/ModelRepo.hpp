@@ -84,7 +84,7 @@ inline Model<double> ur(const Eigen::Vector3d& g = Eigen::Vector3d(0, 0, -9.81))
     init_q << 0, -M_PI_2, 0, -M_PI_2, 0, 0;
 
     std::vector<Motor3D<double>> Mj(num_bodies);
-    Mj[0] = ga_DH2motor<double>(Eigen::Vector4d(0, 0, 0.96, M_PI), true);
+    Mj[0] = ga_DH2motor<double>(Eigen::Vector4d(0, 0, 0.0, M_PI), true);
     Mj[1] = ga_DH2motor<double>(Eigen::Vector4d(0, 0, 0.1273, 0), true);
     Mj[2] = ga_DH2motor<double>(Eigen::Vector4d(0, M_PI_2, 0, 0), true);
     Mj[3] = ga_DH2motor<double>(Eigen::Vector4d(-0.612, 0, 0, 0), true);

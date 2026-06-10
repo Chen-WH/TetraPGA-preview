@@ -113,6 +113,10 @@ int main() {
   ok &= ExpectLessEqual((data.ptau_pdq - ptau_pdq_fd).norm(), 1e-3, "inverseDynamics_fo ptau_pdq");
   ok &= ExpectLessEqual((data.ptau_pddq - ptau_pddq_fd).norm(), 1e-3, "inverseDynamics_fo ptau_pddq");
 
+  const Eigen::MatrixXd ptau_pq_so = data.ptau_pq;
+  const Eigen::MatrixXd ptau_pdq_so = data.ptau_pdq;
+  const Eigen::MatrixXd ptau_pddq_so = data.ptau_pddq;
+
   forwardDynamics_fo(model, data, q, dq, tau, fext);
 
   Eigen::MatrixXd pddq_ptau_fd = Eigen::MatrixXd::Zero(model.dof_a, model.dof_a);
@@ -147,17 +151,10 @@ int main() {
 
   inverseDynamics_so(model, data, q, dq, ddq, fext);
 
-  const Eigen::MatrixXd ptau_pq_so = data.ptau_pq;
-  const Eigen::MatrixXd ptau_pdq_so = data.ptau_pdq;
-  const Eigen::MatrixXd ptau_pddq_so = data.ptau_pddq;
   const std::vector<Eigen::MatrixXd> p2tau_pqpq = data.p2tau_pqpq;
   const std::vector<Eigen::MatrixXd> p2tau_pdqpq = data.p2tau_pdqpq;
   const std::vector<Eigen::MatrixXd> p2tau_pdqpdq = data.p2tau_pdqpdq;
   const std::vector<Eigen::MatrixXd> p2tau_pqpddq = data.p2tau_pqpddq;
-
-  ok &= ExpectLessEqual((ptau_pq_so - ptau_pq_fd).norm(), 1e-3, "inverseDynamics_so ptau_pq");
-  ok &= ExpectLessEqual((ptau_pdq_so - ptau_pdq_fd).norm(), 1e-3, "inverseDynamics_so ptau_pdq");
-  ok &= ExpectLessEqual((ptau_pddq_so - ptau_pddq_fd).norm(), 1e-3, "inverseDynamics_so ptau_pddq");
 
   const double second_step = 1e-7;
   for (int i = 0; i < model.dof_a; ++i) {

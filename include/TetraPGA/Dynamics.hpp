@@ -273,7 +273,7 @@ const VectorXs<Scalar>& forwardDynamics0(const Model<Scalar>& model, Data<Scalar
 
 template <typename Derived1, typename Derived2>
 EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-Eigen::Matrix<typename Derived1::Scalar, 6, 3> ga_vi(const Eigen::MatrixBase<Derived1>& I, const Eigen::MatrixBase<Derived2>& V) {
+Eigen::Matrix<typename Derived1::Scalar, 6, 3> ga_coriolis(const Eigen::MatrixBase<Derived1>& I, const Eigen::MatrixBase<Derived2>& V) {
 	using Scalar = typename Derived1::Scalar;
 	const Scalar m = I(0, 3);
 	const Eigen::Matrix<Scalar, 3, 3> Rc = I.template block<3, 3>(3, 3);
@@ -328,7 +328,7 @@ void inverseDynamics_fo(const Model<Scalar>& model, Data<Scalar>& data,
 		data.M.col(i) = ga_mul(model.M0[i], data.Mi.col(i));
 		data.hI[i] = ga_rbm(data.M.col(i)) * model.I[i] * ga_AdM(data.M.col(i));
 		Pi.noalias() = data.hI[i] * data.V.col(i);
-		data.VI[i] = ga_vi(data.hI[i], data.V.col(i));
+		data.VI[i] = ga_coriolis(data.hI[i], data.V.col(i));
 		data.dPi.col(i).noalias() = data.hI[i] * data.dV.col(i);
 		data.dPi.col(i) += ga_com(Pi, data.V.col(i)) - ga_rbm(data.M.col(i), fext.col(i));
 	}
@@ -383,13 +383,18 @@ void inverseDynamics_so(const Model<Scalar>& model, Data<Scalar>& data,
   const Eigen::Matrix<DerivedForce, 6, Eigen::Dynamic>& fext)
 {
 	Line3D<Scalar> Pi;
-	auto calB = [](const Eigen::Matrix<Scalar, 6, 3>& Bv, const Line3D<Scalar>& X) {
-		return Bv * X.template head<3>();
+	auto calBVLC = [](const Eigen::Matrix<Scalar, 6, 3>& Bv, const Line3D<Scalar>& L) {
+		const Eigen::Matrix<Scalar, 3, 3> Bv1 = Bv.template topRows<3>();
+		const Eigen::Matrix<Scalar, 3, 3> Bv2 = Bv.template bottomRows<3>();
+		const Eigen::Matrix<Scalar, 3, 3> w = skew(L.template head<3>());
+		const Eigen::Matrix<Scalar, 3, 3> v = skew(L.template tail<3>());
+
+		Eigen::Matrix<Scalar, 6, 3> out;
+		out.template topRows<3>().noalias() = w * Bv1 - Bv1 * w;
+		out.template bottomRows<3>().noalias() = w * Bv2 - Bv2 * w + v * Bv1;
+		return out;
 	};
 
-	data.ptau_pq.setZero();
-	data.ptau_pdq.setZero();
-	data.ptau_pddq.setZero();
 	for (int idx = 0; idx < model.dof_a; ++idx) {
 		data.p2tau_pqpq[idx].setZero();
 		data.p2tau_pdqpq[idx].setZero();
@@ -427,7 +432,7 @@ void inverseDynamics_so(const Model<Scalar>& model, Data<Scalar>& data,
 		data.M.col(i) = ga_mul(model.M0[i], data.Mi.col(i));
 		data.hI[i] = ga_rbm(data.M.col(i)) * model.I[i] * ga_AdM(data.M.col(i));
 		Pi.noalias() = data.hI[i] * data.V.col(i);
-		data.VI[i] = ga_vi(data.hI[i], data.V.col(i));
+		data.VI[i] = ga_coriolis(data.hI[i], data.V.col(i));
 		data.dPi.col(i).noalias() = data.hI[i] * data.dV.col(i);
 		data.dPi.col(i) += ga_com(Pi, data.V.col(i)) - ga_rbm(data.M.col(i), fext.col(i));
 	}
@@ -446,112 +451,81 @@ void inverseDynamics_so(const Model<Scalar>& model, Data<Scalar>& data,
 		const Eigen::Matrix<Scalar, 1, 6> row_hI = row_k * hIk;
 		const Eigen::Matrix<Scalar, 1, 3> row_VI = row_k * VIk;
 
-		const Line3D<Scalar> common_q_self = hIk * ddLk + VIk * dLk.template head<3>();
-		const Line3D<Scalar> common_dq_self = Scalar(2) * hIk * dLk + VIk * Lk.template head<3>();
-		const Line3D<Scalar> common_q_cross = common_q_self + ga_com(dPik, Lk);
-
-		for (int idx : model.ancestor[k]) {
-			data.ptau_pq(k_idx, idx - 1) = row_hI.dot(data.ddL.col(idx)) + row_VI.dot(data.dL.col(idx).template head<3>());
-			data.ptau_pdq(k_idx, idx - 1) = Scalar(2) * row_hI.dot(data.dL.col(idx)) + row_VI.dot(data.L.col(idx).template head<3>());
-			data.ptau_pddq(k_idx, idx - 1) = row_hI.dot(data.L.col(idx));
-
-			data.ptau_pq(idx - 1, k_idx) = data.Lstar.row(idx).dot(common_q_cross);
-			data.ptau_pdq(idx - 1, k_idx) = data.Lstar.row(idx).dot(common_dq_self);
-			data.ptau_pddq(idx - 1, k_idx) = data.ptau_pddq(k_idx, idx - 1);
-		}
-		data.ptau_pq(k_idx, k_idx) = row_hI.dot(ddLk) + row_VI.dot(dLk.template head<3>());
-		data.ptau_pdq(k_idx, k_idx) = Scalar(2) * row_hI.dot(dLk) + row_VI.dot(Lk.template head<3>());
-		data.ptau_pddq(k_idx, k_idx) = row_hI.dot(Lk);
+		const Eigen::Matrix<Scalar, 6, 6> Lkc = ga_com(Lk);
+		const Eigen::Matrix<Scalar, 6, 6> I_Lc = hIk * Lkc - Lkc * hIk;
+		const Eigen::Matrix<Scalar, 6, 3> BdL = calBVLC(VIk, Lk) + ga_coriolis(hIk, dLk);
+		const Line3D<Scalar> I_ddL = hIk * ddLk + VIk * dLk.template head<3>() + ga_com(dPik, Lk);
+		const Eigen::Matrix<Scalar, 6, 3> BL = ga_coriolis(hIk, Lk);
+		const Line3D<Scalar> I_dL = Scalar(2) * hIk * dLk + VIk * Lk.template head<3>();
+		const Line3D<Scalar> I_L = hIk * Lk;
 
 		int j = k;
 		while (j > 0) {
 			const int j_idx = j - 1;
-			const Eigen::Matrix<Scalar, 6, 1> Lj = data.L.col(j);
-			const Eigen::Matrix<Scalar, 6, 1> dLj = data.dL.col(j);
-			const Eigen::Matrix<Scalar, 6, 1> ddLj = data.ddL.col(j);
+			const Line3D<Scalar> Lj = data.L.col(j);
+			const Line3D<Scalar> dLj = data.dL.col(j);
+			const Line3D<Scalar> ddLj = data.ddL.col(j);
 			const Eigen::Matrix<Scalar, 1, 6> row_j = data.Lstar.row(j);
-			const Eigen::Matrix<Scalar, 6, 3> VI_dLj = ga_vi(hIk, dLj);
-			const Eigen::Matrix<Scalar, 6, 3> VI_Lj = ga_vi(hIk, Lj);
+			const Eigen::Matrix<Scalar, 6, 6> Ljc = ga_com(Lj);
+
+			const Eigen::Matrix<Scalar, 1, 6> Eq1 = row_hI * Ljc;
+			const Eigen::Matrix<Scalar, 1, 3> Eq2 =
+			    row_VI * Ljc.template topLeftCorner<3, 3>() + row_k * ga_coriolis(hIk, dLj);
+			const Eigen::Matrix<Scalar, 1, 6> Eq3 = row_j * I_Lc;
+			const Eigen::Matrix<Scalar, 1, 3> Eq4 = row_j * BdL;
+			const Line3D<Scalar> Eq5 =
+			    I_Lc * ddLj + BdL * dLj.template head<3>() + ga_com(I_ddL, Lj);
+			const Eigen::Matrix<Scalar, 1, 3> Eq6 = row_k * ga_coriolis(hIk, Lj);
+			const Eigen::Matrix<Scalar, 1, 3> Eq7 = row_j * BL;
+			const Line3D<Scalar> Eq8 = Scalar(2) * I_Lc * dLj + BdL * Lj.template head<3>();
+			const Line3D<Scalar> Eq9 = BL * dLj.template head<3>() + ga_com(I_dL, Lj);
+			const Line3D<Scalar> Eq10 = BL * Lj.template head<3>();
+			const Line3D<Scalar> Eq11 = ga_com(I_L, Lj);
+			const Line3D<Scalar> Eq12 = I_Lc * Lj;
 
 			int i = j;
 			while (i > 0) {
 				const int i_idx = i - 1;
-				const Eigen::Matrix<Scalar, 6, 1> Li = data.L.col(i);
-				const Eigen::Matrix<Scalar, 6, 1> dLi = data.dL.col(i);
-				const Eigen::Matrix<Scalar, 6, 1> ddLi = data.ddL.col(i);
+				const Line3D<Scalar> Li = data.L.col(i);
+				const Line3D<Scalar> dLi = data.dL.col(i);
+				const Line3D<Scalar> ddLi = data.ddL.col(i);
 				const Eigen::Matrix<Scalar, 1, 6> row_i = data.Lstar.row(i);
 
-				const Line3D<Scalar> term_pqpq_kji =
-				    hIk * ga_com(Lj, ddLi) +
-				    calB(VIk, ga_com(Lj, dLi)) +
-				    calB(VI_dLj, dLi);
-				data.p2tau_pqpq[k_idx](j_idx, i_idx) = row_k.dot(term_pqpq_kji);
-				data.p2tau_pqpq[k_idx](i_idx, j_idx) = data.p2tau_pqpq[k_idx](j_idx, i_idx);
+				data.p2tau_pqpq[k_idx](j_idx, i_idx) = Eq1.dot(ddLi) + Eq2.dot(dLi.template head<3>());
+				data.p2tau_pdqpq[k_idx](j_idx, i_idx) =
+				    Scalar(2) * Eq1.dot(dLi) + Eq2.dot(Li.template head<3>());
+				data.p2tau_pdqpdq[k_idx](j_idx, i_idx) = Eq6.dot(Li.template head<3>());
 
-				const Line3D<Scalar> term_pqpq_jki =
-				    hIk * ga_com(Lk, ddLi) +
-				    calB(VIk, ga_com(Lk, dLi)) +
-				    calB(ga_vi(hIk, dLk), dLi) +
-				    ga_com(hIk * ddLi, Lk) +
-				    ga_com(calB(VIk, dLi), Lk);
-				data.p2tau_pqpq[j_idx](k_idx, i_idx) = row_j.dot(term_pqpq_jki);
-				data.p2tau_pqpq[j_idx](i_idx, k_idx) = data.p2tau_pqpq[j_idx](k_idx, i_idx);
+				if (j != k) {
+					data.p2tau_pqpq[j_idx](k_idx, i_idx) =
+					    Eq3.dot(ddLi) + Eq4.dot(dLi.template head<3>());
+					data.p2tau_pdqpq[j_idx](k_idx, i_idx) =
+					    Scalar(2) * Eq3.dot(dLi) + Eq4.dot(Li.template head<3>());
+					data.p2tau_pdqpdq[j_idx](k_idx, i_idx) = Eq7.dot(Li.template head<3>());
 
-				const Line3D<Scalar> term_pqpq_ikj =
-				    hIk * ga_com(Lk, ddLj) +
-				    calB(VIk, ga_com(Lk, dLj)) +
-				    calB(ga_vi(hIk, dLk), dLj) +
-				    ga_com(hIk * ddLj, Lk) +
-				    ga_com(calB(VIk, dLj), Lk) +
-				    ga_com(hIk * ddLk, Lj) +
-				    ga_com(calB(VIk, dLk), Lj) +
-				    ga_com(ga_com(dPik, Lk), Lj);
-				data.p2tau_pqpq[i_idx](k_idx, j_idx) = row_i.dot(term_pqpq_ikj);
-				data.p2tau_pqpq[i_idx](j_idx, k_idx) = data.p2tau_pqpq[i_idx](k_idx, j_idx);
+					data.p2tau_pqpq[j_idx](i_idx, k_idx) = data.p2tau_pqpq[j_idx](k_idx, i_idx);
+					data.p2tau_pdqpq[j_idx](i_idx, k_idx) = Eq7.dot(dLi.template head<3>());
+					data.p2tau_pdqpdq[j_idx](i_idx, k_idx) = data.p2tau_pdqpdq[j_idx](k_idx, i_idx);
+					data.p2tau_pqpddq[j_idx](i_idx, k_idx) = Eq3.dot(Li);
+				}
+				if (i != j) {
+					data.p2tau_pqpq[k_idx](i_idx, j_idx) = data.p2tau_pqpq[k_idx](j_idx, i_idx);
+					data.p2tau_pdqpq[k_idx](i_idx, j_idx) = Eq6.dot(dLi.template head<3>());
+					data.p2tau_pdqpdq[k_idx](i_idx, j_idx) = data.p2tau_pdqpdq[k_idx](j_idx, i_idx);
+					data.p2tau_pqpddq[k_idx](i_idx, j_idx) = Eq1.dot(Li);
 
-				const Line3D<Scalar> term_pdqpq_kji =
-				    Scalar(2) * hIk * ga_com(Lj, dLi) +
-				    calB(VIk, ga_com(Lj, Li)) +
-				    calB(VI_dLj, Li);
-				data.p2tau_pdqpq[k_idx](j_idx, i_idx) = row_k.dot(term_pdqpq_kji);
-				data.p2tau_pdqpq[k_idx](i_idx, j_idx) = row_k.dot(calB(VI_Lj, dLi));
+					data.p2tau_pqpq[i_idx](k_idx, j_idx) = row_i.dot(Eq5);
+					data.p2tau_pdqpq[i_idx](k_idx, j_idx) = row_i.dot(Eq8);
+					data.p2tau_pdqpdq[i_idx](k_idx, j_idx) = row_i.dot(Eq10);
+					data.p2tau_pqpddq[i_idx](k_idx, j_idx) = row_i.dot(Eq11);
 
-				const Line3D<Scalar> term_pdqpq_jki =
-				    Scalar(2) * hIk * ga_com(Lk, dLi) +
-				    calB(VIk, ga_com(Lk, Li)) +
-				    calB(ga_vi(hIk, dLk), Li) +
-				    Scalar(2) * ga_com(hIk * dLi, Lk) +
-				    ga_com(calB(VIk, Li), Lk);
-				data.p2tau_pdqpq[j_idx](k_idx, i_idx) = row_j.dot(term_pdqpq_jki);
-				data.p2tau_pdqpq[j_idx](i_idx, k_idx) = row_j.dot(calB(ga_vi(hIk, Lk), dLi));
-
-				const Line3D<Scalar> term_pdqpq_ikj =
-				    Scalar(2) * hIk * ga_com(Lk, dLj) +
-				    calB(VIk, ga_com(Lk, Lj)) +
-				    calB(ga_vi(hIk, dLk), Lj) +
-				    Scalar(2) * ga_com(hIk * dLj, Lk) +
-				    ga_com(calB(VIk, Lj), Lk);
-				data.p2tau_pdqpq[i_idx](k_idx, j_idx) = row_i.dot(term_pdqpq_ikj);
-				data.p2tau_pdqpq[i_idx](j_idx, k_idx) =
-				    row_i.dot(calB(ga_vi(hIk, Lk), dLj) +
-				              Scalar(2) * ga_com(hIk * dLk, Lj) +
-				              ga_com(calB(VIk, Lk), Lj));
-
-				data.p2tau_pdqpdq[k_idx](j_idx, i_idx) = row_k.dot(calB(VI_Lj, Li));
-				data.p2tau_pdqpdq[k_idx](i_idx, j_idx) = data.p2tau_pdqpdq[k_idx](j_idx, i_idx);
-				data.p2tau_pdqpdq[j_idx](k_idx, i_idx) = row_j.dot(calB(ga_vi(hIk, Lk), Li));
-				data.p2tau_pdqpdq[j_idx](i_idx, k_idx) = data.p2tau_pdqpdq[j_idx](k_idx, i_idx);
-				data.p2tau_pdqpdq[i_idx](k_idx, j_idx) = row_i.dot(calB(ga_vi(hIk, Lk), Lj));
-				data.p2tau_pdqpdq[i_idx](j_idx, k_idx) = data.p2tau_pdqpdq[i_idx](k_idx, j_idx);
-
-				data.p2tau_pqpddq[k_idx](j_idx, i_idx) = Scalar(0);
-				data.p2tau_pqpddq[k_idx](i_idx, j_idx) = row_k.dot(hIk * ga_com(Lj, Li));
-				data.p2tau_pqpddq[j_idx](k_idx, i_idx) = Scalar(0);
-				data.p2tau_pqpddq[j_idx](i_idx, k_idx) =
-				    row_j.dot(hIk * ga_com(Lk, Li) + ga_com(hIk * Li, Lk));
-				data.p2tau_pqpddq[i_idx](k_idx, j_idx) = row_i.dot(ga_com(hIk * Lk, Lj));
-				data.p2tau_pqpddq[i_idx](j_idx, k_idx) =
-				    row_i.dot(hIk * ga_com(Lk, Lj) + ga_com(hIk * Lj, Lk));
+					if (j != k) {
+						data.p2tau_pqpq[i_idx](j_idx, k_idx) = data.p2tau_pqpq[i_idx](k_idx, j_idx);
+						data.p2tau_pdqpq[i_idx](j_idx, k_idx) = row_i.dot(Eq9);
+						data.p2tau_pdqpdq[i_idx](j_idx, k_idx) = data.p2tau_pdqpdq[i_idx](k_idx, j_idx);
+						data.p2tau_pqpddq[i_idx](j_idx, k_idx) = row_i.dot(Eq12);
+					}
+				}
 
 				i = model.parent[i];
 			}

@@ -312,8 +312,8 @@ Model<Scalar>::Model(const std::string& urdf_file) {
             const Mat3 R_pc = q_pc.toRotationMatrix();
 
             // Compose kept-body -> child-link transform through possibly collapsed fixed ancestors.
-            const Mat3 R_body_child = R_pc * R_body_link;
-            const Vec3 p_body_child = R_pc * p_body_link + r_pc;
+            const Mat3 R_body_child = R_body_link * R_pc;
+            const Vec3 p_body_child = p_body_link + R_body_link * r_pc;
 
             char jt = 'f';
             switch (joint->type) {

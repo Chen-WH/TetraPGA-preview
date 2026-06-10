@@ -42,9 +42,6 @@ void RunTetraPGAInverseDynamicsSecondOrderDerivatives(benchmark::State& state, i
 
     inverseDynamics_so(model, data, q, dq, ddq);
 
-    benchmark::DoNotOptimize(data.ptau_pq);
-    benchmark::DoNotOptimize(data.ptau_pdq);
-    benchmark::DoNotOptimize(data.ptau_pddq);
     benchmark::DoNotOptimize(data.p2tau_pqpq);
     benchmark::DoNotOptimize(data.p2tau_pdqpq);
     benchmark::DoNotOptimize(data.p2tau_pdqpdq);
@@ -80,9 +77,6 @@ void RunPinocchioRNEASecondOrderDerivatives(benchmark::State& state, int bf) {
 
     pinocchio::ComputeRNEASecondOrderDerivatives(model, data, q, dq, ddq);
 
-    benchmark::DoNotOptimize(data.dtau_dq);
-    benchmark::DoNotOptimize(data.dtau_dv);
-    benchmark::DoNotOptimize(data.M);
     benchmark::DoNotOptimize(data.d2tau_dqdq);
     benchmark::DoNotOptimize(data.d2tau_dqdv);
     benchmark::DoNotOptimize(data.d2tau_dvdv);
