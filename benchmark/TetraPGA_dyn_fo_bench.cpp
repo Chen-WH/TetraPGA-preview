@@ -231,36 +231,57 @@ void RunPinocchioRNEADerivatives(benchmark::State& state, int bf) {
   }
 }
 
+void RegisterTopology(const std::string& topology, int bf) {
+  benchmark::RegisterBenchmark((topology + "/TetraPGA/ForwardDynamicsDerivatives").c_str(),
+                               [bf](benchmark::State& s) {
+                                 RunTetraPGAForwardDynamicsDerivatives(s, bf);
+                               })
+      ->DenseRange(kMinLevel, kMaxLevel, 1)
+      ->Iterations(kBenchmarkIterations);
+
+  benchmark::RegisterBenchmark((topology + "/Pinocchio/computeABADerivatives").c_str(),
+                               [bf](benchmark::State& s) {
+                                 RunPinocchioABADerivatives(s, bf);
+                               })
+      ->DenseRange(kMinLevel, kMaxLevel, 1)
+      ->Iterations(kBenchmarkIterations);
+
+#ifdef GA4RO_HAS_CASADI_BENCH
+  benchmark::RegisterBenchmark((topology + "/CasADi/computeABADerivatives").c_str(),
+                               [bf](benchmark::State& s) {
+                                 RunPinocchioCasadiABADerivatives(s, bf);
+                               })
+      ->DenseRange(kMinLevel, kMaxLevel_AD, 1)
+      ->Iterations(kBenchmarkIterations);
+#endif
+
+  benchmark::RegisterBenchmark((topology + "/TetraPGA/InverseDynamicsDerivatives").c_str(),
+                               [bf](benchmark::State& s) {
+                                 RunTetraPGAInverseDynamicsDerivatives(s, bf);
+                               })
+      ->DenseRange(kMinLevel, kMaxLevel, 1)
+      ->Iterations(kBenchmarkIterations);
+
+  benchmark::RegisterBenchmark((topology + "/Pinocchio/computeRNEADerivatives").c_str(),
+                               [bf](benchmark::State& s) {
+                                 RunPinocchioRNEADerivatives(s, bf);
+                               })
+      ->DenseRange(kMinLevel, kMaxLevel, 1)
+      ->Iterations(kBenchmarkIterations);
+
+#ifdef GA4RO_HAS_CASADI_BENCH
+  benchmark::RegisterBenchmark((topology + "/CasADi/computeRNEADerivatives").c_str(),
+                               [bf](benchmark::State& s) {
+                                 RunPinocchioCasadiRNEADerivatives(s, bf);
+                               })
+      ->DenseRange(kMinLevel, kMaxLevel_AD, 1)
+      ->Iterations(kBenchmarkIterations);
+#endif
+}
+
 void RegisterAll() {
-  benchmark::RegisterBenchmark("binary_tree/TetraPGA/ForwardDynamicsDerivatives", [](benchmark::State& s) {
-    RunTetraPGAForwardDynamicsDerivatives(s, 2);
-  })->DenseRange(kMinLevel, kMaxLevel, 1)->Iterations(kBenchmarkIterations);
-
-  benchmark::RegisterBenchmark("binary_tree/Pinocchio/computeABADerivatives", [](benchmark::State& s) {
-    RunPinocchioABADerivatives(s, 2);
-  })->DenseRange(kMinLevel, kMaxLevel, 1)->Iterations(kBenchmarkIterations);
-
-  #ifdef GA4RO_HAS_CASADI_BENCH
-  benchmark::RegisterBenchmark("binary_tree/CasADi/computeABADerivatives",
-                               [](benchmark::State& s) {
-    RunPinocchioCasadiABADerivatives(s, 2);
-  })->DenseRange(kMinLevel, kMaxLevel_AD, 1)->Iterations(kBenchmarkIterations);
-  #endif
-
-  benchmark::RegisterBenchmark("binary_tree/TetraPGA/InverseDynamicsDerivatives", [](benchmark::State& s) {
-    RunTetraPGAInverseDynamicsDerivatives(s, 2);
-  })->DenseRange(kMinLevel, kMaxLevel, 1)->Iterations(kBenchmarkIterations);
-
-  benchmark::RegisterBenchmark("binary_tree/Pinocchio/computeRNEADerivatives", [](benchmark::State& s) {
-    RunPinocchioRNEADerivatives(s, 2);
-  })->DenseRange(kMinLevel, kMaxLevel, 1)->Iterations(kBenchmarkIterations);
-
-  #ifdef GA4RO_HAS_CASADI_BENCH
-  benchmark::RegisterBenchmark("binary_tree/CasADi/computeRNEADerivatives",
-                               [](benchmark::State& s) {
-    RunPinocchioCasadiRNEADerivatives(s, 2);
-  })->DenseRange(kMinLevel, kMaxLevel_AD, 1)->Iterations(kBenchmarkIterations);
-  #endif
+  RegisterTopology("serial_chain", 1);
+  RegisterTopology("binary_tree", 2);
 }
 
 }  // namespace
@@ -274,6 +295,7 @@ int main(int argc, char** argv) {
   benchmark::AddCustomContext("FixedIterations", std::to_string(kBenchmarkIterations));
   benchmark::AddCustomContext("SampleBatch", std::to_string(kSampleBatchSize));
   benchmark::AddCustomContext("SeedPolicy", "per-run seed, per-case mixed");
+  benchmark::AddCustomContext("Topologies", "serial_chain,binary_tree");
   benchmark::AddCustomContext("CSVOutput", benchmark_args.csv_path);
 #ifdef GA4RO_HAS_CASADI_BENCH
   benchmark::AddCustomContext("CasADiCases", "compiled_in");
