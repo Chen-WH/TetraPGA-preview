@@ -22,6 +22,7 @@ To build benchmarks:
 ```bash
 cmake -S . -B build-bench -DTETRAPGA_BUILD_TESTS=OFF -DTETRAPGA_BUILD_BENCHMARKS=ON
 cmake --build build-bench -j4
+taskset -c 2 ./build-bench/TetraPGA_*_bench # 单线程 benchmark
 ```
 
 ## Dependency Modes
