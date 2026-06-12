@@ -341,17 +341,16 @@ void inverseDynamics_fo(const Model<Scalar>& model, Data<Scalar>& data,
 		const Eigen::Matrix<Scalar, 1, 6> row_hI = data.Lstar.row(i) * data.hI[i];
 		const Eigen::Matrix<Scalar, 1, 3> row_VI = data.Lstar.row(i) * data.VI[i];
 
-		const Line3D<Scalar> common_q_self = data.hI[i] * ddLi + data.VI[i] * dLi.head(3);
-		const Line3D<Scalar> common_dq_self = Scalar(2) * data.hI[i] * dLi + data.VI[i] * Li.head(3);
-		const Line3D<Scalar> common_q_cross = common_q_self + ga_com(data.dPi.col(i), Li);
+		const Line3D<Scalar> Eq1 = data.hI[i] * ddLi + data.VI[i] * dLi.head(3) + ga_com(data.dPi.col(i), Li);
+		const Line3D<Scalar> Eq2 = Scalar(2) * data.hI[i] * dLi + data.VI[i] * Li.head(3);
 
 		for (int idx : model.ancestor[i]) {
 			data.ptau_pq(i-1, idx-1) = row_hI.dot(data.ddL.col(idx)) + row_VI.dot(data.dL.col(idx).template head<3>());
 			data.ptau_pdq(i-1, idx-1) = Scalar(2) * row_hI.dot(data.dL.col(idx)) + row_VI.dot(data.L.col(idx).template head<3>());
 			data.ptau_pddq(i-1, idx-1) = row_hI.dot(data.L.col(idx));
 			
-			data.ptau_pq(idx-1, i-1) = data.Lstar.row(idx).dot(common_q_cross);
-			data.ptau_pdq(idx-1, i-1) = data.Lstar.row(idx).dot(common_dq_self);
+			data.ptau_pq(idx-1, i-1) = data.Lstar.row(idx).dot(Eq1);
+			data.ptau_pdq(idx-1, i-1) = data.Lstar.row(idx).dot(Eq2);
 			data.ptau_pddq(idx-1, i-1) = data.ptau_pddq(i-1, idx-1);
     }
 		data.ptau_pq(i-1, i-1) = row_hI.dot(ddLi) + row_VI.dot(dLi.template head<3>());
@@ -394,7 +393,38 @@ void inverseDynamics_so(const Model<Scalar>& model, Data<Scalar>& data,
 		out.template bottomRows<3>().noalias() = w * Bv2 - Bv2 * w + v * Bv1;
 		return out;
 	};
+	auto rowCoriolis = [](const Scalar m, const Eigen::Matrix<Scalar, 3, 3>& Rc,
+	                      const Eigen::Matrix<Scalar, 3, 3>& J, const Line3D<Scalar>& v,
+	                      const Eigen::Matrix<Scalar, 1, 6>& y) {
+		const Eigen::Matrix<Scalar, 3, 1> r = v.template head<3>();
+		const Eigen::Matrix<Scalar, 3, 1> t = v.template tail<3>();
+		const Eigen::Matrix<Scalar, 3, 1> y1 = y.template head<3>().transpose();
+		const Eigen::Matrix<Scalar, 3, 1> y2 = y.template tail<3>().transpose();
 
+		const Eigen::Matrix<Scalar, 3, 1> out =
+		    Scalar(2) * y1.cross(Rc * r) - Scalar(2) * m * y1.cross(t) +
+		    J.transpose() * y2.cross(r) - (J.transpose() * y2).cross(r) -
+		    y2.cross(J * r) - Scalar(2) * (Rc.transpose() * y2).cross(t);
+		const Eigen::Matrix<Scalar, 1, 3> row = out.transpose();
+		return row;
+	};
+	auto rowCom = [](const Eigen::Matrix<Scalar, 1, 6>& y, const Line3D<Scalar>& L) {
+		const Eigen::Matrix<Scalar, 3, 1> w = L.template head<3>();
+		const Eigen::Matrix<Scalar, 3, 1> v = L.template tail<3>();
+		const Eigen::Matrix<Scalar, 3, 1> y1 = y.template head<3>().transpose();
+		const Eigen::Matrix<Scalar, 3, 1> y2 = y.template tail<3>().transpose();
+
+		Eigen::Matrix<Scalar, 1, 6> out;
+		out.template head<3>() = (w.cross(y1) + v.cross(y2)).transpose();
+		out.template tail<3>() = w.cross(y2).transpose();
+		return out;
+	};
+	auto rowComTopLeft = [](const Eigen::Matrix<Scalar, 1, 3>& y, const Line3D<Scalar>& L) {
+		const Eigen::Matrix<Scalar, 3, 1> w = L.template head<3>();
+		const Eigen::Matrix<Scalar, 3, 1> yv = y.transpose();
+		const Eigen::Matrix<Scalar, 1, 3> out = w.cross(yv).transpose();
+		return out;
+	};
 	for (int idx = 0; idx < model.dof_a; ++idx) {
 		data.p2tau_pqpq[idx].setZero();
 		data.p2tau_pdqpq[idx].setZero();
@@ -450,6 +480,9 @@ void inverseDynamics_so(const Model<Scalar>& model, Data<Scalar>& data,
 		const Eigen::Matrix<Scalar, 6, 1> dPik = data.dPi.col(k);
 		const Eigen::Matrix<Scalar, 1, 6> row_hI = row_k * hIk;
 		const Eigen::Matrix<Scalar, 1, 3> row_VI = row_k * VIk;
+		const Scalar hIk_m = hIk(0, 3);
+		const Eigen::Matrix<Scalar, 3, 3> hIk_Rc = hIk.template block<3, 3>(3, 3);
+		const Eigen::Matrix<Scalar, 3, 3> hIk_J = hIk.template block<3, 3>(3, 0);
 
 		const Eigen::Matrix<Scalar, 6, 6> Lkc = ga_com(Lk);
 		const Eigen::Matrix<Scalar, 6, 6> I_Lc = hIk * Lkc - Lkc * hIk;
@@ -466,16 +499,13 @@ void inverseDynamics_so(const Model<Scalar>& model, Data<Scalar>& data,
 			const Line3D<Scalar> dLj = data.dL.col(j);
 			const Line3D<Scalar> ddLj = data.ddL.col(j);
 			const Eigen::Matrix<Scalar, 1, 6> row_j = data.Lstar.row(j);
-			const Eigen::Matrix<Scalar, 6, 6> Ljc = ga_com(Lj);
 
-			const Eigen::Matrix<Scalar, 1, 6> Eq1 = row_hI * Ljc;
-			const Eigen::Matrix<Scalar, 1, 3> Eq2 =
-			    row_VI * Ljc.template topLeftCorner<3, 3>() + row_k * ga_coriolis(hIk, dLj);
+			const Eigen::Matrix<Scalar, 1, 6> Eq1 = rowCom(row_hI, Lj);
+			const Eigen::Matrix<Scalar, 1, 3> Eq2 = rowComTopLeft(row_VI, Lj) + rowCoriolis(hIk_m, hIk_Rc, hIk_J, dLj, row_k);
 			const Eigen::Matrix<Scalar, 1, 6> Eq3 = row_j * I_Lc;
 			const Eigen::Matrix<Scalar, 1, 3> Eq4 = row_j * BdL;
-			const Line3D<Scalar> Eq5 =
-			    I_Lc * ddLj + BdL * dLj.template head<3>() + ga_com(I_ddL, Lj);
-			const Eigen::Matrix<Scalar, 1, 3> Eq6 = row_k * ga_coriolis(hIk, Lj);
+			const Line3D<Scalar> Eq5 = I_Lc * ddLj + BdL * dLj.template head<3>() + ga_com(I_ddL, Lj);
+			const Eigen::Matrix<Scalar, 1, 3> Eq6 = rowCoriolis(hIk_m, hIk_Rc, hIk_J, Lj, row_k);
 			const Eigen::Matrix<Scalar, 1, 3> Eq7 = row_j * BL;
 			const Line3D<Scalar> Eq8 = Scalar(2) * I_Lc * dLj + BdL * Lj.template head<3>();
 			const Line3D<Scalar> Eq9 = BL * dLj.template head<3>() + ga_com(I_dL, Lj);
@@ -489,7 +519,6 @@ void inverseDynamics_so(const Model<Scalar>& model, Data<Scalar>& data,
 				const Line3D<Scalar> Li = data.L.col(i);
 				const Line3D<Scalar> dLi = data.dL.col(i);
 				const Line3D<Scalar> ddLi = data.ddL.col(i);
-				const Eigen::Matrix<Scalar, 1, 6> row_i = data.Lstar.row(i);
 
 				data.p2tau_pqpq[k_idx](j_idx, i_idx) = Eq1.dot(ddLi) + Eq2.dot(dLi.template head<3>());
 				data.p2tau_pdqpq[k_idx](j_idx, i_idx) =
@@ -509,6 +538,8 @@ void inverseDynamics_so(const Model<Scalar>& model, Data<Scalar>& data,
 					data.p2tau_pqpddq[j_idx](i_idx, k_idx) = Eq3.dot(Li);
 				}
 				if (i != j) {
+					const Eigen::Matrix<Scalar, 1, 6> row_i = data.Lstar.row(i);
+
 					data.p2tau_pqpq[k_idx](i_idx, j_idx) = data.p2tau_pqpq[k_idx](j_idx, i_idx);
 					data.p2tau_pdqpq[k_idx](i_idx, j_idx) = Eq6.dot(dLi.template head<3>());
 					data.p2tau_pdqpdq[k_idx](i_idx, j_idx) = data.p2tau_pdqpdq[k_idx](j_idx, i_idx);

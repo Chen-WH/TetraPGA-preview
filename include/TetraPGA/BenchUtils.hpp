@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <cstdint>
+#include <cstdlib>
 #include <filesystem>
 #include <fstream>
 #include <iomanip>
@@ -20,6 +21,7 @@
 #include <pinocchio/algorithm/aba.hpp>
 #include <pinocchio/algorithm/rnea.hpp>
 #include <pinocchio/algorithm/rnea-derivatives.hpp>
+#include <pinocchio/algorithm/rnea-second-order-derivatives.hpp>
 #include <pinocchio/multibody/model.hpp>
 #ifdef GA4RO_HAS_CASADI_BENCH
 #include <pinocchio/autodiff/casadi-algo.hpp>
@@ -342,6 +344,13 @@ class CombinedReporter final : public benchmark::BenchmarkReporter {
 
 inline std::uint32_t BenchmarkRunSeed() {
   static const std::uint32_t seed = []() {
+    if (const char* env_seed = std::getenv("TETRAPGA_BENCH_SEED")) {
+      char* end = nullptr;
+      const unsigned long parsed = std::strtoul(env_seed, &end, 0);
+      if (end != env_seed && *end == '\0') {
+        return parsed == 0ul ? 0x12345678u : static_cast<std::uint32_t>(parsed);
+      }
+    }
     std::random_device rd;
     const std::uint32_t s0 = rd();
     const std::uint32_t s1 = rd();
@@ -574,6 +583,118 @@ class InlineAutoDiffRNEADerivatives {
   casadi::SX cs_dtau_dq_;
   casadi::SX cs_dtau_dv_;
   casadi::SX cs_dtau_da_;
+  pinocchio::ModelTpl<casadi::SX>::ConfigVectorType q_ad_;
+  pinocchio::ModelTpl<casadi::SX>::TangentVectorType v_ad_;
+  pinocchio::ModelTpl<casadi::SX>::TangentVectorType a_ad_;
+  std::vector<double> q_vec_;
+  std::vector<double> v_vec_;
+  std::vector<double> a_vec_;
+};
+
+class InlineAutoDiffRNEASecondOrderDerivatives {
+ public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+
+  explicit InlineAutoDiffRNEASecondOrderDerivatives(const pinocchio::Model& model,
+                                                    const std::string& tag)
+      : ad_model_(model.template cast<casadi::SX>()),
+        ad_data_(ad_model_),
+        fun_name_(tag + "_eval"),
+        q_ad_(model.nq),
+        v_ad_(model.nv),
+        a_ad_(model.nv),
+        q_vec_(static_cast<std::size_t>(model.nq)),
+        v_vec_(static_cast<std::size_t>(model.nv)),
+        a_vec_(static_cast<std::size_t>(model.nv)),
+        d2tau_dqdq(model.nv * model.nv * model.nv),
+        d2tau_dqdv(model.nv * model.nv * model.nv),
+        d2tau_dvdv(model.nv * model.nv * model.nv),
+        d2tau_dadq(model.nv * model.nv * model.nv) {
+    using ADConfigVectorType = pinocchio::ModelTpl<casadi::SX>::ConfigVectorType;
+    using ADTangentVectorType = pinocchio::ModelTpl<casadi::SX>::TangentVectorType;
+
+    cs_q_ = casadi::SX::sym("q", model.nq);
+    cs_v_ = casadi::SX::sym("v", model.nv);
+    cs_a_ = casadi::SX::sym("a", model.nv);
+    const casadi_int tensor_size = static_cast<casadi_int>(model.nv * model.nv * model.nv);
+    cs_d2tau_dqdq_ = casadi::SX(tensor_size, 1);
+    cs_d2tau_dqdv_ = casadi::SX(tensor_size, 1);
+    cs_d2tau_dvdv_ = casadi::SX(tensor_size, 1);
+    cs_d2tau_dadq_ = casadi::SX(tensor_size, 1);
+
+    q_ad_ = Eigen::Map<ADConfigVectorType>(
+        static_cast<std::vector<casadi::SX>>(cs_q_).data(), model.nq, 1);
+    v_ad_ = Eigen::Map<ADTangentVectorType>(
+        static_cast<std::vector<casadi::SX>>(cs_v_).data(), model.nv, 1);
+    a_ad_ = Eigen::Map<ADTangentVectorType>(
+        static_cast<std::vector<casadi::SX>>(cs_a_).data(), model.nv, 1);
+
+    buildMap();
+    fun_ = ad_fun_;
+  }
+
+  void evalFunction(const Eigen::VectorXd& q, const Eigen::VectorXd& v,
+                    const Eigen::VectorXd& a) {
+    Eigen::Map<Eigen::VectorXd>(q_vec_.data(), static_cast<Eigen::Index>(q_vec_.size()), 1) = q;
+    Eigen::Map<Eigen::VectorXd>(v_vec_.data(), static_cast<Eigen::Index>(v_vec_.size()), 1) = v;
+    Eigen::Map<Eigen::VectorXd>(a_vec_.data(), static_cast<Eigen::Index>(a_vec_.size()), 1) = a;
+
+    const casadi::DMVector out = fun_(casadi::DMVector{q_vec_, v_vec_, a_vec_});
+    const Eigen::Index tensor_size = ad_model_.nv * ad_model_.nv * ad_model_.nv;
+
+    d2tau_dqdq = Eigen::Map<const Eigen::VectorXd>(
+        static_cast<std::vector<double>>(out[0]).data(), tensor_size, 1);
+    d2tau_dqdv = Eigen::Map<const Eigen::VectorXd>(
+        static_cast<std::vector<double>>(out[1]).data(), tensor_size, 1);
+    d2tau_dvdv = Eigen::Map<const Eigen::VectorXd>(
+        static_cast<std::vector<double>>(out[2]).data(), tensor_size, 1);
+    d2tau_dadq = Eigen::Map<const Eigen::VectorXd>(
+        static_cast<std::vector<double>>(out[3]).data(), tensor_size, 1);
+  }
+
+  Eigen::VectorXd d2tau_dqdq;
+  Eigen::VectorXd d2tau_dqdv;
+  Eigen::VectorXd d2tau_dvdv;
+  Eigen::VectorXd d2tau_dadq;
+
+ private:
+  template <typename TensorType>
+  void flattenTensor(const TensorType& tensor, casadi::SX& out) {
+    const Eigen::Index nv = ad_model_.nv;
+    casadi_int offset = 0;
+    for (Eigen::Index tau = 0; tau < nv; ++tau) {
+      for (Eigen::Index row = 0; row < nv; ++row) {
+        for (Eigen::Index col = 0; col < nv; ++col) {
+          out(offset++, 0) = tensor(tau, row, col);
+        }
+      }
+    }
+  }
+
+  void buildMap() {
+    pinocchio::ComputeRNEASecondOrderDerivatives(ad_model_, ad_data_, q_ad_, v_ad_, a_ad_);
+    flattenTensor(ad_data_.d2tau_dqdq, cs_d2tau_dqdq_);
+    flattenTensor(ad_data_.d2tau_dqdv, cs_d2tau_dqdv_);
+    flattenTensor(ad_data_.d2tau_dvdv, cs_d2tau_dvdv_);
+    flattenTensor(ad_data_.d2tau_dadq, cs_d2tau_dadq_);
+
+    ad_fun_ = casadi::Function(fun_name_, casadi::SXVector{cs_q_, cs_v_, cs_a_},
+                               casadi::SXVector{cs_d2tau_dqdq_, cs_d2tau_dqdv_,
+                                                cs_d2tau_dvdv_, cs_d2tau_dadq_});
+  }
+
+  pinocchio::ModelTpl<casadi::SX> ad_model_;
+  pinocchio::DataTpl<casadi::SX> ad_data_;
+  std::string fun_name_;
+  casadi::Function ad_fun_;
+  casadi::Function fun_;
+  casadi::SX cs_q_;
+  casadi::SX cs_v_;
+  casadi::SX cs_a_;
+  casadi::SX cs_d2tau_dqdq_;
+  casadi::SX cs_d2tau_dqdv_;
+  casadi::SX cs_d2tau_dvdv_;
+  casadi::SX cs_d2tau_dadq_;
   pinocchio::ModelTpl<casadi::SX>::ConfigVectorType q_ad_;
   pinocchio::ModelTpl<casadi::SX>::TangentVectorType v_ad_;
   pinocchio::ModelTpl<casadi::SX>::TangentVectorType a_ad_;

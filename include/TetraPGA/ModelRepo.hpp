@@ -7,7 +7,6 @@
  *******/
 
 #include "TetraPGA/Models.hpp"
-#include <functional>
 #include <stdexcept>
 
 namespace TetraPGA {
@@ -271,6 +270,13 @@ inline TreeTemplateParams make_tree_template_params(const int n, const int bf = 
                                                     const double taper = 1.0,
                                                     const double skew = 0.0,
                                                     const Eigen::Vector3d& g = Eigen::Vector3d(0, 0, -9.81)) {
+    if (n < 0) {
+        throw std::invalid_argument("make_tree_template_params: n must be non-negative");
+    }
+    if (bf < 1) {
+        throw std::invalid_argument("make_tree_template_params: branching factor must be positive");
+    }
+
     TreeTemplateParams params;
     params.dof = n;
     params.bf = bf;
@@ -283,28 +289,22 @@ inline TreeTemplateParams make_tree_template_params(const int n, const int bf = 
     params.coms.resize(static_cast<std::size_t>(n), Eigen::Vector3d::Zero());
     params.inertia_tensors.resize(static_cast<std::size_t>(n), Eigen::Matrix<double, 6, 1>::Zero());
 
-    int next_id = 1;
-    std::function<void(int)> dfs = [&](int parent) {
-        for (int child_idx = 0; child_idx < bf && next_id <= n; ++child_idx) {
-            const int current = next_id++;
-            params.parent_indices[static_cast<std::size_t>(current)] = parent;
+    for (int current = 1; current <= n; ++current) {
+        params.parent_indices[static_cast<std::size_t>(current)] =
+            current == 1 ? 0 : (current - 2) / bf + 1;
 
-            const int seq = current - 1;
-            const double Li = std::pow(taper, seq);
-            const double mi = std::pow(taper, 3.0 * seq);
-            const double Ixx = mi * Li * Li * 0.0025;
-            const double Iyy = mi * Li * Li * (1.015 / 12.0);
-            const double Izz = mi * Li * Li * (1.015 / 12.0);
+        const int seq = current - 1;
+        const double Li = std::pow(taper, seq);
+        const double mi = std::pow(taper, 3.0 * seq);
+        const double Ixx = mi * Li * Li * 0.0025;
+        const double Iyy = mi * Li * Li * (1.015 / 12.0);
+        const double Izz = mi * Li * Li * (1.015 / 12.0);
 
-            params.link_lengths[static_cast<std::size_t>(seq)] = Li;
-            params.masses[static_cast<std::size_t>(seq)] = mi;
-            params.coms[static_cast<std::size_t>(seq)] = Eigen::Vector3d(0.5 * Li, 0.0, 0.0);
-            params.inertia_tensors[static_cast<std::size_t>(seq)] << Ixx, 0.0, 0.0, Iyy, 0.0, Izz;
-
-            dfs(current);
-        }
-    };
-    dfs(0);
+        params.link_lengths[static_cast<std::size_t>(seq)] = Li;
+        params.masses[static_cast<std::size_t>(seq)] = mi;
+        params.coms[static_cast<std::size_t>(seq)] = Eigen::Vector3d(0.5 * Li, 0.0, 0.0);
+        params.inertia_tensors[static_cast<std::size_t>(seq)] << Ixx, 0.0, 0.0, Iyy, 0.0, Izz;
+    }
     return params;
 }
 
