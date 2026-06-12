@@ -2,6 +2,7 @@
 #include "TetraPGA/ModelRepo.hpp"
 
 #include <iostream>
+#include <stdexcept>
 #include <string>
 
 using namespace TetraPGA;
@@ -22,12 +23,59 @@ bool ExpectApprox(const std::string& label,
   return false;
 }
 
+template <typename Fn>
+bool ExpectLogicError(const std::string& label, Fn&& fn) {
+  try {
+    fn();
+  } catch (const std::logic_error&) {
+    return true;
+  } catch (const std::exception& e) {
+    std::cerr << "[FAIL] " << label << " threw wrong exception: " << e.what() << std::endl;
+    return false;
+  }
+
+  std::cerr << "[FAIL] " << label << " did not throw." << std::endl;
+  return false;
+}
+
 }  // namespace
 
 int main() {
   const Model<double> model = ur();
   Data<double> data(model);
   bool ok = true;
+
+  ok &= (joint::dof(joint::kRevolute, 1, "test") == 1);
+  ok &= (joint::dof(joint::kPrismatic, 1, "test") == 1);
+  ok &= (joint::dof(joint::kPlanarRoot, 1, "test") == 3);
+  ok &= (joint::dof(joint::kFreeFlyerRoot, 1, "test") == 6);
+  if (!ok) {
+    std::cerr << "[FAIL] joint DOF helper mismatch." << std::endl;
+    return 1;
+  }
+
+  Motor3D<double> identity;
+  identity << 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0;
+  ok &= ExpectLogicError("planar root joint unimplemented",
+                         [&] {
+                           joint::transformFromParent(
+                               joint::kPlanarRoot,
+                               Line3D<double>(0.0, 0.0, 1.0, 0.0, 0.0, 0.0),
+                               0.0,
+                               identity,
+                               1,
+                               "test");
+                         });
+  ok &= ExpectLogicError("free-flyer root joint unimplemented",
+                         [&] {
+                           joint::transformFromParent(
+                               joint::kFreeFlyerRoot,
+                               Line3D<double>(0.0, 0.0, 1.0, 0.0, 0.0, 0.0),
+                               0.0,
+                               identity,
+                               1,
+                               "test");
+                         });
 
   VectorXs<double> q(6);
   q << 0.1, 0.2, 0.3, 0.4, 0.5, 0.6;

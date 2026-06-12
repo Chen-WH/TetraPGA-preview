@@ -6,6 +6,7 @@
 #include <stdexcept>
 #include <vector>
 #include <urdf_parser/urdf_parser.h>
+#include "TetraPGA/Joints.hpp"
 #include "TetraPGA/Motor.hpp"
 #include "TetraPGA/PGA.hpp"
 
@@ -254,8 +255,9 @@ Model<Scalar>::Model(const std::string& urdf_file) {
 
     auto append_limits = [&](const urdf::JointConstSharedPtr& joint, char t) {
         const Scalar inf = std::numeric_limits<Scalar>::infinity();
-        if (t == 'F') {
-            for (int k = 0; k < 6; ++k) {
+        const int joint_dof = joint::dof(t, -1, "Model(urdf)::append_limits");
+        if (joint_dof > 1) {
+            for (int k = 0; k < joint_dof; ++k) {
                 lower_limits.push_back(-inf);
                 upper_limits.push_back(inf);
                 velocity_limits.push_back(inf);
@@ -320,6 +322,7 @@ Model<Scalar>::Model(const std::string& urdf_file) {
                 case urdf::Joint::REVOLUTE: jt = 'R'; break;
                 case urdf::Joint::CONTINUOUS: jt = 'R'; break;
                 case urdf::Joint::PRISMATIC: jt = 'P'; break;
+                case urdf::Joint::PLANAR: jt = joint::kPlanarRoot; break;
                 case urdf::Joint::FLOATING: jt = 'F'; break;
                 case urdf::Joint::FIXED: jt = 'f'; break;
                 default: jt = 'f'; break;
@@ -336,7 +339,7 @@ Model<Scalar>::Model(const std::string& urdf_file) {
             Mj.push_back(Quat_2motor(Eigen::Quaternion<Scalar>(R_body_child), p_body_child));
             I.push_back(Mat6::Zero());
 
-            if (jt == 'F') {
+            if (joint::isRootOnly(jt)) {
                 Lj.push_back(Line3D<Scalar>(Scalar(0), Scalar(0), Scalar(1), Scalar(0), Scalar(0), Scalar(0)));
             } else {
                 Lj.push_back(axis_line(joint, jt));
@@ -377,26 +380,19 @@ Model<Scalar>::Model(const std::string& urdf_file) {
     }
 
     // Build dof map and dof count.
-    int offset_id = -1;
+    int q_offset = 0;
     dof_a = 0;
     id_map.clear();
     for (int i = 1; i < n; ++i) {
-        switch (type[i]) {
-        case 'R':
-        case 'P':
-            dof_a += 1;
-            id_map[i] = { i + offset_id };
-            break;
-        case 'F':
-            dof_a += 6;
-            id_map[i] = { i + offset_id, i + offset_id + 1, i + offset_id + 2,
-                            i + offset_id + 3, i + offset_id + 4, i + offset_id + 5 };
-            offset_id += 5;
-            break;
-	    default:
-	        throw std::invalid_argument(
-	            "Unsupported joint type '" + std::string(1, type[i]) + "' at index " + std::to_string(i));
-	    }
+        const int joint_dof = joint::dof(type[i], i, "Model(urdf)");
+        joint::validateRootPlacement(type[i], parent[i], i, "Model(urdf)");
+        id_map[i].clear();
+        id_map[i].reserve(static_cast<std::size_t>(joint_dof));
+        for (int j = 0; j < joint_dof; ++j) {
+            id_map[i].push_back(q_offset + j);
+        }
+        q_offset += joint_dof;
+        dof_a += joint_dof;
 	}
 
     qa0.resize(dof_a);
@@ -479,25 +475,18 @@ Model<Scalar>::Model(const std::string& model_name,
         ancestor[i] = temp_vec;
     }
     // Construct id_map and allocate M0/L0/I base entries
-    int offset_id = -1;
+    int q_offset = 0;
     id_map.clear();
     for (int i = 1; i < n; ++i) {
-        switch (type[i]) {
-        case 'R':
-        case 'P':
-            dof_a += 1;
-            id_map[i] = { i + offset_id };
-            break;
-        case 'F':
-            dof_a += 6;
-            id_map[i] = { i + offset_id, i + offset_id + 1, i + offset_id + 2,
-                            i + offset_id + 3, i + offset_id + 4, i + offset_id + 5 };
-            offset_id += 5;
-            break;
-	    default:
-	        throw std::invalid_argument(
-	            "Unsupported joint type '" + std::string(1, type[i]) + "' at index " + std::to_string(i));
-	    }
+        const int joint_dof = joint::dof(type[i], i, "Model");
+        joint::validateRootPlacement(type[i], parent[i], i, "Model");
+        id_map[i].clear();
+        id_map[i].reserve(static_cast<std::size_t>(joint_dof));
+        for (int j = 0; j < joint_dof; ++j) {
+            id_map[i].push_back(q_offset + j);
+        }
+        q_offset += joint_dof;
+        dof_a += joint_dof;
 	}
     
     // Calculate motors in base frame and joint axes in base frame

@@ -21,25 +21,16 @@ const VectorXs<Scalar>& inverseDynamics(const Model<Scalar>& model, Data<Scalar>
     const Scalar qi = q(i - 1);
     const Scalar dqi = dq(i - 1);
     const Scalar ddqi = ddq(i - 1);
-		switch (model.type[i]) {
-		case 'R': {
-			data.Mi.col(i) = ga_mul_exp_R(model.Lj[i], Scalar(0.5) * qi, model.Mj[i]);
-			break;
-		}
-		case 'P': {
-			data.Mi.col(i) = ga_mul_exp_P(model.Lj[i], Scalar(0.5) * qi, model.Mj[i]);
-			break;
-		}
-			default:
-				throw std::invalid_argument(
-				    "inverseDynamics: unsupported joint type '" + std::string(1, model.type[i]) +
-				    "' at index " + std::to_string(i));
-			}
+		data.Mi.col(i) = joint::relativeTransform(
+		    model.type[i], model.Lj[i], qi, model.Mj[i], i, "inverseDynamics");
 		// Calculate velocity and acceleration
-    t = ga_AdM(data.Mi.col(i), data.V.col(parent));
-    data.V.col(i) = t + dqi * model.Lj[i];
-    t = ga_com(model.Lj[i], t);
-    data.dV.col(i) = ga_AdM(data.Mi.col(i), data.dV.col(parent)) + dqi * t + ddqi * model.Lj[i];
+    t = joint::localParentVelocity(
+        model.type[i], data.Mi.col(i), data.V.col(parent), i, "inverseDynamics");
+    data.V.col(i) = joint::localSpatialVelocity(
+        model.type[i], t, model.Lj[i], dqi, i, "inverseDynamics");
+    data.dV.col(i) = joint::localSpatialAcceleration(
+        model.type[i], data.Mi.col(i), data.dV.col(parent), model.Lj[i], t, dqi, ddqi,
+        i, "inverseDynamics");
 		// Calculate momentum derivative with external forces
 		data.dPi.col(i).noalias() = model.I[i] * data.dV.col(i);
 		data.dPi.col(i) += ga_com(model.I[i] * data.V.col(i), data.V.col(i)) - fext.col(i);
@@ -78,25 +69,18 @@ const VectorXs<Scalar>& inverseDynamics0(const Model<Scalar>& model, Data<Scalar
     const Scalar qi = q(i - 1);
     const Scalar dqi = dq(i - 1);
     const Scalar ddqi = ddq(i - 1);
-		switch (model.type[i]) {
-		case 'R': {
-			data.Mi.col(i) = ga_mul_exp_R(model.L0[i], Scalar(0.5) * qi, data.Mi.col(parent));
-			break;
-		}
-		case 'P': {
-			data.Mi.col(i) = ga_mul_exp_P(model.L0[i], Scalar(0.5) * qi, data.Mi.col(parent));
-			break;
-		}
-			default:
-				throw std::invalid_argument(
-				    "inverseDynamics0: unsupported joint type '" + std::string(1, model.type[i]) +
-				    "' at index " + std::to_string(i));
-			}
-		data.L.col(i) = ga_rbm(data.Mi.col(parent), model.L0[i]);
-		data.Lstar.row(i) = ga_metric(data.L.col(i));
-		data.V.col(i) = data.V.col(parent) + dqi * data.L.col(i);
-		data.dL.col(i) = ga_com(data.L.col(i), data.V.col(parent));
-    data.dV.col(i) = data.dV.col(parent) + dqi * data.dL.col(i) + ddqi * data.L.col(i);
+		data.Mi.col(i) = joint::transformFromParent(
+		    model.type[i], model.L0[i], qi, data.Mi.col(parent), i, "inverseDynamics0");
+		data.L.col(i) = joint::axisFromParent(
+		    model.type[i], data.Mi.col(parent), model.L0[i], i, "inverseDynamics0");
+		data.Lstar.row(i) = joint::axisMetric(model.type[i], data.L.col(i), i, "inverseDynamics0");
+		data.V.col(i) = joint::spatialVelocity(
+		    model.type[i], data.V.col(parent), data.L.col(i), dqi, i, "inverseDynamics0");
+		data.dL.col(i) = joint::axisDot(
+		    model.type[i], data.L.col(i), data.V.col(parent), i, "inverseDynamics0");
+    data.dV.col(i) = joint::spatialAcceleration(
+        model.type[i], data.dV.col(parent), data.L.col(i), data.dL.col(i), dqi, ddqi,
+        i, "inverseDynamics0");
 
 		data.M.col(i) = ga_mul(model.M0[i], data.Mi.col(i));
 		data.hI[i] = ga_rbm(data.M.col(i)) * model.I[i] * ga_AdM(data.M.col(i));
@@ -138,22 +122,13 @@ const VectorXs<Scalar>& forwardDynamics(const Model<Scalar>& model, Data<Scalar>
     const Scalar qi = q(i - 1);
     const Scalar dqi = dq(i - 1);
 
-		switch (model.type[i]) {
-		case 'R': {
-			data.Mi.col(i) = ga_mul_exp_R(Li, Scalar(0.5) * qi, model.Mj[i]);
-			break;
-		}
-		case 'P': {
-			data.Mi.col(i) = ga_mul_exp_P(Li, Scalar(0.5) * qi, model.Mj[i]);
-			break;
-		}
-			default:
-				throw std::invalid_argument(
-				    "forwardDynamics: unsupported joint type '" + std::string(1, model.type[i]) +
-				    "' at index " + std::to_string(i));
-			}
-    data.V.col(i) = ga_AdM(data.Mi.col(i), data.V.col(parent)) + dqi * Li;
-    data.c.col(i) = dqi * ga_com(Li, data.V.col(i));
+		data.Mi.col(i) = joint::relativeTransform(
+		    model.type[i], Li, qi, model.Mj[i], i, "forwardDynamics");
+    const Line3D<Scalar> parent_velocity_local = joint::localParentVelocity(
+        model.type[i], data.Mi.col(i), data.V.col(parent), i, "forwardDynamics");
+    data.V.col(i) = joint::localSpatialVelocity(
+        model.type[i], parent_velocity_local, Li, dqi, i, "forwardDynamics");
+    data.c.col(i) = joint::coriolisBias(model.type[i], Li, data.V.col(i), dqi, i, "forwardDynamics");
 		data.Ia[i] = model.I[i];
     data.F.col(i).noalias() = model.I[i] * data.V.col(i);
     data.F.col(i) = ga_com(data.F.col(i), data.V.col(i)) - fext.col(i);
@@ -214,24 +189,15 @@ const VectorXs<Scalar>& forwardDynamics0(const Model<Scalar>& model, Data<Scalar
     const Scalar qi = q(i - 1);
     const Scalar dqi = dq(i - 1);
 
-		switch (model.type[i]) {
-		case 'R': {
-			data.Mi.col(i) = ga_mul_exp_R(model.L0[i], Scalar(0.5) * qi, data.Mi.col(parent));
-			break;
-		}
-		case 'P': {
-			data.Mi.col(i) = ga_mul_exp_P(model.L0[i], Scalar(0.5) * qi, data.Mi.col(parent));
-			break;
-		}
-			default:
-				throw std::invalid_argument(
-				    "forwardDynamics0: unsupported joint type '" + std::string(1, model.type[i]) +
-				    "' at index " + std::to_string(i));
-			}
-		data.L.col(i) = ga_rbm(data.Mi.col(parent), model.L0[i]);
-		data.Lstar.row(i) = ga_metric(data.L.col(i));
-		data.V.col(i) = data.V.col(parent) + dqi * data.L.col(i);
-		data.dL.col(i) = ga_com(data.L.col(i), data.V.col(parent));
+		data.Mi.col(i) = joint::transformFromParent(
+		    model.type[i], model.L0[i], qi, data.Mi.col(parent), i, "forwardDynamics0");
+		data.L.col(i) = joint::axisFromParent(
+		    model.type[i], data.Mi.col(parent), model.L0[i], i, "forwardDynamics0");
+		data.Lstar.row(i) = joint::axisMetric(model.type[i], data.L.col(i), i, "forwardDynamics0");
+		data.V.col(i) = joint::spatialVelocity(
+		    model.type[i], data.V.col(parent), data.L.col(i), dqi, i, "forwardDynamics0");
+		data.dL.col(i) = joint::axisDot(
+		    model.type[i], data.L.col(i), data.V.col(parent), i, "forwardDynamics0");
 		data.M.col(i) = ga_mul(model.M0[i], data.Mi.col(i));
 		data.Ia[i] = ga_rbm(data.M.col(i)) * model.I[i] * ga_AdM(data.M.col(i));
     data.F.col(i) = ga_com(data.Ia[i] * data.V.col(i), data.V.col(i)) - ga_rbm(data.M.col(i), fext.col(i));
@@ -304,26 +270,21 @@ void inverseDynamics_fo(const Model<Scalar>& model, Data<Scalar>& data,
     const Scalar qi = q(i - 1);
     const Scalar dqi = dq(i - 1);
     const Scalar ddqi = ddq(i - 1);
-		switch (model.type[i]) {
-		case 'R': {
-			data.Mi.col(i) = ga_mul_exp_R(model.L0[i], Scalar(0.5) * qi, data.Mi.col(parent));
-			break;
-		}
-		case 'P': {
-			data.Mi.col(i) = ga_mul_exp_P(model.L0[i], Scalar(0.5) * qi, data.Mi.col(parent));
-			break;
-		}
-			default:
-				throw std::invalid_argument(
-				    "inverseDynamics_fo: unsupported joint type '" + std::string(1, model.type[i]) +
-				    "' at index " + std::to_string(i));
-			}
-		data.L.col(i) = ga_rbm(data.Mi.col(parent), model.L0[i]);
-		data.Lstar.row(i) = ga_metric(data.L.col(i));
-		data.V.col(i) = data.V.col(parent) + dqi * data.L.col(i);
-		data.dL.col(i) = ga_com(data.L.col(i), data.V.col(parent));
-    data.dV.col(i) = data.dV.col(parent) + dqi * data.dL.col(i) + ddqi * data.L.col(i);
-		data.ddL.col(i) = ga_com(data.dL.col(i), data.V.col(parent)) + ga_com(data.L.col(i), data.dV.col(parent));
+		data.Mi.col(i) = joint::transformFromParent(
+		    model.type[i], model.L0[i], qi, data.Mi.col(parent), i, "inverseDynamics_fo");
+		data.L.col(i) = joint::axisFromParent(
+		    model.type[i], data.Mi.col(parent), model.L0[i], i, "inverseDynamics_fo");
+		data.Lstar.row(i) = joint::axisMetric(model.type[i], data.L.col(i), i, "inverseDynamics_fo");
+		data.V.col(i) = joint::spatialVelocity(
+		    model.type[i], data.V.col(parent), data.L.col(i), dqi, i, "inverseDynamics_fo");
+		data.dL.col(i) = joint::axisDot(
+		    model.type[i], data.L.col(i), data.V.col(parent), i, "inverseDynamics_fo");
+    data.dV.col(i) = joint::spatialAcceleration(
+        model.type[i], data.dV.col(parent), data.L.col(i), data.dL.col(i), dqi, ddqi,
+        i, "inverseDynamics_fo");
+		data.ddL.col(i) = joint::axisDDot(
+		    model.type[i], data.L.col(i), data.dL.col(i), data.V.col(parent), data.dV.col(parent),
+		    i, "inverseDynamics_fo");
 
 		data.M.col(i) = ga_mul(model.M0[i], data.Mi.col(i));
 		data.hI[i] = ga_rbm(data.M.col(i)) * model.I[i] * ga_AdM(data.M.col(i));
@@ -438,26 +399,21 @@ void inverseDynamics_so(const Model<Scalar>& model, Data<Scalar>& data,
     const Scalar qi = q(i - 1);
     const Scalar dqi = dq(i - 1);
     const Scalar ddqi = ddq(i - 1);
-		switch (model.type[i]) {
-		case 'R': {
-			data.Mi.col(i) = ga_mul_exp_R(model.L0[i], Scalar(0.5) * qi, data.Mi.col(parent));
-			break;
-		}
-		case 'P': {
-			data.Mi.col(i) = ga_mul_exp_P(model.L0[i], Scalar(0.5) * qi, data.Mi.col(parent));
-			break;
-		}
-			default:
-				throw std::invalid_argument(
-				    "inverseDynamics_so: unsupported joint type '" + std::string(1, model.type[i]) +
-				    "' at index " + std::to_string(i));
-			}
-		data.L.col(i) = ga_rbm(data.Mi.col(parent), model.L0[i]);
-		data.Lstar.row(i) = ga_metric(data.L.col(i));
-		data.V.col(i) = data.V.col(parent) + dqi * data.L.col(i);
-		data.dL.col(i) = ga_com(data.L.col(i), data.V.col(parent));
-    data.dV.col(i) = data.dV.col(parent) + dqi * data.dL.col(i) + ddqi * data.L.col(i);
-		data.ddL.col(i) = ga_com(data.dL.col(i), data.V.col(parent)) + ga_com(data.L.col(i), data.dV.col(parent));
+		data.Mi.col(i) = joint::transformFromParent(
+		    model.type[i], model.L0[i], qi, data.Mi.col(parent), i, "inverseDynamics_so");
+		data.L.col(i) = joint::axisFromParent(
+		    model.type[i], data.Mi.col(parent), model.L0[i], i, "inverseDynamics_so");
+		data.Lstar.row(i) = joint::axisMetric(model.type[i], data.L.col(i), i, "inverseDynamics_so");
+		data.V.col(i) = joint::spatialVelocity(
+		    model.type[i], data.V.col(parent), data.L.col(i), dqi, i, "inverseDynamics_so");
+		data.dL.col(i) = joint::axisDot(
+		    model.type[i], data.L.col(i), data.V.col(parent), i, "inverseDynamics_so");
+    data.dV.col(i) = joint::spatialAcceleration(
+        model.type[i], data.dV.col(parent), data.L.col(i), data.dL.col(i), dqi, ddqi,
+        i, "inverseDynamics_so");
+		data.ddL.col(i) = joint::axisDDot(
+		    model.type[i], data.L.col(i), data.dL.col(i), data.V.col(parent), data.dV.col(parent),
+		    i, "inverseDynamics_so");
 
 		data.M.col(i) = ga_mul(model.M0[i], data.Mi.col(i));
 		data.hI[i] = ga_rbm(data.M.col(i)) * model.I[i] * ga_AdM(data.M.col(i));
