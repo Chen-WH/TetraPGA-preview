@@ -476,41 +476,41 @@ void inverseDynamics_so(const Model<Scalar>& model, Data<Scalar>& data,
 				const Line3D<Scalar> dLi = data.dL.col(i);
 				const Line3D<Scalar> ddLi = data.ddL.col(i);
 
-				data.p2tau_pqpq[k_idx](j_idx, i_idx) = Eq1.dot(ddLi) + Eq2.dot(dLi.template head<3>());
-				data.p2tau_pdqpq[k_idx](j_idx, i_idx) =
+				data.p2tau_pqpq[i_idx](k_idx, j_idx) = Eq1.dot(ddLi) + Eq2.dot(dLi.template head<3>());
+				data.p2tau_pdqpq[i_idx](k_idx, j_idx) =
 				    Scalar(2) * Eq1.dot(dLi) + Eq2.dot(Li.template head<3>());
-				data.p2tau_pdqpdq[k_idx](j_idx, i_idx) = Eq6.dot(Li.template head<3>());
+				data.p2tau_pdqpdq[i_idx](k_idx, j_idx) = Eq6.dot(Li.template head<3>());
 
 				if (j != k) {
-					data.p2tau_pqpq[j_idx](k_idx, i_idx) =
+					data.p2tau_pqpq[i_idx](j_idx, k_idx) =
 					    Eq3.dot(ddLi) + Eq4.dot(dLi.template head<3>());
-					data.p2tau_pdqpq[j_idx](k_idx, i_idx) =
+					data.p2tau_pdqpq[i_idx](j_idx, k_idx) =
 					    Scalar(2) * Eq3.dot(dLi) + Eq4.dot(Li.template head<3>());
-					data.p2tau_pdqpdq[j_idx](k_idx, i_idx) = Eq7.dot(Li.template head<3>());
+					data.p2tau_pdqpdq[i_idx](j_idx, k_idx) = Eq7.dot(Li.template head<3>());
 
-					data.p2tau_pqpq[j_idx](i_idx, k_idx) = data.p2tau_pqpq[j_idx](k_idx, i_idx);
-					data.p2tau_pdqpq[j_idx](i_idx, k_idx) = Eq7.dot(dLi.template head<3>());
-					data.p2tau_pdqpdq[j_idx](i_idx, k_idx) = data.p2tau_pdqpdq[j_idx](k_idx, i_idx);
-					data.p2tau_pqpddq[j_idx](i_idx, k_idx) = Eq3.dot(Li);
+					data.p2tau_pqpq[k_idx](j_idx, i_idx) = data.p2tau_pqpq[i_idx](j_idx, k_idx);
+					data.p2tau_pdqpq[k_idx](j_idx, i_idx) = Eq7.dot(dLi.template head<3>());
+					data.p2tau_pdqpdq[k_idx](j_idx, i_idx) = data.p2tau_pdqpdq[i_idx](j_idx, k_idx);
+					data.p2tau_pqpddq[k_idx](j_idx, i_idx) = Eq3.dot(Li);
 				}
 				if (i != j) {
 					const Eigen::Matrix<Scalar, 1, 6> row_i = data.Lstar.row(i);
 
-					data.p2tau_pqpq[k_idx](i_idx, j_idx) = data.p2tau_pqpq[k_idx](j_idx, i_idx);
-					data.p2tau_pdqpq[k_idx](i_idx, j_idx) = Eq6.dot(dLi.template head<3>());
-					data.p2tau_pdqpdq[k_idx](i_idx, j_idx) = data.p2tau_pdqpdq[k_idx](j_idx, i_idx);
-					data.p2tau_pqpddq[k_idx](i_idx, j_idx) = Eq1.dot(Li);
+					data.p2tau_pqpq[j_idx](k_idx, i_idx) = data.p2tau_pqpq[i_idx](k_idx, j_idx);
+					data.p2tau_pdqpq[j_idx](k_idx, i_idx) = Eq6.dot(dLi.template head<3>());
+					data.p2tau_pdqpdq[j_idx](k_idx, i_idx) = data.p2tau_pdqpdq[i_idx](k_idx, j_idx);
+					data.p2tau_pqpddq[j_idx](k_idx, i_idx) = Eq1.dot(Li);
 
-					data.p2tau_pqpq[i_idx](k_idx, j_idx) = row_i.dot(Eq5);
-					data.p2tau_pdqpq[i_idx](k_idx, j_idx) = row_i.dot(Eq8);
-					data.p2tau_pdqpdq[i_idx](k_idx, j_idx) = row_i.dot(Eq10);
-					data.p2tau_pqpddq[i_idx](k_idx, j_idx) = row_i.dot(Eq11);
+					data.p2tau_pqpq[j_idx](i_idx, k_idx) = row_i.dot(Eq5);
+					data.p2tau_pdqpq[j_idx](i_idx, k_idx) = row_i.dot(Eq8);
+					data.p2tau_pdqpdq[j_idx](i_idx, k_idx) = row_i.dot(Eq10);
+					data.p2tau_pqpddq[j_idx](i_idx, k_idx) = row_i.dot(Eq11);
 
 					if (j != k) {
-						data.p2tau_pqpq[i_idx](j_idx, k_idx) = data.p2tau_pqpq[i_idx](k_idx, j_idx);
-						data.p2tau_pdqpq[i_idx](j_idx, k_idx) = row_i.dot(Eq9);
-						data.p2tau_pdqpdq[i_idx](j_idx, k_idx) = data.p2tau_pdqpdq[i_idx](k_idx, j_idx);
-						data.p2tau_pqpddq[i_idx](j_idx, k_idx) = row_i.dot(Eq12);
+						data.p2tau_pqpq[k_idx](i_idx, j_idx) = data.p2tau_pqpq[j_idx](i_idx, k_idx);
+						data.p2tau_pdqpq[k_idx](i_idx, j_idx) = row_i.dot(Eq9);
+						data.p2tau_pdqpdq[k_idx](i_idx, j_idx) = data.p2tau_pdqpdq[j_idx](i_idx, k_idx);
+						data.p2tau_pqpddq[k_idx](i_idx, j_idx) = row_i.dot(Eq12);
 					}
 				}
 
@@ -603,6 +603,75 @@ void forwardDynamics_fo(const Model<Scalar>& model, Data<Scalar>& data,
   const Eigen::MatrixBase<DerivedTau>& tau) 
 {
 	forwardDynamics_fo(model, data, q, dq, tau, data.fext_zero);
+}
+
+// Second-order derivative of forward dynamics with external forces
+template <typename Scalar, typename DerivedQ, typename DerivedQvel, typename DerivedTau, typename DerivedForce>
+void forwardDynamics_so(const Model<Scalar>& model, Data<Scalar>& data,
+  const Eigen::MatrixBase<DerivedQ>& q,
+  const Eigen::MatrixBase<DerivedQvel>& dq,
+  const Eigen::MatrixBase<DerivedTau>& tau,
+  const Eigen::Matrix<DerivedForce, 6, Eigen::Dynamic>& fext)
+{
+	forwardDynamics_fo(model, data, q, dq, tau, fext);
+	inverseDynamics_so(model, data, q, dq, data.ddq, fext);
+
+	const int dof = model.dof_a;
+	for (int idx = 0; idx < dof; ++idx) {
+		data.p2ddq_pqpq[idx].setZero();
+		data.p2ddq_pdqpq[idx].setZero();
+		data.p2ddq_pdqpdq[idx].setZero();
+		data.p2ddq_ptaupq[idx].setZero();
+	}
+
+	MatrixXs<Scalar> bracket(dof, dof);
+	MatrixXs<Scalar> page_out(dof, dof);
+	std::vector<MatrixXs<Scalar>> tmp_pqpq(static_cast<std::size_t>(dof), MatrixXs<Scalar>(dof, dof));
+	std::vector<MatrixXs<Scalar>> tmp_pdqpq(static_cast<std::size_t>(dof), MatrixXs<Scalar>(dof, dof));
+
+	for (int q_col = 0; q_col < dof; ++q_col) {
+		const auto page = static_cast<std::size_t>(q_col);
+		tmp_pqpq[page].noalias() = data.p2tau_pqpddq[page] * data.pddq_pq;
+		tmp_pdqpq[page].noalias() = data.p2tau_pqpddq[page] * data.pddq_pdq;
+		page_out.noalias() = -data.pddq_ptau * data.p2tau_pqpddq[page] * data.pddq_ptau;
+		data.p2ddq_ptaupq[page].noalias() = page_out;
+	}
+
+	for (int q_col = 0; q_col < dof; ++q_col) {
+		const auto page = static_cast<std::size_t>(q_col);
+		bracket.noalias() = data.p2tau_pqpq[page] + tmp_pqpq[page];
+		for (int q_row = 0; q_row < dof; ++q_row) {
+			bracket.col(q_row).noalias() += tmp_pqpq[static_cast<std::size_t>(q_row)].col(q_col);
+		}
+		page_out.noalias() = -data.pddq_ptau * bracket;
+		data.p2ddq_pqpq[page].noalias() = page_out;
+	}
+
+	for (int q_col = 0; q_col < dof; ++q_col) {
+		const auto page = static_cast<std::size_t>(q_col);
+		bracket.noalias() = tmp_pdqpq[page];
+		for (int dq_row = 0; dq_row < dof; ++dq_row) {
+			bracket.col(dq_row).noalias() += data.p2tau_pdqpq[static_cast<std::size_t>(dq_row)].col(q_col);
+		}
+		page_out.noalias() = -data.pddq_ptau * bracket;
+		data.p2ddq_pdqpq[page].noalias() = page_out;
+	}
+
+	for (int dq_col = 0; dq_col < dof; ++dq_col) {
+		const auto page = static_cast<std::size_t>(dq_col);
+		page_out.noalias() = -data.pddq_ptau * data.p2tau_pdqpdq[page];
+		data.p2ddq_pdqpdq[page].noalias() = page_out;
+	}
+}
+
+// Overload without external forces
+template <typename Scalar, typename DerivedQ, typename DerivedQvel, typename DerivedTau>
+void forwardDynamics_so(const Model<Scalar>& model, Data<Scalar>& data,
+  const Eigen::MatrixBase<DerivedQ>& q,
+  const Eigen::MatrixBase<DerivedQvel>& dq,
+  const Eigen::MatrixBase<DerivedTau>& tau)
+{
+	forwardDynamics_so(model, data, q, dq, tau, data.fext_zero);
 }
 
 }  // namespace TetraPGA

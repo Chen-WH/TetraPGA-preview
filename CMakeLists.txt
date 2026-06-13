@@ -90,8 +90,8 @@ if(TETRAPGA_BUILD_TESTS)
   tetrapga_add_test(TetraPGA_kinematics_test test/TetraPGA_kinematics_test.cpp)
   tetrapga_add_test(TetraPGA_dynamics_test test/TetraPGA_dynamics_test.cpp)
 
-  tetrapga_add_test(TetraPGA_urdf_test test/TetraPGA_urdf_test.cpp)
-  target_link_libraries(TetraPGA_urdf_test PRIVATE pinocchio::pinocchio)
+  tetrapga_add_test(TetraPGA_models_test test/TetraPGA_models_test.cpp)
+  target_link_libraries(TetraPGA_models_test PRIVATE pinocchio::pinocchio)
 
   find_package(PkgConfig REQUIRED)
   pkg_check_modules(COAL REQUIRED IMPORTED_TARGET coal)

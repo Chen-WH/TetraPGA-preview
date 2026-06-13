@@ -63,11 +63,11 @@ int main() {
     const double ddq_tol = 1e-6;
     const bool pass = (tau_err < tau_tol) && (ddq_err < ddq_tol);
     if (!pass) {
-        std::cerr << "[FAIL] URDF dynamics mismatch: tau_err=" << tau_err
+        std::cerr << "[FAIL] Models dynamics mismatch: tau_err=" << tau_err
                   << " ddq_err=" << ddq_err << std::endl;
         return 3;
     }
 
-    std::cout << "TetraPGA URDF tests passed." << std::endl;
+    std::cout << "TetraPGA models tests passed." << std::endl;
     return 0;
 }

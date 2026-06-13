@@ -117,15 +117,19 @@ struct Data {
     MatrixXs<Scalar> ptau_pq;   // partial derivative of tau w.r.t q
     MatrixXs<Scalar> ptau_pdq;  // partial derivative of tau w.r.t dq
     MatrixXs<Scalar> ptau_pddq; // partial derivative of tau w.r.t ddq
-    std::vector<MatrixXs<Scalar>> p2tau_pqpq;   // second derivative of tau w.r.t. q and q, indexed as [tau](q, q)
-    std::vector<MatrixXs<Scalar>> p2tau_pdqpq;  // second derivative of tau w.r.t. dq and q, indexed as [tau](dq, q)
-    std::vector<MatrixXs<Scalar>> p2tau_pdqpdq; // second derivative of tau w.r.t. dq and dq, indexed as [tau](dq, dq)
-    std::vector<MatrixXs<Scalar>> p2tau_pqpddq; // second derivative of tau w.r.t. q and ddq, indexed as [tau](q, ddq)
+    std::vector<MatrixXs<Scalar>> p2tau_pqpq;   // second derivative of tau w.r.t. q and q, indexed as [q](tau, q)
+    std::vector<MatrixXs<Scalar>> p2tau_pdqpq;  // second derivative of tau w.r.t. dq and q, indexed as [dq](tau, q)
+    std::vector<MatrixXs<Scalar>> p2tau_pdqpdq; // second derivative of tau w.r.t. dq and dq, indexed as [dq](tau, dq)
+    std::vector<MatrixXs<Scalar>> p2tau_pqpddq; // second derivative of tau w.r.t. q and ddq, indexed as [q](tau, ddq)
 
     // First-order derivatives of forward dynamics
     MatrixXs<Scalar> pddq_pq;   // partial derivative of ddq w.r.t q
     MatrixXs<Scalar> pddq_pdq;  // partial derivative of ddq w.r.t dq
     MatrixXs<Scalar> pddq_ptau; // partial derivative of ddq w.r.t tau
+    std::vector<MatrixXs<Scalar>> p2ddq_pqpq;     // second derivative of ddq w.r.t. q and q, indexed as [q](ddq, q)
+    std::vector<MatrixXs<Scalar>> p2ddq_pdqpq;    // second derivative of ddq w.r.t. dq and q, indexed as [q](ddq, dq)
+    std::vector<MatrixXs<Scalar>> p2ddq_pdqpdq;   // second derivative of ddq w.r.t. dq and dq, indexed as [dq](ddq, dq)
+    std::vector<MatrixXs<Scalar>> p2ddq_ptaupq;   // second derivative of ddq w.r.t. tau and q, indexed as [q](ddq, tau)
     MatrixXs<Scalar> u_aza;
     std::vector<Eigen::Matrix<Scalar, 6, Eigen::Dynamic>> F2_aza;
     std::vector<Eigen::Matrix<Scalar, 6, Eigen::Dynamic>> F_aza;
@@ -625,6 +629,20 @@ Data<Scalar>::Data(const Model<Scalar>& model) {
     pddq_pdq.setZero();
     pddq_ptau.resize(model.dof_a, model.dof_a);
     pddq_ptau.setZero();
+    p2ddq_pqpq.resize(model.dof_a);
+    p2ddq_pdqpq.resize(model.dof_a);
+    p2ddq_pdqpdq.resize(model.dof_a);
+    p2ddq_ptaupq.resize(model.dof_a);
+    for (int i = 0; i < model.dof_a; ++i) {
+        p2ddq_pqpq[i].resize(model.dof_a, model.dof_a);
+        p2ddq_pqpq[i].setZero();
+        p2ddq_pdqpq[i].resize(model.dof_a, model.dof_a);
+        p2ddq_pdqpq[i].setZero();
+        p2ddq_pdqpdq[i].resize(model.dof_a, model.dof_a);
+        p2ddq_pdqpdq[i].setZero();
+        p2ddq_ptaupq[i].resize(model.dof_a, model.dof_a);
+        p2ddq_ptaupq[i].setZero();
+    }
 
     u_aza.resize(model.dof_a, 2 * model.dof_a);
     u_aza.setZero();

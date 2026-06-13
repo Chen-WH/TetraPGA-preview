@@ -32,12 +32,7 @@ bool ExpectLessEqual(const double value, const double tolerance, const std::stri
 }
 
 Eigen::MatrixXd SliceTensorByThirdIndex(const std::vector<Eigen::MatrixXd>& tensor, const int third_index) {
-  const int dof = static_cast<int>(tensor.size());
-  Eigen::MatrixXd slice = Eigen::MatrixXd::Zero(dof, dof);
-  for (int tau_idx = 0; tau_idx < dof; ++tau_idx) {
-    slice.row(tau_idx) = tensor[static_cast<std::size_t>(tau_idx)].col(third_index).transpose();
-  }
-  return slice;
+  return tensor[static_cast<std::size_t>(third_index)];
 }
 
 }  // namespace
@@ -183,6 +178,62 @@ int main() {
     ok &= ExpectLessEqual((SliceTensorByThirdIndex(p2tau_pdqpdq, i) - p2tau_pdqpdq_fd).norm(),
                           2e-2,
                           "inverseDynamics_so p2tau_pdqpdq axis " + std::to_string(i));
+  }
+
+  forwardDynamics_so(model, data, q, dq, tau, fext);
+  ok &= ExpectApprox(ddq, data.ddq, 1e-6, "forwardDynamics_so ddq");
+
+  const std::vector<Eigen::MatrixXd> p2ddq_pqpq = data.p2ddq_pqpq;
+  const std::vector<Eigen::MatrixXd> p2ddq_pdqpq = data.p2ddq_pdqpq;
+  const std::vector<Eigen::MatrixXd> p2ddq_pdqpdq = data.p2ddq_pdqpdq;
+  const std::vector<Eigen::MatrixXd> p2ddq_ptaupq = data.p2ddq_ptaupq;
+
+  const double fd_so_step = 1e-6;
+  for (int i = 0; i < model.dof_a; ++i) {
+    q_tmp = q;
+    q_tmp(i) += fd_so_step;
+    forwardDynamics_fo(model, data, q_tmp, dq, tau, fext);
+    const Eigen::MatrixXd pddq_pq_plus = data.pddq_pq;
+    const Eigen::MatrixXd pddq_pdq_plus = data.pddq_pdq;
+    const Eigen::MatrixXd pddq_ptau_plus = data.pddq_ptau;
+
+    q_tmp = q;
+    q_tmp(i) -= fd_so_step;
+    forwardDynamics_fo(model, data, q_tmp, dq, tau, fext);
+    const Eigen::MatrixXd pddq_pq_minus = data.pddq_pq;
+    const Eigen::MatrixXd pddq_pdq_minus = data.pddq_pdq;
+    const Eigen::MatrixXd pddq_ptau_minus = data.pddq_ptau;
+
+    const Eigen::MatrixXd p2ddq_pqpq_fd = (pddq_pq_plus - pddq_pq_minus) / (2.0 * fd_so_step);
+    const Eigen::MatrixXd p2ddq_pdqpq_fd = (pddq_pdq_plus - pddq_pdq_minus) / (2.0 * fd_so_step);
+    const Eigen::MatrixXd p2ddq_ptaupq_fd = (pddq_ptau_plus - pddq_ptau_minus) / (2.0 * fd_so_step);
+
+    ok &= ExpectLessEqual((SliceTensorByThirdIndex(p2ddq_pqpq, i) - p2ddq_pqpq_fd).norm(),
+                          2e-4,
+                          "forwardDynamics_so p2ddq_pqpq axis " + std::to_string(i));
+    ok &= ExpectLessEqual((SliceTensorByThirdIndex(p2ddq_pdqpq, i) - p2ddq_pdqpq_fd).norm(),
+                          2e-4,
+                          "forwardDynamics_so p2ddq_pdqpq axis " + std::to_string(i));
+    ok &= ExpectLessEqual((SliceTensorByThirdIndex(p2ddq_ptaupq, i) - p2ddq_ptaupq_fd).norm(),
+                          2e-4,
+                          "forwardDynamics_so p2ddq_ptaupq axis " + std::to_string(i));
+  }
+
+  for (int i = 0; i < model.dof_a; ++i) {
+    dq_tmp = dq;
+    dq_tmp(i) += fd_so_step;
+    forwardDynamics_fo(model, data, q, dq_tmp, tau, fext);
+    const Eigen::MatrixXd pddq_pdq_plus = data.pddq_pdq;
+
+    dq_tmp = dq;
+    dq_tmp(i) -= fd_so_step;
+    forwardDynamics_fo(model, data, q, dq_tmp, tau, fext);
+    const Eigen::MatrixXd pddq_pdq_minus = data.pddq_pdq;
+
+    const Eigen::MatrixXd p2ddq_pdqpdq_fd = (pddq_pdq_plus - pddq_pdq_minus) / (2.0 * fd_so_step);
+    ok &= ExpectLessEqual((SliceTensorByThirdIndex(p2ddq_pdqpdq, i) - p2ddq_pdqpdq_fd).norm(),
+                          2e-4,
+                          "forwardDynamics_so p2ddq_pdqpdq axis " + std::to_string(i));
   }
 
   if (!ok) {
