@@ -9,20 +9,6 @@
 
 namespace TetraPGA {
 
-namespace detail {
-
-[[noreturn]] inline void throwUnsupportedJointType(const char joint_type, const int index, const char* context) {
-	throw std::invalid_argument(
-	    std::string(context) + ": unsupported joint type '" + std::string(1, joint_type) +
-	    "' at index " + std::to_string(index));
-}
-
-[[noreturn]] inline void throwFloatingJointUnsupported(const char* context) {
-	throw std::logic_error(std::string(context) + ": floating joints require dexp support");
-}
-
-}  // namespace detail
-
 // Support tree-structure, floating-joint
 template <typename Scalar, typename DerivedQ>
 void forwardKinematics(
@@ -33,24 +19,8 @@ void forwardKinematics(
 		const auto& q_id = model.id_map.at(i);
 		const int parent = model.parent[i];
     const Scalar qi = q[q_id[0]];
-		switch (model.type[i]) {
-		case 'R': {
-	      data.Mi.col(i) = ga_mul_exp_R(model.L0[i], Scalar(0.5) * qi, data.Mi.col(parent));
-				break;
-			}
-			case 'P': {
-	      data.Mi.col(i) = ga_mul_exp_P(model.L0[i], Scalar(0.5) * qi, data.Mi.col(parent));
-				break;
-			}
-			case 'F': {
-	      Line3D<Scalar> L_free;
-	      L_free << q[q_id[0]], q[q_id[1]], q[q_id[2]], q[q_id[3]], q[q_id[4]], q[q_id[5]];
-	      data.Mi.col(i) = ga_mul(ga_exp(Scalar(0.5) * L_free), data.Mi.col(parent));
-				break;
-			}
-		default:
-			detail::throwUnsupportedJointType(model.type[i], i, "forwardKinematics");
-		}
+		data.Mi.col(i) = joint::transformFromParent(
+		    model.type[i], model.L0[i], qi, data.Mi.col(parent), i, "forwardKinematics");
 		data.M.col(i) = ga_mul(model.M0[i], data.Mi.col(i));
 	}
 }
@@ -62,25 +32,13 @@ void geometricJacobian(
 	const Eigen::MatrixBase<DerivedQ>& q) 
 {
 	for (int i = 1; i < model.n; ++i) {
+		const auto& q_id = model.id_map.at(i);
     const int parent = model.parent[i];
-    const Scalar qi = q[i - 1];
-		switch (model.type[i]) {
-		case 'R': {
-      data.Mi.col(i) = ga_mul_exp_R(model.L0[i], Scalar(0.5) * qi, data.Mi.col(parent));
-			data.jac.col(i-1) = ga_rbm(data.Mi.col(parent), model.L0[i]);
-			break;
-		}
-		case 'P': {
-      data.Mi.col(i) = ga_mul_exp_P(model.L0[i], Scalar(0.5) * qi, data.Mi.col(parent));
-			data.jac.col(i-1) = ga_rbm(data.Mi.col(parent), model.L0[i]);
-			break;
-		}
-		case 'F': {
-      detail::throwFloatingJointUnsupported("geometricJacobian");
-		}
-		default:
-			detail::throwUnsupportedJointType(model.type[i], i, "geometricJacobian");
-		}
+    const Scalar qi = q[q_id[0]];
+		data.Mi.col(i) = joint::transformFromParent(
+		    model.type[i], model.L0[i], qi, data.Mi.col(parent), i, "geometricJacobian");
+		data.jac.col(q_id[0]) = joint::axisFromParent(
+		    model.type[i], data.Mi.col(parent), model.L0[i], i, "geometricJacobian");
 	}
 }
 
@@ -187,28 +145,21 @@ void motorJacobian(
 	const Eigen::MatrixBase<DerivedQ>& q) 
 {
 	for (int i = 1; i < model.n; ++i) {
+		const auto& q_id = model.id_map.at(i);
     const int parent = model.parent[i];
-    const Scalar qi = q[i - 1];
-		switch (model.type[i]) {
-		case 'R': {
-			data.Mi.col(i) = ga_mul_exp_R(model.L0[i], Scalar(0.5) * qi, data.Mi.col(parent));
-			break;
-		}
-		case 'P': {
-			data.Mi.col(i) = ga_mul_exp_P(model.L0[i], Scalar(0.5) * qi, data.Mi.col(parent));
-			break;
-		}
-		case 'F': {
-			detail::throwFloatingJointUnsupported("motorJacobian");
-		}
-		default:
-			detail::throwUnsupportedJointType(model.type[i], i, "motorJacobian");
-		}
+    const Scalar qi = q[q_id[0]];
+		data.Mi.col(i) = joint::transformFromParent(
+		    model.type[i], model.L0[i], qi, data.Mi.col(parent), i, "motorJacobian");
 	}
 
 	const Motor3D<Scalar> M0 = Scalar(0.5) * ga_mul(model.M0[model.n-1], data.Mi.col(model.n-1));
 	for (int i = 1; i < model.n; ++i) {
-		data.jacM.col(i-1) = ga_mul(ga_mul(M0, ga_rev(data.Mi.col(i))), ga_prodBM(model.L0[i], data.Mi.col(i)));
+		const auto& q_id = model.id_map.at(i);
+		if (!joint::isImplemented(model.type[i])) {
+			joint::throwUnimplemented(model.type[i], i, "motorJacobian");
+		}
+		data.jacM.col(q_id[0]) =
+		    ga_mul(ga_mul(M0, ga_rev(data.Mi.col(i))), ga_prodBM(model.L0[i], data.Mi.col(i)));
 	}
 }
 
@@ -220,22 +171,14 @@ void higherKinematics(
 {
 	// Forward iterations
 	for (int i = 1; i < model.n; ++i) {
+		const auto& q_id = model.id_map.at(i);
     const int parent = model.parent[i];
-    const Scalar qi = q[i - 1];
-		switch (model.type[i]) {
-		case 'R': {
-			data.Mi.col(i) = ga_mul_exp_R(model.L0[i], Scalar(0.5) * qi, data.Mi.col(parent));
-			break;
-		}
-		case 'P': {
-			data.Mi.col(i) = ga_mul_exp_P(model.L0[i], Scalar(0.5) * qi, data.Mi.col(parent));
-			break;
-		}
-		default:
-			detail::throwUnsupportedJointType(model.type[i], i, "higherKinematics(q)");
-		}
+    const Scalar qi = q[q_id[0]];
+		data.Mi.col(i) = joint::transformFromParent(
+		    model.type[i], model.L0[i], qi, data.Mi.col(parent), i, "higherKinematics(q)");
 		data.M.col(i) = ga_mul(model.M0[i], data.Mi.col(i));
-		data.L.col(i) = ga_rbm(data.Mi.col(parent), model.L0[i]);
+		data.L.col(i) = joint::axisFromParent(
+		    model.type[i], data.Mi.col(parent), model.L0[i], i, "higherKinematics(q)");
 	}
 }
 
@@ -248,25 +191,19 @@ void higherKinematics(
 {
 	// Forward iterations
 	for (int i = 1; i < model.n; ++i) {
+		const auto& q_id = model.id_map.at(i);
     const int parent = model.parent[i];
-    const Scalar qi = q[i - 1];
-    const Scalar dqi = dq[i - 1];
-		switch (model.type[i]) {
-		case 'R': {
-			data.Mi.col(i) = ga_mul_exp_R(model.L0[i], Scalar(0.5) * qi, data.Mi.col(parent));
-			break;
-		}
-		case 'P': {
-			data.Mi.col(i) = ga_mul_exp_P(model.L0[i], Scalar(0.5) * qi, data.Mi.col(parent));
-			break;
-		}
-		default:
-			detail::throwUnsupportedJointType(model.type[i], i, "higherKinematics(q,dq)");
-		}
+    const Scalar qi = q[q_id[0]];
+    const Scalar dqi = dq[q_id[0]];
+		data.Mi.col(i) = joint::transformFromParent(
+		    model.type[i], model.L0[i], qi, data.Mi.col(parent), i, "higherKinematics(q,dq)");
 		data.M.col(i) = ga_mul(model.M0[i], data.Mi.col(i));
-		data.L.col(i) = ga_rbm(data.Mi.col(parent), model.L0[i]);
-		data.V.col(i) = data.V.col(parent) + dqi * data.L.col(i);
-		data.dL.col(i) = ga_com(data.L.col(i), data.V.col(parent));
+		data.L.col(i) = joint::axisFromParent(
+		    model.type[i], data.Mi.col(parent), model.L0[i], i, "higherKinematics(q,dq)");
+		data.V.col(i) = joint::spatialVelocity(
+		    model.type[i], data.V.col(parent), data.L.col(i), dqi, i, "higherKinematics(q,dq)");
+		data.dL.col(i) = joint::axisDot(
+		    model.type[i], data.L.col(i), data.V.col(parent), i, "higherKinematics(q,dq)");
 	}
 }
 
@@ -280,27 +217,25 @@ void higherKinematics(
 {
 	// Forward iterations
 	for (int i = 1; i < model.n; ++i) {
+		const auto& q_id = model.id_map.at(i);
     const int parent = model.parent[i];
-    const Scalar qi = q[i - 1];
-    const Scalar dqi = dq[i - 1];
-    const Scalar ddqi = ddq[i - 1];
-		switch (model.type[i]) {
-		case 'R': {
-			data.Mi.col(i) = ga_mul_exp_R(model.L0[i], Scalar(0.5) * qi, data.Mi.col(parent));
-			break;
-		}
-		case 'P': {
-			data.Mi.col(i) = ga_mul_exp_P(model.L0[i], Scalar(0.5) * qi, data.Mi.col(parent));
-			break;
-		}
-		default:
-			detail::throwUnsupportedJointType(model.type[i], i, "higherKinematics(q,dq,ddq)");
-		}
-		data.L.col(i) = ga_rbm(data.Mi.col(parent), model.L0[i]);
-		data.V.col(i) = data.V.col(parent) + dqi * data.L.col(i);
-		data.dL.col(i) = ga_com(data.L.col(i), data.V.col(parent));
-    data.dV.col(i) = data.dV.col(parent) + dqi * data.dL.col(i) + ddqi * data.L.col(i);
-		data.ddL.col(i) = ga_com(data.dL.col(i), data.V.col(parent)) + ga_com(data.L.col(i), data.dV.col(parent));
+    const Scalar qi = q[q_id[0]];
+    const Scalar dqi = dq[q_id[0]];
+    const Scalar ddqi = ddq[q_id[0]];
+		data.Mi.col(i) = joint::transformFromParent(
+		    model.type[i], model.L0[i], qi, data.Mi.col(parent), i, "higherKinematics(q,dq,ddq)");
+		data.L.col(i) = joint::axisFromParent(
+		    model.type[i], data.Mi.col(parent), model.L0[i], i, "higherKinematics(q,dq,ddq)");
+		data.V.col(i) = joint::spatialVelocity(
+		    model.type[i], data.V.col(parent), data.L.col(i), dqi, i, "higherKinematics(q,dq,ddq)");
+		data.dL.col(i) = joint::axisDot(
+		    model.type[i], data.L.col(i), data.V.col(parent), i, "higherKinematics(q,dq,ddq)");
+    data.dV.col(i) = joint::spatialAcceleration(
+        model.type[i], data.dV.col(parent), data.L.col(i), data.dL.col(i), dqi, ddqi, i,
+        "higherKinematics(q,dq,ddq)");
+		data.ddL.col(i) = joint::axisDDot(
+		    model.type[i], data.L.col(i), data.dL.col(i), data.V.col(parent), data.dV.col(parent),
+		    i, "higherKinematics(q,dq,ddq)");
 		data.M.col(i) = ga_mul(model.M0[i], data.Mi.col(i));
 	}
 }
