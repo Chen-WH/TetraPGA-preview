@@ -242,7 +242,7 @@ Model<Scalar>::Model(const std::string& urdf_file) {
         Mat6 AdInv = Mat6::Zero();
         Mat3 S = skew(p);
         AdInv.template block<3, 3>(0, 0) = R.transpose();
-        AdInv.template block<3, 3>(0, 3) = -R.transpose() * S;
+        AdInv.template block<3, 3>(3, 0) = -R.transpose() * S;
         AdInv.template block<3, 3>(3, 3) = R.transpose();
         return AdInv;
     };
