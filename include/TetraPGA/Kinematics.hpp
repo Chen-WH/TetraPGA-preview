@@ -134,7 +134,7 @@ void analyticJacobian(
 	const Line3D<Scalar>& r) 
 {
 	geometricJacobian(model, data, q);
-	const Eigen::Matrix<Scalar, 6, 6> JL = Scalar(2) * ga_dexp(r);
+	const Eigen::Matrix<Scalar, 6, 6> JL = Scalar(2) * ga_dexp(-r);
 	data.jac = JL.partialPivLu().solve(data.jac);
 }
 

@@ -213,7 +213,7 @@ int main() {
     computeDistance(model, data, env, env_data);
 
     higherKinematics(model, jac_data, q_test);
-    computeDistanceJacobianCache(model, jac_data, env, jac_env_data);
+    computeDistanceJacobian(model, jac_data, env, jac_env_data);
 
     pinocchio::Model pin_model;
     pinocchio::urdf::buildModel(urdf_path, pin_model);
@@ -246,6 +246,10 @@ int main() {
                                  coal_distance,
                                  kDistanceTolerance,
                                  "distance pair[" + std::to_string(pair_idx) + "]");
+            all_ok &= expectNear(jac_env_data.distance[pair_idx],
+                                 coal_distance,
+                                 kDistanceTolerance,
+                                 "jacobian distance pair[" + std::to_string(pair_idx) + "]");
 
             const Eigen::VectorXd fd_gradient =
                 finiteDifferenceCoalGradient(model, env, q_test, pair_idx, kFiniteDiffStep);
