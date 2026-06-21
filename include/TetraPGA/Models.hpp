@@ -2,7 +2,6 @@
 
 #include <functional>
 #include <limits>
-#include <map>
 #include <stdexcept>
 #include <vector>
 #include <urdf_parser/urdf_parser.h>
@@ -35,7 +34,8 @@ struct Model {
 
     int dof_a = 0;                                          // Degree of freedoms
     VectorXs<Scalar> qa0;                                   // Initial configuration coordinates, dim = dof_a
-    std::map<int, std::vector<int>> id_map;                 // Map body id to joint coordinate id, dim = n
+    std::vector<int> joint_q_start;                         // Joint id to first generalized coordinate, dim = n
+    std::vector<int> joint_q_dof;                           // Joint id to generalized coordinate count, dim = n
 
     std::vector<Motor3D<Scalar>> Mj;                  // The motor in the local frame of each body, dim = n
     std::vector<Motor3D<Scalar>> M0;                  // The motor in the base frame of each body, dim = n
@@ -148,6 +148,23 @@ struct Data {
     Data(const Model<Scalar>& model);
 };
 
+/****** Calculate Joint Indexes ******/
+template <typename Scalar>
+inline void buildJointQIndex(Model<Scalar>& model, const char* context) {
+    model.dof_a = 0;
+    model.joint_q_start.assign(static_cast<std::size_t>(model.n), -1);
+    model.joint_q_dof.assign(static_cast<std::size_t>(model.n), 0);
+
+    for (int i = 1; i < model.n; ++i) {
+        const int joint_dof = joint::dof(model.type[i], i, context);
+        joint::validateRootPlacement(model.type[i], model.parent[i], i, context);
+
+        model.joint_q_start[static_cast<std::size_t>(i)] = model.dof_a;
+        model.joint_q_dof[static_cast<std::size_t>(i)] = joint_dof;
+        model.dof_a += joint_dof;
+    }
+}
+
 /****** Constructor of Model ******/
 template <typename Scalar>
 Model<Scalar>::Model(const std::string& urdf_file) {
@@ -178,7 +195,8 @@ Model<Scalar>::Model(const std::string& urdf_file) {
     collisionSSL.clear();
     num_collision_ssl = 0;
     dof_a = 0;
-    id_map.clear();
+    joint_q_start.clear();
+    joint_q_dof.clear();
 
     // Base entry
     type.push_back('\0');
@@ -383,21 +401,7 @@ Model<Scalar>::Model(const std::string& urdf_file) {
         I[i] = I_ga;
     }
 
-    // Build dof map and dof count.
-    int q_offset = 0;
-    dof_a = 0;
-    id_map.clear();
-    for (int i = 1; i < n; ++i) {
-        const int joint_dof = joint::dof(type[i], i, "Model(urdf)");
-        joint::validateRootPlacement(type[i], parent[i], i, "Model(urdf)");
-        id_map[i].clear();
-        id_map[i].reserve(static_cast<std::size_t>(joint_dof));
-        for (int j = 0; j < joint_dof; ++j) {
-            id_map[i].push_back(q_offset + j);
-        }
-        q_offset += joint_dof;
-        dof_a += joint_dof;
-	}
+    buildJointQIndex(*this, "Model(urdf)");
 
     qa0.resize(dof_a);
     qa0.setZero();
@@ -478,20 +482,8 @@ Model<Scalar>::Model(const std::string& model_name,
         }
         ancestor[i] = temp_vec;
     }
-    // Construct id_map and allocate M0/L0/I base entries
-    int q_offset = 0;
-    id_map.clear();
-    for (int i = 1; i < n; ++i) {
-        const int joint_dof = joint::dof(type[i], i, "Model");
-        joint::validateRootPlacement(type[i], parent[i], i, "Model");
-        id_map[i].clear();
-        id_map[i].reserve(static_cast<std::size_t>(joint_dof));
-        for (int j = 0; j < joint_dof; ++j) {
-            id_map[i].push_back(q_offset + j);
-        }
-        q_offset += joint_dof;
-        dof_a += joint_dof;
-	}
+    // Construct joint coordinate indices and allocate M0/L0/I base entries
+    buildJointQIndex(*this, "Model");
     
     // Calculate motors in base frame and joint axes in base frame
     // Ensure vectors sized before assignment

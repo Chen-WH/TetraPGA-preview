@@ -133,13 +133,15 @@ void computeDistanceJacobian(
 		data.SSL_jacA[i].setZero();
 		data.SSL_jacB[i].setZero();
 		if (link_id > 0) {
-			data.SSL_jacA[i].col(link_id - 1) = -pga_com23(data.L.col(link_id), data.SSL_A[i]);
-			data.SSL_jacB[i].col(link_id - 1) = -pga_com23(data.L.col(link_id), data.SSL_B[i]);
+			const int q_idx = model.joint_q_start[link_id];
+			data.SSL_jacA[i].col(q_idx) = -pga_com23(data.L.col(link_id), data.SSL_A[i]);
+			data.SSL_jacB[i].col(q_idx) = -pga_com23(data.L.col(link_id), data.SSL_B[i]);
 		}
 		for (int idx : model.ancestor[link_id]) {
 			if (idx > 0) {
-				data.SSL_jacA[i].col(idx-1) = -pga_com23(data.L.col(idx), data.SSL_A[i]);
-				data.SSL_jacB[i].col(idx-1) = -pga_com23(data.L.col(idx), data.SSL_B[i]);
+				const int q_idx = model.joint_q_start[idx];
+				data.SSL_jacA[i].col(q_idx) = -pga_com23(data.L.col(idx), data.SSL_A[i]);
+				data.SSL_jacB[i].col(q_idx) = -pga_com23(data.L.col(idx), data.SSL_B[i]);
 			}
 		}
 	}
