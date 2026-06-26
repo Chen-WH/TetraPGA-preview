@@ -1,7 +1,7 @@
 #include <cmath>
 #include <iostream>
 #include <random>
-#include <stdexcept>
+#include <string>
 
 #include <pinocchio/algorithm/aba.hpp>
 #include <pinocchio/algorithm/rnea.hpp>
@@ -12,9 +12,11 @@
 
 using namespace TetraPGA;
 
-int main() {
+int main(int argc, char** argv) {
     const std::string robot_assets_dir = std::string(TETRAPGA_ROBOT_ASSETS_DIR);
-    const std::string urdf_path = robot_assets_dir + "/leap_hand/urdf/leap_hand_left.urdf";
+    const std::string urdf_path =
+        (argc > 1) ? std::string(argv[1])
+                   : robot_assets_dir + "/unitree_g1/urdf/g1_29dof_rev_1_0.urdf";
 
     Model<double> tetra_model(urdf_path);
     if (tetra_model.n <= 1 || tetra_model.dof_a <= 0) {
@@ -33,12 +35,19 @@ int main() {
     pinocchio::Data pin_data(pin_model);
 
     if (pin_model.nq != pin_model.nv) {
-        throw std::runtime_error("This test expects nq == nv for leap_hand.");
+        std::cerr << "[FAIL] this test expects nq == nv for: " << urdf_path
+                  << " (nq=" << pin_model.nq << ", nv=" << pin_model.nv << ")" << std::endl;
+        return 2;
     }
     if (pin_model.nv != tetra_model.dof_a) {
         std::cerr << "[FAIL] DOF mismatch: pinocchio nv=" << pin_model.nv
                   << ", TetraPGA dof_a=" << tetra_model.dof_a << std::endl;
-        return 2;
+        return 3;
+    }
+    if (pin_model.njoints != tetra_model.n) {
+        std::cerr << "[FAIL] movable body count mismatch after fixed joint collapse: pinocchio njoints="
+                  << pin_model.njoints << ", TetraPGA n=" << tetra_model.n << std::endl;
+        return 4;
     }
 
     const int n = tetra_model.dof_a;
@@ -65,7 +74,7 @@ int main() {
     if (!pass) {
         std::cerr << "[FAIL] Models dynamics mismatch: tau_err=" << tau_err
                   << " ddq_err=" << ddq_err << std::endl;
-        return 3;
+        return 5;
     }
 
     std::cout << "TetraPGA models tests passed." << std::endl;

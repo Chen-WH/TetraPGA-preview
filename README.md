@@ -5,11 +5,13 @@ A header-only C++ library for PGA-based robot kinematics, dynamics, and collisio
 ## Contents
 
 - `include/TetraPGA`: Public headers
-- `description`: Robot descriptions used by tests and benchmarks
+- Robot descriptions: external assets from [Chen-WH/robot-assets](https://github.com/Chen-WH/robot-assets)
 - `test`: Regression-style executable tests
 - `benchmark`: Performance benchmarks against reference implementations
 
 ## Build
+
+Robot descriptions come from [Chen-WH/robot-assets](https://github.com/Chen-WH/robot-assets) and are expected at `../robot-assets` by default. Set `TETRAPGA_ROBOT_ASSETS_DIR` for another checkout.
 
 ```bash
 cmake -S . -B build -DTETRAPGA_BUILD_TESTS=ON

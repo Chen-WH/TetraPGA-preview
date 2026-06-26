@@ -127,41 +127,23 @@ void computeDistanceJacobian(
 {
 	for (int i = 0; i < model.num_collision_ssl; ++i) {
 		int link_id = model.collisionSSL[i].id;
+		data.SSL_A[i] = pga_rbm3(data.Mi.col(link_id), model.collisionSSL[i].endpointA);
+		data.SSL_B[i] = pga_rbm3(data.Mi.col(link_id), model.collisionSSL[i].endpointB);
 		
 		data.SSL_jacA[i].setZero();
 		data.SSL_jacB[i].setZero();
 		if (link_id > 0) {
-			data.SSL_jacA[i].col(link_id - 1) = -pga_com23(data.L.col(link_id), data.SSL_A[i]);
-			data.SSL_jacB[i].col(link_id - 1) = -pga_com23(data.L.col(link_id), data.SSL_B[i]);
+			const int q_idx = model.joint_q_start[link_id];
+			data.SSL_jacA[i].col(q_idx) = -pga_com23(data.L.col(link_id), data.SSL_A[i]);
+			data.SSL_jacB[i].col(q_idx) = -pga_com23(data.L.col(link_id), data.SSL_B[i]);
 		}
 		for (int idx : model.ancestor[link_id]) {
 			if (idx > 0) {
-				data.SSL_jacA[i].col(idx-1) = -pga_com23(data.L.col(idx), data.SSL_A[i]);
-				data.SSL_jacB[i].col(idx-1) = -pga_com23(data.L.col(idx), data.SSL_B[i]);
+				const int q_idx = model.joint_q_start[idx];
+				data.SSL_jacA[i].col(q_idx) = -pga_com23(data.L.col(idx), data.SSL_A[i]);
+				data.SSL_jacB[i].col(q_idx) = -pga_com23(data.L.col(idx), data.SSL_B[i]);
 			}
 		}
-	}
-	int idx = 0;
-	for (int i = 0; i < model.num_collision_ssl; ++i) {
-		for (int j = 0; j < env.num_static_sphere; ++j) {
-			env_data.jac_dist[idx].noalias() =
-				-env_data.normal[idx].transpose() *
-				((Scalar(1.0) - env_data.t[idx]) * data.SSL_jacA[i] + env_data.t[idx] * data.SSL_jacB[i]);
-			idx++;
-		}
-	}
-}
-
-// compute the collision distance
-template <typename Scalar>
-void computeDistanceCache(
-	const Model<Scalar>& model, Data<Scalar>& data,
-	const Environment<Scalar>& env, EnvironmentData<Scalar>& env_data) 
-{
-	for (int i = 0; i < model.num_collision_ssl; ++i) {
-		int link_id = model.collisionSSL[i].id;
-		data.SSL_A[i] = pga_rbm3(data.Mi.col(link_id), model.collisionSSL[i].endpointA);
-		data.SSL_B[i] = pga_rbm3(data.Mi.col(link_id), model.collisionSSL[i].endpointB);
 	}
 	int idx = 0;
 	for (int i = 0; i < model.num_collision_ssl; ++i) {
@@ -172,46 +154,7 @@ void computeDistanceCache(
 				env_data.distance[idx], 
 				env_data.t[idx], 
 				env_data.normal[idx]);
-
 			env_data.distance[idx] -= (model.collisionSSL[i].radius + env.static_sphere[j].radius);
-			idx++;
-		}
-	}
-}
-
-// compute the collision distance Jacobian
-template <typename Scalar>
-void computeDistanceJacobianCache(
-	const Model<Scalar>& model, Data<Scalar>& data,
-	const Environment<Scalar>& env, EnvironmentData<Scalar>& env_data) 
-{
-	for (int i = 0; i < model.num_collision_ssl; ++i) {
-		int link_id = model.collisionSSL[i].id;
-		data.SSL_A[i] = pga_rbm3(data.Mi.col(link_id), model.collisionSSL[i].endpointA);
-		data.SSL_B[i] = pga_rbm3(data.Mi.col(link_id), model.collisionSSL[i].endpointB);
-		
-		data.SSL_jacA[i].setZero();
-		data.SSL_jacB[i].setZero();
-		if (link_id > 0) {
-			data.SSL_jacA[i].col(link_id - 1) = -pga_com23(data.L.col(link_id), data.SSL_A[i]);
-			data.SSL_jacB[i].col(link_id - 1) = -pga_com23(data.L.col(link_id), data.SSL_B[i]);
-		}
-		for (int idx : model.ancestor[link_id]) {
-			if (idx > 0) {
-				data.SSL_jacA[i].col(idx-1) = -pga_com23(data.L.col(idx), data.SSL_A[i]);
-				data.SSL_jacB[i].col(idx-1) = -pga_com23(data.L.col(idx), data.SSL_B[i]);
-			}
-		}
-	}
-	int idx = 0;
-	for (int i = 0; i < model.num_collision_ssl; ++i) {
-		for (int j = 0; j < env.num_static_sphere; ++j) {
-			computePointToSegment(env.static_sphere[j].center, 
-			data.SSL_A[i], 
-			data.SSL_B[i], 
-			env_data.distance[idx], 
-			env_data.t[idx], 
-			env_data.normal[idx]);
 
 			env_data.jac_dist[idx].noalias() =
 				-env_data.normal[idx].transpose() *

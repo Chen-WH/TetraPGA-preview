@@ -153,7 +153,7 @@ double runTetraPGAGradientEvaluation(const Model<double>& model,
                                      Data<double>& data,
                                      CollisionSample& sample) {
     higherKinematics(model, data, sample.q);
-    computeDistanceJacobianCache(model, data, sample.env, sample.env_data);
+    computeDistanceJacobian(model, data, sample.env, sample.env_data);
 
     double checksum = 0.0;
     for (int i = 0; i < sample.env_data.num_collision_pair; ++i) {
@@ -270,7 +270,7 @@ void RunPinocchioFCLCollisionGradientBenchmark(benchmark::State& state) {
 }
 
 void RegisterAll() {
-    benchmark::RegisterBenchmark("ur10/TetraPGA/CollisionGradientCache",
+    benchmark::RegisterBenchmark("ur10/TetraPGA/CollisionGradient",
                                  RunTetraPGACollisionGradientBenchmark)
         ->Apply(ApplyObstacleCounts)
         ->Iterations(kBenchmarkIterations);

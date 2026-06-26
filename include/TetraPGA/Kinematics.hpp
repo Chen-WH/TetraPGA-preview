@@ -16,9 +16,9 @@ void forwardKinematics(
 	const Eigen::MatrixBase<DerivedQ>& q) 
 {
 	for (int i = 1; i < model.n; ++i) {
-		const auto& q_id = model.id_map.at(i);
+		const int q_idx = model.joint_q_start[i];
 		const int parent = model.parent[i];
-    const Scalar qi = q[q_id[0]];
+    const Scalar qi = q[q_idx];
 		data.Mi.col(i) = joint::transformFromParent(
 		    model.type[i], model.L0[i], qi, data.Mi.col(parent), i, "forwardKinematics");
 		data.M.col(i) = ga_mul(model.M0[i], data.Mi.col(i));
@@ -32,12 +32,12 @@ void geometricJacobian(
 	const Eigen::MatrixBase<DerivedQ>& q) 
 {
 	for (int i = 1; i < model.n; ++i) {
-		const auto& q_id = model.id_map.at(i);
+		const int q_idx = model.joint_q_start[i];
     const int parent = model.parent[i];
-    const Scalar qi = q[q_id[0]];
+    const Scalar qi = q[q_idx];
 		data.Mi.col(i) = joint::transformFromParent(
 		    model.type[i], model.L0[i], qi, data.Mi.col(parent), i, "geometricJacobian");
-		data.jac.col(q_id[0]) = joint::axisFromParent(
+		data.jac.col(q_idx) = joint::axisFromParent(
 		    model.type[i], data.Mi.col(parent), model.L0[i], i, "geometricJacobian");
 	}
 }
@@ -80,48 +80,51 @@ VectorXs<Scalar> inverseKinematics(
 	}
 
 	const Scalar two_pi = Scalar(2) * Scalar(M_PI);
-	for (int i = 0; i < model.dof_a; ++i) {
-		if (!std::isfinite(data.q[i])) {
-			continue;
-		}
-
-		const Scalar lower = model.lowerPositionLimit[i];
-		const Scalar upper = model.upperPositionLimit[i];
-		const int model_joint_idx = i + 1;
-		const bool is_revolute =
-			model_joint_idx < static_cast<int>(model.type.size()) && model.type[model_joint_idx] == 'R';
-
-		if (!is_revolute) {
-			if (std::isfinite(lower) || std::isfinite(upper)) {
-				data.q[i] = std::min(std::max(data.q[i], lower), upper);
+	for (int joint_id = 1; joint_id < model.n; ++joint_id) {
+		const int q_begin = model.joint_q_start[joint_id];
+		const int q_dof = model.joint_q_dof[joint_id];
+		for (int local_idx = 0; local_idx < q_dof; ++local_idx) {
+			const int q_idx = q_begin + local_idx;
+			if (!std::isfinite(data.q[q_idx])) {
+				continue;
 			}
-			continue;
-		}
 
-		Scalar q_projected = data.q[i];
-		bool found_equivalent = false;
-		if (std::isfinite(lower) && std::isfinite(upper)) {
-			const Scalar k_min = std::ceil((lower - data.q[i]) / two_pi);
-			const Scalar k_max = std::floor((upper - data.q[i]) / two_pi);
-			if (k_min <= k_max) {
-				const Scalar k_ref = std::round((q0[i] - data.q[i]) / two_pi);
-				const Scalar k_best = std::min(std::max(k_ref, k_min), k_max);
-				q_projected = data.q[i] + k_best * two_pi;
-				found_equivalent = true;
-			}
-		}
+			const Scalar lower = model.lowerPositionLimit[q_idx];
+			const Scalar upper = model.upperPositionLimit[q_idx];
+			const bool is_revolute = model.type[joint_id] == joint::kRevolute;
 
-		if (!found_equivalent) {
-			q_projected = data.q[i] + std::round((q0[i] - data.q[i]) / two_pi) * two_pi;
-			if (std::isfinite(lower)) {
-				q_projected = std::max(q_projected, lower);
+			if (!is_revolute) {
+				if (std::isfinite(lower) || std::isfinite(upper)) {
+					data.q[q_idx] = std::min(std::max(data.q[q_idx], lower), upper);
+				}
+				continue;
 			}
-			if (std::isfinite(upper)) {
-				q_projected = std::min(q_projected, upper);
-			}
-		}
 
-		data.q[i] = q_projected;
+			Scalar q_projected = data.q[q_idx];
+			bool found_equivalent = false;
+			if (std::isfinite(lower) && std::isfinite(upper)) {
+				const Scalar k_min = std::ceil((lower - data.q[q_idx]) / two_pi);
+				const Scalar k_max = std::floor((upper - data.q[q_idx]) / two_pi);
+				if (k_min <= k_max) {
+					const Scalar k_ref = std::round((q0[q_idx] - data.q[q_idx]) / two_pi);
+					const Scalar k_best = std::min(std::max(k_ref, k_min), k_max);
+					q_projected = data.q[q_idx] + k_best * two_pi;
+					found_equivalent = true;
+				}
+			}
+
+			if (!found_equivalent) {
+				q_projected = data.q[q_idx] + std::round((q0[q_idx] - data.q[q_idx]) / two_pi) * two_pi;
+				if (std::isfinite(lower)) {
+					q_projected = std::max(q_projected, lower);
+				}
+				if (std::isfinite(upper)) {
+					q_projected = std::min(q_projected, upper);
+				}
+			}
+
+			data.q[q_idx] = q_projected;
+		}
 	}
 	return data.q;
 }
@@ -134,7 +137,7 @@ void analyticJacobian(
 	const Line3D<Scalar>& r) 
 {
 	geometricJacobian(model, data, q);
-	const Eigen::Matrix<Scalar, 6, 6> JL = Scalar(2) * ga_dexp(r);
+	const Eigen::Matrix<Scalar, 6, 6> JL = Scalar(2) * ga_dexp(-r);
 	data.jac = JL.partialPivLu().solve(data.jac);
 }
 
@@ -145,20 +148,20 @@ void motorJacobian(
 	const Eigen::MatrixBase<DerivedQ>& q) 
 {
 	for (int i = 1; i < model.n; ++i) {
-		const auto& q_id = model.id_map.at(i);
+		const int q_idx = model.joint_q_start[i];
     const int parent = model.parent[i];
-    const Scalar qi = q[q_id[0]];
+    const Scalar qi = q[q_idx];
 		data.Mi.col(i) = joint::transformFromParent(
 		    model.type[i], model.L0[i], qi, data.Mi.col(parent), i, "motorJacobian");
 	}
 
 	const Motor3D<Scalar> M0 = Scalar(0.5) * ga_mul(model.M0[model.n-1], data.Mi.col(model.n-1));
 	for (int i = 1; i < model.n; ++i) {
-		const auto& q_id = model.id_map.at(i);
+		const int q_idx = model.joint_q_start[i];
 		if (!joint::isImplemented(model.type[i])) {
 			joint::throwUnimplemented(model.type[i], i, "motorJacobian");
 		}
-		data.jacM.col(q_id[0]) =
+		data.jacM.col(q_idx) =
 		    ga_mul(ga_mul(M0, ga_rev(data.Mi.col(i))), ga_prodBM(model.L0[i], data.Mi.col(i)));
 	}
 }
@@ -171,9 +174,9 @@ void higherKinematics(
 {
 	// Forward iterations
 	for (int i = 1; i < model.n; ++i) {
-		const auto& q_id = model.id_map.at(i);
+		const int q_idx = model.joint_q_start[i];
     const int parent = model.parent[i];
-    const Scalar qi = q[q_id[0]];
+    const Scalar qi = q[q_idx];
 		data.Mi.col(i) = joint::transformFromParent(
 		    model.type[i], model.L0[i], qi, data.Mi.col(parent), i, "higherKinematics(q)");
 		data.M.col(i) = ga_mul(model.M0[i], data.Mi.col(i));
@@ -191,10 +194,10 @@ void higherKinematics(
 {
 	// Forward iterations
 	for (int i = 1; i < model.n; ++i) {
-		const auto& q_id = model.id_map.at(i);
+		const int q_idx = model.joint_q_start[i];
     const int parent = model.parent[i];
-    const Scalar qi = q[q_id[0]];
-    const Scalar dqi = dq[q_id[0]];
+    const Scalar qi = q[q_idx];
+    const Scalar dqi = dq[q_idx];
 		data.Mi.col(i) = joint::transformFromParent(
 		    model.type[i], model.L0[i], qi, data.Mi.col(parent), i, "higherKinematics(q,dq)");
 		data.M.col(i) = ga_mul(model.M0[i], data.Mi.col(i));
@@ -217,11 +220,11 @@ void higherKinematics(
 {
 	// Forward iterations
 	for (int i = 1; i < model.n; ++i) {
-		const auto& q_id = model.id_map.at(i);
+		const int q_idx = model.joint_q_start[i];
     const int parent = model.parent[i];
-    const Scalar qi = q[q_id[0]];
-    const Scalar dqi = dq[q_id[0]];
-    const Scalar ddqi = ddq[q_id[0]];
+    const Scalar qi = q[q_idx];
+    const Scalar dqi = dq[q_idx];
+    const Scalar ddqi = ddq[q_idx];
 		data.Mi.col(i) = joint::transformFromParent(
 		    model.type[i], model.L0[i], qi, data.Mi.col(parent), i, "higherKinematics(q,dq,ddq)");
 		data.L.col(i) = joint::axisFromParent(

@@ -18,9 +18,10 @@ const VectorXs<Scalar>& inverseDynamics(const Model<Scalar>& model, Data<Scalar>
 	// Forward iterations
 	for (int i = 1; i < model.n; ++i) {
     const int parent = model.parent[i];
-    const Scalar qi = q(i - 1);
-    const Scalar dqi = dq(i - 1);
-    const Scalar ddqi = ddq(i - 1);
+    const int q_idx = model.joint_q_start[i];
+    const Scalar qi = q(q_idx);
+    const Scalar dqi = dq(q_idx);
+    const Scalar ddqi = ddq(q_idx);
 		data.Mi.col(i) = joint::relativeTransform(
 		    model.type[i], model.Lj[i], qi, model.Mj[i], i, "inverseDynamics");
 		// Calculate velocity and acceleration
@@ -38,7 +39,8 @@ const VectorXs<Scalar>& inverseDynamics(const Model<Scalar>& model, Data<Scalar>
 	
 	// Backward iterations
 	for (int i = model.n - 1; i >= 1; --i) {
-		data.tau(i-1) = model.Ljstar[i].dot(data.dPi.col(i));
+		const int q_idx = model.joint_q_start[i];
+		data.tau(q_idx) = model.Ljstar[i].dot(data.dPi.col(i));
 		data.dPi.col(model.parent[i]) += ga_rbm(data.Mi.col(i), data.dPi.col(i));
 	}
 	return data.tau;
@@ -66,9 +68,10 @@ const VectorXs<Scalar>& inverseDynamics0(const Model<Scalar>& model, Data<Scalar
 	// Forward iterations
 	for (int i = 1; i < model.n; ++i) {
 		const int parent = model.parent[i];
-    const Scalar qi = q(i - 1);
-    const Scalar dqi = dq(i - 1);
-    const Scalar ddqi = ddq(i - 1);
+    const int q_idx = model.joint_q_start[i];
+    const Scalar qi = q(q_idx);
+    const Scalar dqi = dq(q_idx);
+    const Scalar ddqi = ddq(q_idx);
 		data.Mi.col(i) = joint::transformFromParent(
 		    model.type[i], model.L0[i], qi, data.Mi.col(parent), i, "inverseDynamics0");
 		data.L.col(i) = joint::axisFromParent(
@@ -91,7 +94,8 @@ const VectorXs<Scalar>& inverseDynamics0(const Model<Scalar>& model, Data<Scalar
 	
 	// Backward iterations
 	for (int i = model.n - 1; i >= 1; --i) {
-		data.tau(i-1) = data.Lstar.row(i).dot(data.dPi.col(i));
+		const int q_idx = model.joint_q_start[i];
+		data.tau(q_idx) = data.Lstar.row(i).dot(data.dPi.col(i));
 		data.dPi.col(model.parent[i]) += data.dPi.col(i);
 	}
 	return data.tau;
@@ -119,8 +123,9 @@ const VectorXs<Scalar>& forwardDynamics(const Model<Scalar>& model, Data<Scalar>
 	for (int i = 1; i < model.n; ++i) {
     const int parent = model.parent[i];
     const auto& Li = model.Lj[i];
-    const Scalar qi = q(i - 1);
-    const Scalar dqi = dq(i - 1);
+    const int q_idx = model.joint_q_start[i];
+    const Scalar qi = q(q_idx);
+    const Scalar dqi = dq(q_idx);
 
 		data.Mi.col(i) = joint::relativeTransform(
 		    model.type[i], Li, qi, model.Mj[i], i, "forwardDynamics");
@@ -140,11 +145,12 @@ const VectorXs<Scalar>& forwardDynamics(const Model<Scalar>& model, Data<Scalar>
 	for (int i = model.n - 1; i >= 1; --i) {
     const int parent = model.parent[i];
     const auto& Li = model.Lj[i];
+    const int q_idx = model.joint_q_start[i];
 
 		data.gamma.col(i).noalias() = data.Ia[i] * Li;
 		data.gammaT.row(i).noalias() = model.Ljstar[i] * data.Ia[i];
 		data.d(i) = Scalar(1) / model.Ljstar[i].dot(data.gamma.col(i));
-		data.u(i) = tau(i-1) - model.Ljstar[i].dot(data.F.col(i));
+		data.u(i) = tau(q_idx) - model.Ljstar[i].dot(data.F.col(i));
 		
 		hI.noalias() = data.Ia[i] - data.d(i) * data.gamma.col(i) * data.gammaT.row(i);
 		hF.noalias() = data.F.col(i) + hI * data.c.col(i) + data.gamma.col(i) * (data.d(i) * data.u(i));
@@ -156,11 +162,12 @@ const VectorXs<Scalar>& forwardDynamics(const Model<Scalar>& model, Data<Scalar>
 	for (int i = 1; i < model.n; ++i) {
     const int parent = model.parent[i];
     const auto& Li = model.Lj[i];
+    const int q_idx = model.joint_q_start[i];
 
 		data.dV.col(i) = ga_AdM(data.Mi.col(i), data.dV.col(parent));
     data.dV.col(i) += data.c.col(i);
-		data.ddq[i-1] = data.d(i) * (data.u(i) - data.gammaT.row(i).dot(data.dV.col(i)));
-		data.dV.col(i) += data.ddq[i-1] * Li;
+		data.ddq(q_idx) = data.d(i) * (data.u(i) - data.gammaT.row(i).dot(data.dV.col(i)));
+		data.dV.col(i) += data.ddq(q_idx) * Li;
 	}
 	return data.ddq;
 }
@@ -186,8 +193,9 @@ const VectorXs<Scalar>& forwardDynamics0(const Model<Scalar>& model, Data<Scalar
   // Forward pass: kinematics, joint bias and body bias force.
 	for (int i = 1; i < model.n; ++i) {
     const int parent = model.parent[i];
-    const Scalar qi = q(i - 1);
-    const Scalar dqi = dq(i - 1);
+    const int q_idx = model.joint_q_start[i];
+    const Scalar qi = q(q_idx);
+    const Scalar dqi = dq(q_idx);
 
 		data.Mi.col(i) = joint::transformFromParent(
 		    model.type[i], model.L0[i], qi, data.Mi.col(parent), i, "forwardDynamics0");
@@ -206,12 +214,13 @@ const VectorXs<Scalar>& forwardDynamics0(const Model<Scalar>& model, Data<Scalar
 	// Backward pass: articulated body inertia and bias force propagation.
 	for (int i = model.n - 1; i >= 1; --i) {
     const int parent = model.parent[i];
-    const Scalar dqi = dq(i - 1);
+    const int q_idx = model.joint_q_start[i];
+    const Scalar dqi = dq(q_idx);
 
 		data.gamma.col(i).noalias() = data.Ia[i] * data.L.col(i);
 		data.gammaT.row(i).noalias() = data.Lstar.row(i) * data.Ia[i];
 		data.d(i) = Scalar(1) / data.Lstar.row(i).dot(data.gamma.col(i));
-		data.u(i) = tau(i-1) - data.Lstar.row(i).dot(data.F.col(i)) - data.gammaT.row(i).dot(dqi * data.dL.col(i));
+		data.u(i) = tau(q_idx) - data.Lstar.row(i).dot(data.F.col(i)) - data.gammaT.row(i).dot(dqi * data.dL.col(i));
 		
 		data.Ia[parent].noalias() += data.Ia[i] - data.d(i) * data.gamma.col(i) * data.gammaT.row(i);
 		data.F.col(parent) += data.F.col(i) + data.Ia[i] * (dqi * data.dL.col(i)) + data.gamma.col(i) * (data.d(i) * data.u(i));
@@ -220,9 +229,10 @@ const VectorXs<Scalar>& forwardDynamics0(const Model<Scalar>& model, Data<Scalar
 	// Forward pass: acceleration propagation.
 	for (int i = 1; i < model.n; ++i) {
     const int parent = model.parent[i];
-    const Scalar dqi = dq(i - 1);
-		data.ddq[i-1] = data.d(i) * (data.u(i) - data.gammaT.row(i).dot(data.dV.col(parent)));
-		data.dV.col(i) = data.dV.col(parent) + data.ddq[i-1] * data.L.col(i) + dqi * data.dL.col(i);
+    const int q_idx = model.joint_q_start[i];
+    const Scalar dqi = dq(q_idx);
+		data.ddq(q_idx) = data.d(i) * (data.u(i) - data.gammaT.row(i).dot(data.dV.col(parent)));
+		data.dV.col(i) = data.dV.col(parent) + data.ddq(q_idx) * data.L.col(i) + dqi * data.dL.col(i);
 	}
 	return data.ddq;
 }
@@ -267,9 +277,10 @@ void inverseDynamics_fo(const Model<Scalar>& model, Data<Scalar>& data,
 	// Forward iterations
 	for (int i = 1; i < model.n; ++i) {
     const int parent = model.parent[i];
-    const Scalar qi = q(i - 1);
-    const Scalar dqi = dq(i - 1);
-    const Scalar ddqi = ddq(i - 1);
+    const int q_idx = model.joint_q_start[i];
+    const Scalar qi = q(q_idx);
+    const Scalar dqi = dq(q_idx);
+    const Scalar ddqi = ddq(q_idx);
 		data.Mi.col(i) = joint::transformFromParent(
 		    model.type[i], model.L0[i], qi, data.Mi.col(parent), i, "inverseDynamics_fo");
 		data.L.col(i) = joint::axisFromParent(
@@ -296,6 +307,7 @@ void inverseDynamics_fo(const Model<Scalar>& model, Data<Scalar>& data,
 	
 	// Backward iterations
 	for (int i = model.n - 1; i >= 1; --i) {
+		const int i_q_idx = model.joint_q_start[i];
 		const Eigen::Matrix<Scalar, 6, 1> Li = data.L.col(i);
 		const Eigen::Matrix<Scalar, 6, 1> dLi = data.dL.col(i);
 		const Eigen::Matrix<Scalar, 6, 1> ddLi = data.ddL.col(i);
@@ -306,17 +318,18 @@ void inverseDynamics_fo(const Model<Scalar>& model, Data<Scalar>& data,
 		const Line3D<Scalar> Eq2 = Scalar(2) * data.hI[i] * dLi + data.VI[i] * Li.head(3);
 
 		for (int idx : model.ancestor[i]) {
-			data.ptau_pq(i-1, idx-1) = row_hI.dot(data.ddL.col(idx)) + row_VI.dot(data.dL.col(idx).template head<3>());
-			data.ptau_pdq(i-1, idx-1) = Scalar(2) * row_hI.dot(data.dL.col(idx)) + row_VI.dot(data.L.col(idx).template head<3>());
-			data.ptau_pddq(i-1, idx-1) = row_hI.dot(data.L.col(idx));
+			const int idx_q_idx = model.joint_q_start[idx];
+			data.ptau_pq(i_q_idx, idx_q_idx) = row_hI.dot(data.ddL.col(idx)) + row_VI.dot(data.dL.col(idx).template head<3>());
+			data.ptau_pdq(i_q_idx, idx_q_idx) = Scalar(2) * row_hI.dot(data.dL.col(idx)) + row_VI.dot(data.L.col(idx).template head<3>());
+			data.ptau_pddq(i_q_idx, idx_q_idx) = row_hI.dot(data.L.col(idx));
 			
-			data.ptau_pq(idx-1, i-1) = data.Lstar.row(idx).dot(Eq1);
-			data.ptau_pdq(idx-1, i-1) = data.Lstar.row(idx).dot(Eq2);
-			data.ptau_pddq(idx-1, i-1) = data.ptau_pddq(i-1, idx-1);
+			data.ptau_pq(idx_q_idx, i_q_idx) = data.Lstar.row(idx).dot(Eq1);
+			data.ptau_pdq(idx_q_idx, i_q_idx) = data.Lstar.row(idx).dot(Eq2);
+			data.ptau_pddq(idx_q_idx, i_q_idx) = data.ptau_pddq(i_q_idx, idx_q_idx);
     }
-		data.ptau_pq(i-1, i-1) = row_hI.dot(ddLi) + row_VI.dot(dLi.template head<3>());
-		data.ptau_pdq(i-1, i-1) = Scalar(2) * row_hI.dot(dLi) + row_VI.dot(Li.template head<3>());
-		data.ptau_pddq(i-1, i-1) = row_hI.dot(Li);
+		data.ptau_pq(i_q_idx, i_q_idx) = row_hI.dot(ddLi) + row_VI.dot(dLi.template head<3>());
+		data.ptau_pdq(i_q_idx, i_q_idx) = Scalar(2) * row_hI.dot(dLi) + row_VI.dot(Li.template head<3>());
+		data.ptau_pddq(i_q_idx, i_q_idx) = row_hI.dot(Li);
 
 		data.hI[model.parent[i]] += data.hI[i];
 		data.VI[model.parent[i]] += data.VI[i];
@@ -396,9 +409,10 @@ void inverseDynamics_so(const Model<Scalar>& model, Data<Scalar>& data,
 	// Forward iterations
 	for (int i = 1; i < model.n; ++i) {
     const int parent = model.parent[i];
-    const Scalar qi = q(i - 1);
-    const Scalar dqi = dq(i - 1);
-    const Scalar ddqi = ddq(i - 1);
+    const int q_idx = model.joint_q_start[i];
+    const Scalar qi = q(q_idx);
+    const Scalar dqi = dq(q_idx);
+    const Scalar ddqi = ddq(q_idx);
 		data.Mi.col(i) = joint::transformFromParent(
 		    model.type[i], model.L0[i], qi, data.Mi.col(parent), i, "inverseDynamics_so");
 		data.L.col(i) = joint::axisFromParent(
@@ -425,7 +439,7 @@ void inverseDynamics_so(const Model<Scalar>& model, Data<Scalar>& data,
 
 	// Backward iterations
 	for (int k = model.n - 1; k >= 1; --k) {
-		const int k_idx = k - 1;
+		const int k_idx = model.joint_q_start[k];
 		const int parent = model.parent[k];
 		const Eigen::Matrix<Scalar, 6, 1> Lk = data.L.col(k);
 		const Eigen::Matrix<Scalar, 6, 1> dLk = data.dL.col(k);
@@ -450,7 +464,7 @@ void inverseDynamics_so(const Model<Scalar>& model, Data<Scalar>& data,
 
 		int j = k;
 		while (j > 0) {
-			const int j_idx = j - 1;
+			const int j_idx = model.joint_q_start[j];
 			const Line3D<Scalar> Lj = data.L.col(j);
 			const Line3D<Scalar> dLj = data.dL.col(j);
 			const Line3D<Scalar> ddLj = data.ddL.col(j);
@@ -471,7 +485,7 @@ void inverseDynamics_so(const Model<Scalar>& model, Data<Scalar>& data,
 
 			int i = j;
 			while (i > 0) {
-				const int i_idx = i - 1;
+				const int i_idx = model.joint_q_start[i];
 				const Line3D<Scalar> Li = data.L.col(i);
 				const Line3D<Scalar> dLi = data.dL.col(i);
 				const Line3D<Scalar> ddLi = data.ddL.col(i);
@@ -568,7 +582,7 @@ void forwardDynamics_fo(const Model<Scalar>& model, Data<Scalar>& data,
 	}
 
 	for (int i = model.n - 1; i >= 1; --i) {
-		const int idx = i - 1;
+		const int idx = model.joint_q_start[i];
 		const int right_cols = dof - idx;
 		const int parent = model.parent[i];
 		const auto& Li = data.L.col(i);
@@ -580,7 +594,7 @@ void forwardDynamics_fo(const Model<Scalar>& model, Data<Scalar>& data,
 	}
 
 	for (int i = 1; i < model.n; ++i) {
-		const int idx = i - 1;
+		const int idx = model.joint_q_start[i];
 		const int right_cols = dof - idx;
 		const int parent = model.parent[i];
 		const auto& Li = data.L.col(i);
