@@ -11,8 +11,8 @@ using namespace TetraPGA::bench;
 namespace {
 
 constexpr int kMinLevel = 1;
-constexpr int kMaxLevel = 7;
-constexpr int kCasadiMaxLevel = 5;
+constexpr int kMaxLevel = 8;
+constexpr int kCasadiMaxLevel = 6;
 constexpr int kSampleBatchSize = 1024;
 constexpr int kBenchmarkIterations = 1024;
 

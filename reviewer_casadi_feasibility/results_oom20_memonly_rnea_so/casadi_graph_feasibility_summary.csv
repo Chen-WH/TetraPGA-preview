@@ -1,0 +1,2 @@
+case,last_success_dof,first_failure_dof,first_failure_status,last_success_peak_rss_mb,last_success_graph_build_s,tested_dofs
+rnea_so,72,,,293.246,701.724794744,72

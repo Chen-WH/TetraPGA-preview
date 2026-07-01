@@ -1,0 +1,4 @@
+case,dof,status,returncode,elapsed_s,peak_rss_mb,timed_out,model_build_s,graph_build_s,problem_build_s,eval_s,probe_status,error
+rnea_so,72,ok,0,702.699481425,293.246,0,0.0002602,701.724794744,0,0.006244511,ok,
+rnea_so,96,ok,0,4439.325020613,495.906,0,0.000134946,4437.13560769,0,0.014669129,ok,
+rnea_so,512,exit_2,2,15.016710259,15281.980,0,0.000479599,0,0,0,bad_alloc,std::bad_alloc

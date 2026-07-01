@@ -1,0 +1,65 @@
+start_time: 2026-06-29T15:52:04+08:00
+command: /tmp/ga4ro_crocoddyl_kmaxad_build/Crocoddyl_fddp_bench --benchmark_out=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/08_casadi_dof_benchmark_rerun/ga4ro_crocoddyl_kmaxad_rerun_20260629_152436/Crocoddyl_fddp_bench/Crocoddyl_fddp_bench_run03.csv --benchmark_out_format=csv
+2026-06-29T15:52:04+08:00
+Running /tmp/ga4ro_crocoddyl_kmaxad_build/Crocoddyl_fddp_bench
+Run on (24 X 5300 MHz CPU s)
+CPU Caches:
+  L1 Data 48 KiB (x12)
+  L1 Instruction 32 KiB (x12)
+  L2 Unified 2048 KiB (x12)
+  L3 Unified 30720 KiB (x1)
+Load Average: 1.18, 1.09, 1.10
+CSVOutput: /home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/08_casadi_dof_benchmark_rerun/ga4ro_crocoddyl_kmaxad_rerun_20260629_152436/Crocoddyl_fddp_bench/Crocoddyl_fddp_bench_run03.csv
+CasADiCases: compiled_in
+FDDPCostTerms: state_reg,acc_reg,tau_reg
+FixedIterations: 10
+IDMPCCostTerms: state_reg,acc_reg,tau_reg
+SampleBatch: 10
+SeedPolicy: per-run seed, per-case mixed
+***WARNING*** CPU scaling is enabled, the benchmark real time measurements may be noisy and will incur extra overhead.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Benchmark                                                     Time             CPU   Iterations    AvgIter  Converged       Cost        DOF    Horizon    MaxIter SolvePerSolverIter_ms       Stop
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+[0;32mbinary_tree/GA4Ro/CrocoddylFDDP/1/iterations:10      [m[0;33m    619520 ns       619490 ns   [m[0;36m        10[m          1[m          1[m   0.298792[m          1[m         50[m         25[m              0.273226[m   1.23674f[m
+[m[0;32mbinary_tree/GA4Ro/CrocoddylFDDP/2/iterations:10      [m[0;33m   3597607 ns      3596865 ns   [m[0;36m        10[m          3[m          1[m   0.888467[m          3[m         50[m         25[m              0.904204[m    10.989n[m
+[m[0;32mbinary_tree/GA4Ro/CrocoddylFDDP/3/iterations:10      [m[0;33m  11849101 ns     11847941 ns   [m[0;36m        10[m        5.4[m          1[m    4.08268[m          7[m         50[m         25[m               1.96927[m    6.5426u[m
+[m[0;32mbinary_tree/GA4Ro/CrocoddylFDDP/4/iterations:10      [m[0;33m  46779436 ns     46776607 ns   [m[0;36m        10[m       19.8[m        0.6[m    25.6607[m         15[m         50[m         25[m                2.3037[m   0.859878[m
+[m[0;32mbinary_tree/GA4Ro/CrocoddylFDDP/5/iterations:10      [m[0;33m 268688980 ns    268678933 ns   [m[0;36m        10[m       24.3[m        0.2[m    534.702[m         31[m         50[m         25[m               10.8761[m     515.06[m
+[m[0;32mbinary_tree/GA4Ro/CrocoddylFDDP/6/iterations:10      [m[0;33m1636708789 ns   1636640686 ns   [m[0;36m        10[m         25[m          0[m   3.66583k[m         63[m         50[m         25[m               64.6593[m   3.55716k[m
+[m[0;32mbinary_tree/GA4Ro/CrocoddylFDDP/7/iterations:10      [m[0;33m10410854844 ns   10410362628 ns   [m[0;36m        10[m       23.2[m          0[m   120.581k[m        127[m         50[m         25[m               445.522[m   961.508M[m
+[m[0;32mbinary_tree/Pinocchio/CrocoddylFDDP/1/iterations:10  [m[0;33m    472005 ns       472016 ns   [m[0;36m        10[m          1[m          1[m   0.298792[m          1[m         50[m         25[m               0.14677[m   1.23674f[m
+[m[0;32mbinary_tree/Pinocchio/CrocoddylFDDP/2/iterations:10  [m[0;33m   1036453 ns      1035949 ns   [m[0;36m        10[m          3[m          1[m   0.888467[m          3[m         50[m         25[m              0.220368[m    10.989n[m
+[m[0;32mbinary_tree/Pinocchio/CrocoddylFDDP/3/iterations:10  [m[0;33m   4170500 ns      4170502 ns   [m[0;36m        10[m        5.4[m          1[m    4.08268[m          7[m         50[m         25[m              0.620111[m    6.5426u[m
+[m[0;32mbinary_tree/Pinocchio/CrocoddylFDDP/4/iterations:10  [m[0;33m  41951000 ns     41950019 ns   [m[0;36m        10[m       19.8[m        0.6[m    25.6607[m         15[m         50[m         25[m               2.05051[m   0.859885[m
+[m[0;32mbinary_tree/Pinocchio/CrocoddylFDDP/5/iterations:10  [m[0;33m 273526079 ns    273514354 ns   [m[0;36m        10[m       24.3[m        0.2[m    534.701[m         31[m         50[m         25[m               10.9661[m    515.059[m
+[m[0;32mbinary_tree/Pinocchio/CrocoddylFDDP/6/iterations:10  [m[0;33m1675121034 ns   1675046392 ns   [m[0;36m        10[m         25[m          0[m   3.68333k[m         63[m         50[m         25[m               65.4525[m   3.57274k[m
+[m[0;32mbinary_tree/Pinocchio/CrocoddylFDDP/7/iterations:10  [m[0;33m11288483176 ns   11287912597 ns   [m[0;36m        10[m       24.1[m          0[m   833.218k[m        127[m         50[m         25[m               453.284[m   969.583M[m
+[m[0;32mbinary_tree/CasADi/CrocoddylFDDP/1/iterations:10     [m[0;33m    538884 ns       538877 ns   [m[0;36m        10[m          1[m          1[m   0.294835[m          1[m         50[m         25[m               0.24316[m   1.21697f[m
+[m[0;32mbinary_tree/CasADi/CrocoddylFDDP/2/iterations:10     [m[0;33m   1266174 ns      1266168 ns   [m[0;36m        10[m          3[m          1[m     1.1472[m          3[m         50[m         25[m              0.303437[m   198.394n[m
+[m[0;32mbinary_tree/CasADi/CrocoddylFDDP/3/iterations:10     [m[0;33m   4881838 ns      4881829 ns   [m[0;36m        10[m        5.1[m          1[m    2.51368[m          7[m         50[m         25[m              0.858419[m   6.02598u[m
+[m[0;32mbinary_tree/CasADi/CrocoddylFDDP/4/iterations:10     [m[0;33m  29419347 ns     29419166 ns   [m[0;36m        10[m        8.9[m          1[m    10.9164[m         15[m         50[m         25[m               3.16427[m   14.6085u[m
+[m[0;32mbinary_tree/CasADi/CrocoddylFDDP/5/iterations:10     [m[0;33m 350895482 ns    350779901 ns   [m[0;36m        10[m       21.1[m        0.5[m    229.522[m         31[m         50[m         25[m               16.3075[m    206.247[m
+[m[0;32mbinary_tree/CasADi/CrocoddylFDDP/6/iterations:10     [m[0;33m2766939501 ns   2766789503 ns   [m[0;36m        10[m         25[m          0[m   3.58856k[m         63[m         50[m         25[m               109.141[m   2.96093k[m
+[m[0;32mbinary_tree/CasADi/CrocoddylFDDP/7/iterations:10     [m[0;33m18087334559 ns   18086381664 ns   [m[0;36m        10[m       20.9[m          0[m   215.905k[m        127[m         50[m         25[m               852.356[m    1.6842G[m
+[m[0;32mbinary_tree/GA4Ro/CrocoddylIDMPC/1/iterations:10     [m[0;33m    323603 ns       323521 ns   [m[0;36m        10[m          1[m          1[m   0.323204[m          1[m         50[m         25[m               0.10587[m   122.124f[m
+[m[0;32mbinary_tree/GA4Ro/CrocoddylIDMPC/2/iterations:10     [m[0;33m    494146 ns       494163 ns   [m[0;36m        10[m        1.2[m          1[m   0.912794[m          3[m         50[m         25[m               0.21673[m   12.8036u[m
+[m[0;32mbinary_tree/GA4Ro/CrocoddylIDMPC/3/iterations:10     [m[0;33m   1407936 ns      1407960 ns   [m[0;36m        10[m          2[m          1[m    1.80874[m          7[m         50[m         25[m              0.536964[m   11.8008u[m
+[m[0;32mbinary_tree/GA4Ro/CrocoddylIDMPC/4/iterations:10     [m[0;33m  12510057 ns     12509738 ns   [m[0;36m        10[m        7.6[m          1[m    17.9473[m         15[m         50[m         25[m               1.53597[m   52.7962u[m
+[m[0;32mbinary_tree/GA4Ro/CrocoddylIDMPC/5/iterations:10     [m[0;33m  97626822 ns     97626225 ns   [m[0;36m        10[m       10.6[m        0.9[m     32.263[m         31[m         50[m         25[m               8.87869[m   81.9976u[m
+[m[0;32mbinary_tree/GA4Ro/CrocoddylIDMPC/6/iterations:10     [m[0;33m1058988182 ns   1058950759 ns   [m[0;36m        10[m       18.6[m        0.6[m    55.9393[m         63[m         50[m         25[m               56.1675[m   7.17287m[m
+[m[0;32mbinary_tree/GA4Ro/CrocoddylIDMPC/7/iterations:10     [m[0;33m5500900130 ns   5500574698 ns   [m[0;36m        10[m       12.8[m        0.9[m    70.1425[m        127[m         50[m         25[m               425.497[m   268.503u[m
+[m[0;32mbinary_tree/Pinocchio/CrocoddylIDMPC/1/iterations:10 [m[0;33m    481140 ns       481175 ns   [m[0;36m        10[m          1[m          1[m   0.323204[m          1[m         50[m         25[m              0.133421[m   122.124f[m
+[m[0;32mbinary_tree/Pinocchio/CrocoddylIDMPC/2/iterations:10 [m[0;33m    724464 ns       724490 ns   [m[0;36m        10[m        1.2[m          1[m   0.912794[m          3[m         50[m         25[m              0.269709[m   12.8036u[m
+[m[0;32mbinary_tree/Pinocchio/CrocoddylIDMPC/3/iterations:10 [m[0;33m   1852272 ns      1852299 ns   [m[0;36m        10[m          2[m          1[m    1.80874[m          7[m         50[m         25[m              0.645228[m   11.8008u[m
+[m[0;32mbinary_tree/Pinocchio/CrocoddylIDMPC/4/iterations:10 [m[0;33m  14594853 ns     14593872 ns   [m[0;36m        10[m        7.6[m          1[m    17.9473[m         15[m         50[m         25[m               1.73305[m   52.7962u[m
+[m[0;32mbinary_tree/Pinocchio/CrocoddylIDMPC/5/iterations:10 [m[0;33m 107520225 ns    107516774 ns   [m[0;36m        10[m       10.6[m        0.9[m     32.263[m         31[m         50[m         25[m               9.46979[m   81.9948u[m
+[m[0;32mbinary_tree/Pinocchio/CrocoddylIDMPC/6/iterations:10 [m[0;33m1153419957 ns   1153378178 ns   [m[0;36m        10[m       18.6[m        0.6[m    55.9393[m         63[m         50[m         25[m                59.916[m    7.1718m[m
+[m[0;32mbinary_tree/Pinocchio/CrocoddylIDMPC/7/iterations:10 [m[0;33m6026469212 ns   6026158334 ns   [m[0;36m        10[m       12.8[m        0.9[m    70.1424[m        127[m         50[m         25[m               450.465[m   268.495u[m
+[m[0;32mbinary_tree/CasADi/CrocoddylIDMPC/1/iterations:10    [m[0;33m    544586 ns       544599 ns   [m[0;36m        10[m          1[m          1[m   0.273985[m          1[m         50[m         25[m               0.23238[m   103.556f[m
+[m[0;32mbinary_tree/CasADi/CrocoddylIDMPC/2/iterations:10    [m[0;33m    912667 ns       912359 ns   [m[0;36m        10[m        1.3[m          1[m    1.43589[m          3[m         50[m         25[m              0.412849[m   25.0631u[m
+[m[0;32mbinary_tree/CasADi/CrocoddylIDMPC/3/iterations:10    [m[0;33m   3887109 ns      3887092 ns   [m[0;36m        10[m        5.8[m          1[m     3.4313[m          7[m         50[m         25[m              0.577842[m   62.1039u[m
+[m[0;32mbinary_tree/CasADi/CrocoddylIDMPC/4/iterations:10    [m[0;33m  41535370 ns     41534550 ns   [m[0;36m        10[m       24.3[m        0.2[m    19.7857[m         15[m         50[m         25[m               1.65158[m   4.78291m[m
+[m[0;32mbinary_tree/CasADi/CrocoddylIDMPC/5/iterations:10    [m[0;33m 205940990 ns    205935918 ns   [m[0;36m        10[m       24.3[m        0.2[m    41.1419[m         31[m         50[m         25[m               8.19389[m   0.112107[m
+[m[0;32mbinary_tree/CasADi/CrocoddylIDMPC/6/iterations:10    [m[0;33m1191990190 ns   1191960738 ns   [m[0;36m        10[m       21.9[m        0.4[m    32.9604[m         63[m         50[m         25[m               52.6826[m    5.3797m[m
+[m[0;32mbinary_tree/CasADi/CrocoddylIDMPC/7/iterations:10    [m[0;33m9159080730 ns   9158598448 ns   [m[0;36m        10[m         24[m        0.1[m    76.9413[m        127[m         50[m         25[m                371.32[m   0.128269[m
+[mend_time: 2026-06-29T16:04:10+08:00

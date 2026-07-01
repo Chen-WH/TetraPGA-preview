@@ -1,0 +1,750 @@
+Experiment root: /home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep
+Log root: /home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external
+ROS log dir: /tmp/roslog_ga_ocp_mujoco_20260630_200027
+Backends: tetrapga
+
+============================================================
+Running MuJoCo closed-loop case: nominal_tetrapga
+Output prefix: /home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/nominal_tetrapga
+Timeout: 40s
+Viewer: false
+============================================================
+[INFO] [launch]: All log files can be found below /tmp/roslog_ga_ocp_mujoco_20260630_200027/2026-06-30-20-00-28-830152-B3146-28
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [closed_loop_mpc_node-1]: process started with pid [29]
+[INFO] [joint_command_executor.py-2]: process started with pid [31]
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:00:28.874 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:00:28.874 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[closed_loop_mpc_node-1] [INFO] [1782820828.883917828] [closed_loop_mpc_node]: Closed-loop MPC node ready. robot=ur backend=tetrapga budget=10.000 ms horizon=20 dt=0.020 control_rate=50.0Hz enforce_budget=false accel_weight=0 output=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/nominal_tetrapga plant_payload_com=[0 0 0.050000000000000003] controller_payload_com=[0 0 0.050000000000000003] external_body=wrist_3_link external_force=[0 0 0] external_torque=[0 0 0]
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] [37;1m2026-06-30 20:00:29.172 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[joint_command_executor.py-2] [37;1m2026-06-30 20:00:29.172 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[joint_command_executor.py-2] [INFO] [1782820829.205522437] [mujoco_joint_executor_node]: MuJoCo executor ready. robot=ur, mode=direct, model=/home/chenwh/ros2_ws/install/ga_ocp_core/share/ga_ocp_core/robot-assets/ur10/mjcf/scene.xml, cmd=/joint_commands, state=/joint_states, mass_scale=1.000, payload_mass=0.000, payload_com=[0.0, 0.0, 0.05], link_com_offset=[0.0, 0.0, 0.0], viewer=False, external_body=wrist_3_link, external_start=-1.000, external_duration=0.000, external_force=[0.0, 0.0, 0.0], external_torque=[0.0, 0.0, 0.0]
+[closed_loop_mpc_node-1] [INFO] [1782820829.244105231] [closed_loop_mpc_node]: Closed-loop experiment started.
+[closed_loop_mpc_node-1] [INFO] [1782820849.268778545] [closed_loop_mpc_node]: Closed-loop experiment finished. cycles=1000 summary=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/nominal_tetrapga_summary.csv cycles=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/nominal_tetrapga_cycles.csv
+[INFO] [joint_command_executor.py-2]: process has finished cleanly [pid 31]
+[INFO] [closed_loop_mpc_node-1]: process has finished cleanly [pid 29]
+[OK] nominal_tetrapga
+
+============================================================
+Running MuJoCo closed-loop case: mass_070_tetrapga
+Output prefix: /home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/mass_070_tetrapga
+Timeout: 40s
+Viewer: false
+============================================================
+[INFO] [launch]: All log files can be found below /tmp/roslog_ga_ocp_mujoco_20260630_200027/2026-06-30-20-00-49-550497-B3146-93
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [closed_loop_mpc_node-1]: process started with pid [94]
+[INFO] [joint_command_executor.py-2]: process started with pid [96]
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:00:49.616 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:00:49.616 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[closed_loop_mpc_node-1] [INFO] [1782820849.649058285] [closed_loop_mpc_node]: Closed-loop MPC node ready. robot=ur backend=tetrapga budget=10.000 ms horizon=20 dt=0.020 control_rate=50.0Hz enforce_budget=false accel_weight=0 output=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/mass_070_tetrapga plant_payload_com=[0 0 0.050000000000000003] controller_payload_com=[0 0 0.050000000000000003] external_body=wrist_3_link external_force=[0 0 0] external_torque=[0 0 0]
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] [37;1m2026-06-30 20:00:50.110 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[joint_command_executor.py-2] [37;1m2026-06-30 20:00:50.110 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[joint_command_executor.py-2] [INFO] [1782820850.136387850] [mujoco_joint_executor_node]: MuJoCo executor ready. robot=ur, mode=direct, model=/home/chenwh/ros2_ws/install/ga_ocp_core/share/ga_ocp_core/robot-assets/ur10/mjcf/scene.xml, cmd=/joint_commands, state=/joint_states, mass_scale=0.700, payload_mass=0.000, payload_com=[0.0, 0.0, 0.05], link_com_offset=[0.0, 0.0, 0.0], viewer=False, external_body=wrist_3_link, external_start=-1.000, external_duration=0.000, external_force=[0.0, 0.0, 0.0], external_torque=[0.0, 0.0, 0.0]
+[joint_command_executor.py-2] [INFO] [1782820850.166292312] [mujoco_joint_executor_node]: Applied UR10 mass/inertia scale 0.700 to MuJoCo plant.
+[closed_loop_mpc_node-1] [INFO] [1782820850.189123198] [closed_loop_mpc_node]: Closed-loop experiment started.
+[closed_loop_mpc_node-1] [INFO] [1782820870.254865276] [closed_loop_mpc_node]: Closed-loop experiment finished. cycles=1000 summary=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/mass_070_tetrapga_summary.csv cycles=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/mass_070_tetrapga_cycles.csv
+[INFO] [joint_command_executor.py-2]: process has finished cleanly [pid 96]
+[INFO] [closed_loop_mpc_node-1]: process has finished cleanly [pid 94]
+[OK] mass_070_tetrapga
+
+============================================================
+Running MuJoCo closed-loop case: mass_080_tetrapga
+Output prefix: /home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/mass_080_tetrapga
+Timeout: 40s
+Viewer: false
+============================================================
+[INFO] [launch]: All log files can be found below /tmp/roslog_ga_ocp_mujoco_20260630_200027/2026-06-30-20-01-10-835044-B3146-158
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [closed_loop_mpc_node-1]: process started with pid [159]
+[INFO] [joint_command_executor.py-2]: process started with pid [161]
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:01:10.876 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:01:10.876 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[closed_loop_mpc_node-1] [INFO] [1782820870.881588618] [closed_loop_mpc_node]: Closed-loop MPC node ready. robot=ur backend=tetrapga budget=10.000 ms horizon=20 dt=0.020 control_rate=50.0Hz enforce_budget=false accel_weight=0 output=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/mass_080_tetrapga plant_payload_com=[0 0 0.050000000000000003] controller_payload_com=[0 0 0.050000000000000003] external_body=wrist_3_link external_force=[0 0 0] external_torque=[0 0 0]
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] [37;1m2026-06-30 20:01:11.551 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[joint_command_executor.py-2] [37;1m2026-06-30 20:01:11.551 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[joint_command_executor.py-2] [INFO] [1782820871.576424605] [mujoco_joint_executor_node]: MuJoCo executor ready. robot=ur, mode=direct, model=/home/chenwh/ros2_ws/install/ga_ocp_core/share/ga_ocp_core/robot-assets/ur10/mjcf/scene.xml, cmd=/joint_commands, state=/joint_states, mass_scale=0.800, payload_mass=0.000, payload_com=[0.0, 0.0, 0.05], link_com_offset=[0.0, 0.0, 0.0], viewer=False, external_body=wrist_3_link, external_start=-1.000, external_duration=0.000, external_force=[0.0, 0.0, 0.0], external_torque=[0.0, 0.0, 0.0]
+[joint_command_executor.py-2] [INFO] [1782820871.589181532] [mujoco_joint_executor_node]: Applied UR10 mass/inertia scale 0.800 to MuJoCo plant.
+[closed_loop_mpc_node-1] [INFO] [1782820871.601747527] [closed_loop_mpc_node]: Closed-loop experiment started.
+[closed_loop_mpc_node-1] [INFO] [1782820891.691966513] [closed_loop_mpc_node]: Closed-loop experiment finished. cycles=1000 summary=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/mass_080_tetrapga_summary.csv cycles=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/mass_080_tetrapga_cycles.csv
+[INFO] [joint_command_executor.py-2]: process has finished cleanly [pid 161]
+[INFO] [closed_loop_mpc_node-1]: process has finished cleanly [pid 159]
+[OK] mass_080_tetrapga
+
+============================================================
+Running MuJoCo closed-loop case: mass_090_tetrapga
+Output prefix: /home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/mass_090_tetrapga
+Timeout: 40s
+Viewer: false
+============================================================
+[INFO] [launch]: All log files can be found below /tmp/roslog_ga_ocp_mujoco_20260630_200027/2026-06-30-20-01-32-139595-B3146-223
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [closed_loop_mpc_node-1]: process started with pid [224]
+[INFO] [joint_command_executor.py-2]: process started with pid [226]
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:01:32.187 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:01:32.187 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[closed_loop_mpc_node-1] [INFO] [1782820892.208439126] [closed_loop_mpc_node]: Closed-loop MPC node ready. robot=ur backend=tetrapga budget=10.000 ms horizon=20 dt=0.020 control_rate=50.0Hz enforce_budget=false accel_weight=0 output=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/mass_090_tetrapga plant_payload_com=[0 0 0.050000000000000003] controller_payload_com=[0 0 0.050000000000000003] external_body=wrist_3_link external_force=[0 0 0] external_torque=[0 0 0]
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] [37;1m2026-06-30 20:01:32.808 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[joint_command_executor.py-2] [37;1m2026-06-30 20:01:32.808 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[joint_command_executor.py-2] [INFO] [1782820892.833490481] [mujoco_joint_executor_node]: MuJoCo executor ready. robot=ur, mode=direct, model=/home/chenwh/ros2_ws/install/ga_ocp_core/share/ga_ocp_core/robot-assets/ur10/mjcf/scene.xml, cmd=/joint_commands, state=/joint_states, mass_scale=0.900, payload_mass=0.000, payload_com=[0.0, 0.0, 0.05], link_com_offset=[0.0, 0.0, 0.0], viewer=False, external_body=wrist_3_link, external_start=-1.000, external_duration=0.000, external_force=[0.0, 0.0, 0.0], external_torque=[0.0, 0.0, 0.0]
+[joint_command_executor.py-2] [INFO] [1782820892.867124645] [mujoco_joint_executor_node]: Applied UR10 mass/inertia scale 0.900 to MuJoCo plant.
+[closed_loop_mpc_node-1] [INFO] [1782820892.868533464] [closed_loop_mpc_node]: Closed-loop experiment started.
+[closed_loop_mpc_node-1] [INFO] [1782820912.944198448] [closed_loop_mpc_node]: Closed-loop experiment finished. cycles=1000 summary=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/mass_090_tetrapga_summary.csv cycles=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/mass_090_tetrapga_cycles.csv
+[INFO] [joint_command_executor.py-2]: process has finished cleanly [pid 226]
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [closed_loop_mpc_node-1]: process has finished cleanly [pid 224]
+[OK] mass_090_tetrapga (launch exited with 124 after writing CSVs)
+
+============================================================
+Running MuJoCo closed-loop case: mass_110_tetrapga
+Output prefix: /home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/mass_110_tetrapga
+Timeout: 40s
+Viewer: false
+============================================================
+[INFO] [launch]: All log files can be found below /tmp/roslog_ga_ocp_mujoco_20260630_200027/2026-06-30-20-02-12-272230-B3146-288
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [closed_loop_mpc_node-1]: process started with pid [289]
+[INFO] [joint_command_executor.py-2]: process started with pid [291]
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:02:12.315 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:02:12.315 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[closed_loop_mpc_node-1] [INFO] [1782820932.320265392] [closed_loop_mpc_node]: Closed-loop MPC node ready. robot=ur backend=tetrapga budget=10.000 ms horizon=20 dt=0.020 control_rate=50.0Hz enforce_budget=false accel_weight=0 output=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/mass_110_tetrapga plant_payload_com=[0 0 0.050000000000000003] controller_payload_com=[0 0 0.050000000000000003] external_body=wrist_3_link external_force=[0 0 0] external_torque=[0 0 0]
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] [37;1m2026-06-30 20:02:12.538 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[joint_command_executor.py-2] [37;1m2026-06-30 20:02:12.538 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[joint_command_executor.py-2] [INFO] [1782820932.564239055] [mujoco_joint_executor_node]: MuJoCo executor ready. robot=ur, mode=direct, model=/home/chenwh/ros2_ws/install/ga_ocp_core/share/ga_ocp_core/robot-assets/ur10/mjcf/scene.xml, cmd=/joint_commands, state=/joint_states, mass_scale=1.100, payload_mass=0.000, payload_com=[0.0, 0.0, 0.05], link_com_offset=[0.0, 0.0, 0.0], viewer=False, external_body=wrist_3_link, external_start=-1.000, external_duration=0.000, external_force=[0.0, 0.0, 0.0], external_torque=[0.0, 0.0, 0.0]
+[joint_command_executor.py-2] [INFO] [1782820932.595467556] [mujoco_joint_executor_node]: Applied UR10 mass/inertia scale 1.100 to MuJoCo plant.
+[closed_loop_mpc_node-1] [INFO] [1782820932.600319003] [closed_loop_mpc_node]: Closed-loop experiment started.
+[closed_loop_mpc_node-1] [INFO] [1782820952.676150562] [closed_loop_mpc_node]: Closed-loop experiment finished. cycles=1000 summary=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/mass_110_tetrapga_summary.csv cycles=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/mass_110_tetrapga_cycles.csv
+[INFO] [joint_command_executor.py-2]: process has finished cleanly [pid 291]
+[INFO] [closed_loop_mpc_node-1]: process has finished cleanly [pid 289]
+[OK] mass_110_tetrapga
+
+============================================================
+Running MuJoCo closed-loop case: mass_120_tetrapga
+Output prefix: /home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/mass_120_tetrapga
+Timeout: 40s
+Viewer: false
+============================================================
+[INFO] [launch]: All log files can be found below /tmp/roslog_ga_ocp_mujoco_20260630_200027/2026-06-30-20-02-33-390139-B3146-353
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [closed_loop_mpc_node-1]: process started with pid [354]
+[INFO] [joint_command_executor.py-2]: process started with pid [356]
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:02:33.454 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:02:33.454 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[closed_loop_mpc_node-1] [INFO] [1782820953.474027986] [closed_loop_mpc_node]: Closed-loop MPC node ready. robot=ur backend=tetrapga budget=10.000 ms horizon=20 dt=0.020 control_rate=50.0Hz enforce_budget=false accel_weight=0 output=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/mass_120_tetrapga plant_payload_com=[0 0 0.050000000000000003] controller_payload_com=[0 0 0.050000000000000003] external_body=wrist_3_link external_force=[0 0 0] external_torque=[0 0 0]
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] [37;1m2026-06-30 20:02:33.759 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[joint_command_executor.py-2] [37;1m2026-06-30 20:02:33.759 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[joint_command_executor.py-2] [INFO] [1782820953.786147597] [mujoco_joint_executor_node]: MuJoCo executor ready. robot=ur, mode=direct, model=/home/chenwh/ros2_ws/install/ga_ocp_core/share/ga_ocp_core/robot-assets/ur10/mjcf/scene.xml, cmd=/joint_commands, state=/joint_states, mass_scale=1.200, payload_mass=0.000, payload_com=[0.0, 0.0, 0.05], link_com_offset=[0.0, 0.0, 0.0], viewer=False, external_body=wrist_3_link, external_start=-1.000, external_duration=0.000, external_force=[0.0, 0.0, 0.0], external_torque=[0.0, 0.0, 0.0]
+[joint_command_executor.py-2] [INFO] [1782820953.822252798] [mujoco_joint_executor_node]: Applied UR10 mass/inertia scale 1.200 to MuJoCo plant.
+[closed_loop_mpc_node-1] [INFO] [1782820953.834069358] [closed_loop_mpc_node]: Closed-loop experiment started.
+[closed_loop_mpc_node-1] [INFO] [1782820973.832840213] [closed_loop_mpc_node]: Closed-loop experiment finished. cycles=1000 summary=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/mass_120_tetrapga_summary.csv cycles=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/mass_120_tetrapga_cycles.csv
+[INFO] [closed_loop_mpc_node-1]: process has finished cleanly [pid 354]
+[INFO] [joint_command_executor.py-2]: process has finished cleanly [pid 356]
+[OK] mass_120_tetrapga
+
+============================================================
+Running MuJoCo closed-loop case: mass_130_tetrapga
+Output prefix: /home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/mass_130_tetrapga
+Timeout: 40s
+Viewer: false
+============================================================
+[INFO] [launch]: All log files can be found below /tmp/roslog_ga_ocp_mujoco_20260630_200027/2026-06-30-20-02-54-419447-B3146-418
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [closed_loop_mpc_node-1]: process started with pid [419]
+[INFO] [joint_command_executor.py-2]: process started with pid [421]
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:02:54.475 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:02:54.475 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[closed_loop_mpc_node-1] [INFO] [1782820974.480653524] [closed_loop_mpc_node]: Closed-loop MPC node ready. robot=ur backend=tetrapga budget=10.000 ms horizon=20 dt=0.020 control_rate=50.0Hz enforce_budget=false accel_weight=0 output=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/mass_130_tetrapga plant_payload_com=[0 0 0.050000000000000003] controller_payload_com=[0 0 0.050000000000000003] external_body=wrist_3_link external_force=[0 0 0] external_torque=[0 0 0]
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] [37;1m2026-06-30 20:02:55.042 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[joint_command_executor.py-2] [37;1m2026-06-30 20:02:55.042 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[joint_command_executor.py-2] [INFO] [1782820975.067182443] [mujoco_joint_executor_node]: MuJoCo executor ready. robot=ur, mode=direct, model=/home/chenwh/ros2_ws/install/ga_ocp_core/share/ga_ocp_core/robot-assets/ur10/mjcf/scene.xml, cmd=/joint_commands, state=/joint_states, mass_scale=1.300, payload_mass=0.000, payload_com=[0.0, 0.0, 0.05], link_com_offset=[0.0, 0.0, 0.0], viewer=False, external_body=wrist_3_link, external_start=-1.000, external_duration=0.000, external_force=[0.0, 0.0, 0.0], external_torque=[0.0, 0.0, 0.0]
+[joint_command_executor.py-2] [INFO] [1782820975.087919406] [mujoco_joint_executor_node]: Applied UR10 mass/inertia scale 1.300 to MuJoCo plant.
+[closed_loop_mpc_node-1] [INFO] [1782820975.120762721] [closed_loop_mpc_node]: Closed-loop experiment started.
+[closed_loop_mpc_node-1] [INFO] [1782820995.185754968] [closed_loop_mpc_node]: Closed-loop experiment finished. cycles=1000 summary=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/mass_130_tetrapga_summary.csv cycles=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/mass_130_tetrapga_cycles.csv
+[INFO] [joint_command_executor.py-2]: process has finished cleanly [pid 421]
+[INFO] [closed_loop_mpc_node-1]: process has finished cleanly [pid 419]
+[OK] mass_130_tetrapga
+
+============================================================
+Running MuJoCo closed-loop case: link_com_01cm_x_tetrapga
+Output prefix: /home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/link_com_01cm_x_tetrapga
+Timeout: 40s
+Viewer: false
+============================================================
+[INFO] [launch]: All log files can be found below /tmp/roslog_ga_ocp_mujoco_20260630_200027/2026-06-30-20-03-16-178449-B3146-483
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [closed_loop_mpc_node-1]: process started with pid [484]
+[INFO] [joint_command_executor.py-2]: process started with pid [486]
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:03:16.307 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:03:16.307 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[closed_loop_mpc_node-1] [INFO] [1782820996.312656488] [closed_loop_mpc_node]: Closed-loop MPC node ready. robot=ur backend=tetrapga budget=10.000 ms horizon=20 dt=0.020 control_rate=50.0Hz enforce_budget=false accel_weight=0 output=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/link_com_01cm_x_tetrapga plant_payload_com=[0 0 0.050000000000000003] controller_payload_com=[0 0 0.050000000000000003] external_body=wrist_3_link external_force=[0 0 0] external_torque=[0 0 0]
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] [37;1m2026-06-30 20:03:16.784 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[joint_command_executor.py-2] [37;1m2026-06-30 20:03:16.784 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[joint_command_executor.py-2] [INFO] [1782820996.808756444] [mujoco_joint_executor_node]: MuJoCo executor ready. robot=ur, mode=direct, model=/home/chenwh/ros2_ws/install/ga_ocp_core/share/ga_ocp_core/robot-assets/ur10/mjcf/scene.xml, cmd=/joint_commands, state=/joint_states, mass_scale=1.000, payload_mass=0.000, payload_com=[0.0, 0.0, 0.05], link_com_offset=[0.01, 0.0, 0.0], viewer=False, external_body=wrist_3_link, external_start=-1.000, external_duration=0.000, external_force=[0.0, 0.0, 0.0], external_torque=[0.0, 0.0, 0.0]
+[joint_command_executor.py-2] [INFO] [1782820996.837198429] [mujoco_joint_executor_node]: Applied UR10 six-link COM offset [0.01, 0.0, 0.0] to MuJoCo plant.
+[closed_loop_mpc_node-1] [INFO] [1782820996.872791207] [closed_loop_mpc_node]: Closed-loop experiment started.
+[closed_loop_mpc_node-1] [INFO] [1782821016.938246528] [closed_loop_mpc_node]: Closed-loop experiment finished. cycles=1000 summary=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/link_com_01cm_x_tetrapga_summary.csv cycles=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/link_com_01cm_x_tetrapga_cycles.csv
+[INFO] [joint_command_executor.py-2]: process has finished cleanly [pid 486]
+[INFO] [closed_loop_mpc_node-1]: process has finished cleanly [pid 484]
+[OK] link_com_01cm_x_tetrapga
+
+============================================================
+Running MuJoCo closed-loop case: link_com_01cm_y_tetrapga
+Output prefix: /home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/link_com_01cm_y_tetrapga
+Timeout: 40s
+Viewer: false
+============================================================
+[INFO] [launch]: All log files can be found below /tmp/roslog_ga_ocp_mujoco_20260630_200027/2026-06-30-20-03-37-619407-B3146-548
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [closed_loop_mpc_node-1]: process started with pid [549]
+[INFO] [joint_command_executor.py-2]: process started with pid [551]
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:03:37.802 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:03:37.802 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[closed_loop_mpc_node-1] [INFO] [1782821017.824952582] [closed_loop_mpc_node]: Closed-loop MPC node ready. robot=ur backend=tetrapga budget=10.000 ms horizon=20 dt=0.020 control_rate=50.0Hz enforce_budget=false accel_weight=0 output=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/link_com_01cm_y_tetrapga plant_payload_com=[0 0 0.050000000000000003] controller_payload_com=[0 0 0.050000000000000003] external_body=wrist_3_link external_force=[0 0 0] external_torque=[0 0 0]
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] [37;1m2026-06-30 20:03:38.164 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[joint_command_executor.py-2] [37;1m2026-06-30 20:03:38.164 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[joint_command_executor.py-2] [INFO] [1782821018.197080875] [mujoco_joint_executor_node]: MuJoCo executor ready. robot=ur, mode=direct, model=/home/chenwh/ros2_ws/install/ga_ocp_core/share/ga_ocp_core/robot-assets/ur10/mjcf/scene.xml, cmd=/joint_commands, state=/joint_states, mass_scale=1.000, payload_mass=0.000, payload_com=[0.0, 0.0, 0.05], link_com_offset=[0.0, 0.01, 0.0], viewer=False, external_body=wrist_3_link, external_start=-1.000, external_duration=0.000, external_force=[0.0, 0.0, 0.0], external_torque=[0.0, 0.0, 0.0]
+[joint_command_executor.py-2] [INFO] [1782821018.250965218] [mujoco_joint_executor_node]: Applied UR10 six-link COM offset [0.0, 0.01, 0.0] to MuJoCo plant.
+[closed_loop_mpc_node-1] [INFO] [1782821018.265112292] [closed_loop_mpc_node]: Closed-loop experiment started.
+[closed_loop_mpc_node-1] [INFO] [1782821038.330364447] [closed_loop_mpc_node]: Closed-loop experiment finished. cycles=1000 summary=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/link_com_01cm_y_tetrapga_summary.csv cycles=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/link_com_01cm_y_tetrapga_cycles.csv
+[INFO] [joint_command_executor.py-2]: process has finished cleanly [pid 551]
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [closed_loop_mpc_node-1]: process has finished cleanly [pid 549]
+[OK] link_com_01cm_y_tetrapga (launch exited with 124 after writing CSVs)
+
+============================================================
+Running MuJoCo closed-loop case: link_com_01cm_z_tetrapga
+Output prefix: /home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/link_com_01cm_z_tetrapga
+Timeout: 40s
+Viewer: false
+============================================================
+[INFO] [launch]: All log files can be found below /tmp/roslog_ga_ocp_mujoco_20260630_200027/2026-06-30-20-04-17-722892-B3146-613
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [closed_loop_mpc_node-1]: process started with pid [614]
+[INFO] [joint_command_executor.py-2]: process started with pid [616]
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:04:17.794 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:04:17.794 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[closed_loop_mpc_node-1] [INFO] [1782821057.799812150] [closed_loop_mpc_node]: Closed-loop MPC node ready. robot=ur backend=tetrapga budget=10.000 ms horizon=20 dt=0.020 control_rate=50.0Hz enforce_budget=false accel_weight=0 output=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/link_com_01cm_z_tetrapga plant_payload_com=[0 0 0.050000000000000003] controller_payload_com=[0 0 0.050000000000000003] external_body=wrist_3_link external_force=[0 0 0] external_torque=[0 0 0]
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] [37;1m2026-06-30 20:04:18.104 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[joint_command_executor.py-2] [37;1m2026-06-30 20:04:18.104 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[joint_command_executor.py-2] [INFO] [1782821058.129885182] [mujoco_joint_executor_node]: MuJoCo executor ready. robot=ur, mode=direct, model=/home/chenwh/ros2_ws/install/ga_ocp_core/share/ga_ocp_core/robot-assets/ur10/mjcf/scene.xml, cmd=/joint_commands, state=/joint_states, mass_scale=1.000, payload_mass=0.000, payload_com=[0.0, 0.0, 0.05], link_com_offset=[0.0, 0.0, 0.01], viewer=False, external_body=wrist_3_link, external_start=-1.000, external_duration=0.000, external_force=[0.0, 0.0, 0.0], external_torque=[0.0, 0.0, 0.0]
+[joint_command_executor.py-2] [INFO] [1782821058.153508098] [mujoco_joint_executor_node]: Applied UR10 six-link COM offset [0.0, 0.0, 0.01] to MuJoCo plant.
+[closed_loop_mpc_node-1] [INFO] [1782821058.160061545] [closed_loop_mpc_node]: Closed-loop experiment started.
+[closed_loop_mpc_node-1] [INFO] [1782821078.226629788] [closed_loop_mpc_node]: Closed-loop experiment finished. cycles=1000 summary=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/link_com_01cm_z_tetrapga_summary.csv cycles=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/link_com_01cm_z_tetrapga_cycles.csv
+[INFO] [joint_command_executor.py-2]: process has finished cleanly [pid 616]
+[INFO] [closed_loop_mpc_node-1]: process has finished cleanly [pid 614]
+[OK] link_com_01cm_z_tetrapga
+
+============================================================
+Running MuJoCo closed-loop case: link_com_02cm_x_tetrapga
+Output prefix: /home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/link_com_02cm_x_tetrapga
+Timeout: 40s
+Viewer: false
+============================================================
+[INFO] [launch]: All log files can be found below /tmp/roslog_ga_ocp_mujoco_20260630_200027/2026-06-30-20-04-38-785402-B3146-678
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [closed_loop_mpc_node-1]: process started with pid [679]
+[INFO] [joint_command_executor.py-2]: process started with pid [681]
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:04:38.826 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:04:38.827 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[closed_loop_mpc_node-1] [INFO] [1782821078.832323725] [closed_loop_mpc_node]: Closed-loop MPC node ready. robot=ur backend=tetrapga budget=10.000 ms horizon=20 dt=0.020 control_rate=50.0Hz enforce_budget=false accel_weight=0 output=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/link_com_02cm_x_tetrapga plant_payload_com=[0 0 0.050000000000000003] controller_payload_com=[0 0 0.050000000000000003] external_body=wrist_3_link external_force=[0 0 0] external_torque=[0 0 0]
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] [37;1m2026-06-30 20:04:39.128 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[joint_command_executor.py-2] [37;1m2026-06-30 20:04:39.128 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[joint_command_executor.py-2] [INFO] [1782821079.171747862] [mujoco_joint_executor_node]: MuJoCo executor ready. robot=ur, mode=direct, model=/home/chenwh/ros2_ws/install/ga_ocp_core/share/ga_ocp_core/robot-assets/ur10/mjcf/scene.xml, cmd=/joint_commands, state=/joint_states, mass_scale=1.000, payload_mass=0.000, payload_com=[0.0, 0.0, 0.05], link_com_offset=[0.02, 0.0, 0.0], viewer=False, external_body=wrist_3_link, external_start=-1.000, external_duration=0.000, external_force=[0.0, 0.0, 0.0], external_torque=[0.0, 0.0, 0.0]
+[joint_command_executor.py-2] [INFO] [1782821079.186310637] [mujoco_joint_executor_node]: Applied UR10 six-link COM offset [0.02, 0.0, 0.0] to MuJoCo plant.
+[closed_loop_mpc_node-1] [INFO] [1782821079.212459131] [closed_loop_mpc_node]: Closed-loop experiment started.
+[closed_loop_mpc_node-1] [INFO] [1782821099.210853143] [closed_loop_mpc_node]: Closed-loop experiment finished. cycles=1000 summary=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/link_com_02cm_x_tetrapga_summary.csv cycles=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/link_com_02cm_x_tetrapga_cycles.csv
+[INFO] [closed_loop_mpc_node-1]: process has finished cleanly [pid 679]
+[INFO] [joint_command_executor.py-2]: process has finished cleanly [pid 681]
+[OK] link_com_02cm_x_tetrapga
+
+============================================================
+Running MuJoCo closed-loop case: link_com_02cm_y_tetrapga
+Output prefix: /home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/link_com_02cm_y_tetrapga
+Timeout: 40s
+Viewer: false
+============================================================
+[INFO] [launch]: All log files can be found below /tmp/roslog_ga_ocp_mujoco_20260630_200027/2026-06-30-20-04-59-764888-B3146-743
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [closed_loop_mpc_node-1]: process started with pid [744]
+[INFO] [joint_command_executor.py-2]: process started with pid [746]
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:04:59.811 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:04:59.811 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[closed_loop_mpc_node-1] [INFO] [1782821099.827559569] [closed_loop_mpc_node]: Closed-loop MPC node ready. robot=ur backend=tetrapga budget=10.000 ms horizon=20 dt=0.020 control_rate=50.0Hz enforce_budget=false accel_weight=0 output=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/link_com_02cm_y_tetrapga plant_payload_com=[0 0 0.050000000000000003] controller_payload_com=[0 0 0.050000000000000003] external_body=wrist_3_link external_force=[0 0 0] external_torque=[0 0 0]
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] [37;1m2026-06-30 20:05:00.220 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[joint_command_executor.py-2] [37;1m2026-06-30 20:05:00.220 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[joint_command_executor.py-2] [INFO] [1782821100.308797981] [mujoco_joint_executor_node]: MuJoCo executor ready. robot=ur, mode=direct, model=/home/chenwh/ros2_ws/install/ga_ocp_core/share/ga_ocp_core/robot-assets/ur10/mjcf/scene.xml, cmd=/joint_commands, state=/joint_states, mass_scale=1.000, payload_mass=0.000, payload_com=[0.0, 0.0, 0.05], link_com_offset=[0.0, 0.02, 0.0], viewer=False, external_body=wrist_3_link, external_start=-1.000, external_duration=0.000, external_force=[0.0, 0.0, 0.0], external_torque=[0.0, 0.0, 0.0]
+[joint_command_executor.py-2] [INFO] [1782821100.372905947] [mujoco_joint_executor_node]: Applied UR10 six-link COM offset [0.0, 0.02, 0.0] to MuJoCo plant.
+[closed_loop_mpc_node-1] [INFO] [1782821100.387713674] [closed_loop_mpc_node]: Closed-loop experiment started.
+[closed_loop_mpc_node-1] [INFO] [1782821120.456580654] [closed_loop_mpc_node]: Closed-loop experiment finished. cycles=1000 summary=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/link_com_02cm_y_tetrapga_summary.csv cycles=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/link_com_02cm_y_tetrapga_cycles.csv
+[INFO] [joint_command_executor.py-2]: process has finished cleanly [pid 746]
+[INFO] [closed_loop_mpc_node-1]: process has finished cleanly [pid 744]
+[OK] link_com_02cm_y_tetrapga
+
+============================================================
+Running MuJoCo closed-loop case: link_com_02cm_z_tetrapga
+Output prefix: /home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/link_com_02cm_z_tetrapga
+Timeout: 40s
+Viewer: false
+============================================================
+[INFO] [launch]: All log files can be found below /tmp/roslog_ga_ocp_mujoco_20260630_200027/2026-06-30-20-05-21-003465-B3146-808
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [closed_loop_mpc_node-1]: process started with pid [809]
+[INFO] [joint_command_executor.py-2]: process started with pid [811]
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:05:21.043 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:05:21.043 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[closed_loop_mpc_node-1] [INFO] [1782821121.048635906] [closed_loop_mpc_node]: Closed-loop MPC node ready. robot=ur backend=tetrapga budget=10.000 ms horizon=20 dt=0.020 control_rate=50.0Hz enforce_budget=false accel_weight=0 output=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/link_com_02cm_z_tetrapga plant_payload_com=[0 0 0.050000000000000003] controller_payload_com=[0 0 0.050000000000000003] external_body=wrist_3_link external_force=[0 0 0] external_torque=[0 0 0]
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] [37;1m2026-06-30 20:05:21.305 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[joint_command_executor.py-2] [37;1m2026-06-30 20:05:21.305 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[joint_command_executor.py-2] [INFO] [1782821121.329854415] [mujoco_joint_executor_node]: MuJoCo executor ready. robot=ur, mode=direct, model=/home/chenwh/ros2_ws/install/ga_ocp_core/share/ga_ocp_core/robot-assets/ur10/mjcf/scene.xml, cmd=/joint_commands, state=/joint_states, mass_scale=1.000, payload_mass=0.000, payload_com=[0.0, 0.0, 0.05], link_com_offset=[0.0, 0.0, 0.02], viewer=False, external_body=wrist_3_link, external_start=-1.000, external_duration=0.000, external_force=[0.0, 0.0, 0.0], external_torque=[0.0, 0.0, 0.0]
+[joint_command_executor.py-2] [INFO] [1782821121.342709820] [mujoco_joint_executor_node]: Applied UR10 six-link COM offset [0.0, 0.0, 0.02] to MuJoCo plant.
+[closed_loop_mpc_node-1] [INFO] [1782821121.348714109] [closed_loop_mpc_node]: Closed-loop experiment started.
+[closed_loop_mpc_node-1] [INFO] [1782821141.414517115] [closed_loop_mpc_node]: Closed-loop experiment finished. cycles=1000 summary=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/link_com_02cm_z_tetrapga_summary.csv cycles=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/link_com_02cm_z_tetrapga_cycles.csv
+[INFO] [joint_command_executor.py-2]: process has finished cleanly [pid 811]
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [closed_loop_mpc_node-1]: process has finished cleanly [pid 809]
+[OK] link_com_02cm_z_tetrapga (launch exited with 124 after writing CSVs)
+
+============================================================
+Running MuJoCo closed-loop case: link_com_05cm_x_tetrapga
+Output prefix: /home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/link_com_05cm_x_tetrapga
+Timeout: 40s
+Viewer: false
+============================================================
+[INFO] [launch]: All log files can be found below /tmp/roslog_ga_ocp_mujoco_20260630_200027/2026-06-30-20-06-01-332349-B3146-873
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [closed_loop_mpc_node-1]: process started with pid [874]
+[INFO] [joint_command_executor.py-2]: process started with pid [876]
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:06:01.396 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:06:01.396 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[closed_loop_mpc_node-1] [INFO] [1782821161.419077421] [closed_loop_mpc_node]: Closed-loop MPC node ready. robot=ur backend=tetrapga budget=10.000 ms horizon=20 dt=0.020 control_rate=50.0Hz enforce_budget=false accel_weight=0 output=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/link_com_05cm_x_tetrapga plant_payload_com=[0 0 0.050000000000000003] controller_payload_com=[0 0 0.050000000000000003] external_body=wrist_3_link external_force=[0 0 0] external_torque=[0 0 0]
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] [37;1m2026-06-30 20:06:01.987 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[joint_command_executor.py-2] [37;1m2026-06-30 20:06:01.987 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[joint_command_executor.py-2] [INFO] [1782821162.012552959] [mujoco_joint_executor_node]: MuJoCo executor ready. robot=ur, mode=direct, model=/home/chenwh/ros2_ws/install/ga_ocp_core/share/ga_ocp_core/robot-assets/ur10/mjcf/scene.xml, cmd=/joint_commands, state=/joint_states, mass_scale=1.000, payload_mass=0.000, payload_com=[0.0, 0.0, 0.05], link_com_offset=[0.05, 0.0, 0.0], viewer=False, external_body=wrist_3_link, external_start=-1.000, external_duration=0.000, external_force=[0.0, 0.0, 0.0], external_torque=[0.0, 0.0, 0.0]
+[joint_command_executor.py-2] [INFO] [1782821162.025669283] [mujoco_joint_executor_node]: Applied UR10 six-link COM offset [0.05, 0.0, 0.0] to MuJoCo plant.
+[closed_loop_mpc_node-1] [INFO] [1782821162.039166554] [closed_loop_mpc_node]: Closed-loop experiment started.
+[closed_loop_mpc_node-1] [INFO] [1782821182.105465965] [closed_loop_mpc_node]: Closed-loop experiment finished. cycles=1000 summary=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/link_com_05cm_x_tetrapga_summary.csv cycles=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/link_com_05cm_x_tetrapga_cycles.csv
+[INFO] [joint_command_executor.py-2]: process has finished cleanly [pid 876]
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [closed_loop_mpc_node-1]: process has finished cleanly [pid 874]
+[OK] link_com_05cm_x_tetrapga (launch exited with 124 after writing CSVs)
+
+============================================================
+Running MuJoCo closed-loop case: link_com_05cm_y_tetrapga
+Output prefix: /home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/link_com_05cm_y_tetrapga
+Timeout: 40s
+Viewer: false
+============================================================
+[INFO] [launch]: All log files can be found below /tmp/roslog_ga_ocp_mujoco_20260630_200027/2026-06-30-20-06-41-378863-B3146-938
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [closed_loop_mpc_node-1]: process started with pid [939]
+[INFO] [joint_command_executor.py-2]: process started with pid [941]
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:06:41.427 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:06:41.427 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[closed_loop_mpc_node-1] [INFO] [1782821201.448853971] [closed_loop_mpc_node]: Closed-loop MPC node ready. robot=ur backend=tetrapga budget=10.000 ms horizon=20 dt=0.020 control_rate=50.0Hz enforce_budget=false accel_weight=0 output=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/link_com_05cm_y_tetrapga plant_payload_com=[0 0 0.050000000000000003] controller_payload_com=[0 0 0.050000000000000003] external_body=wrist_3_link external_force=[0 0 0] external_torque=[0 0 0]
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] [37;1m2026-06-30 20:06:41.764 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[joint_command_executor.py-2] [37;1m2026-06-30 20:06:41.764 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[joint_command_executor.py-2] [INFO] [1782821201.789512123] [mujoco_joint_executor_node]: MuJoCo executor ready. robot=ur, mode=direct, model=/home/chenwh/ros2_ws/install/ga_ocp_core/share/ga_ocp_core/robot-assets/ur10/mjcf/scene.xml, cmd=/joint_commands, state=/joint_states, mass_scale=1.000, payload_mass=0.000, payload_com=[0.0, 0.0, 0.05], link_com_offset=[0.0, 0.05, 0.0], viewer=False, external_body=wrist_3_link, external_start=-1.000, external_duration=0.000, external_force=[0.0, 0.0, 0.0], external_torque=[0.0, 0.0, 0.0]
+[joint_command_executor.py-2] [INFO] [1782821201.816632295] [mujoco_joint_executor_node]: Applied UR10 six-link COM offset [0.0, 0.05, 0.0] to MuJoCo plant.
+[closed_loop_mpc_node-1] [INFO] [1782821201.828946785] [closed_loop_mpc_node]: Closed-loop experiment started.
+[closed_loop_mpc_node-1] [INFO] [1782821221.893901035] [closed_loop_mpc_node]: Closed-loop experiment finished. cycles=1000 summary=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/link_com_05cm_y_tetrapga_summary.csv cycles=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/link_com_05cm_y_tetrapga_cycles.csv
+[INFO] [joint_command_executor.py-2]: process has finished cleanly [pid 941]
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [closed_loop_mpc_node-1]: process has finished cleanly [pid 939]
+[OK] link_com_05cm_y_tetrapga (launch exited with 124 after writing CSVs)
+
+============================================================
+Running MuJoCo closed-loop case: link_com_05cm_z_tetrapga
+Output prefix: /home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/link_com_05cm_z_tetrapga
+Timeout: 40s
+Viewer: false
+============================================================
+[INFO] [launch]: All log files can be found below /tmp/roslog_ga_ocp_mujoco_20260630_200027/2026-06-30-20-07-21-723293-B3146-1003
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [closed_loop_mpc_node-1]: process started with pid [1004]
+[INFO] [joint_command_executor.py-2]: process started with pid [1006]
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:07:21.771 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:07:21.771 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[closed_loop_mpc_node-1] [INFO] [1782821241.776788613] [closed_loop_mpc_node]: Closed-loop MPC node ready. robot=ur backend=tetrapga budget=10.000 ms horizon=20 dt=0.020 control_rate=50.0Hz enforce_budget=false accel_weight=0 output=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/link_com_05cm_z_tetrapga plant_payload_com=[0 0 0.050000000000000003] controller_payload_com=[0 0 0.050000000000000003] external_body=wrist_3_link external_force=[0 0 0] external_torque=[0 0 0]
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] [37;1m2026-06-30 20:07:22.275 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[joint_command_executor.py-2] [37;1m2026-06-30 20:07:22.275 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[joint_command_executor.py-2] [INFO] [1782821242.303526998] [mujoco_joint_executor_node]: MuJoCo executor ready. robot=ur, mode=direct, model=/home/chenwh/ros2_ws/install/ga_ocp_core/share/ga_ocp_core/robot-assets/ur10/mjcf/scene.xml, cmd=/joint_commands, state=/joint_states, mass_scale=1.000, payload_mass=0.000, payload_com=[0.0, 0.0, 0.05], link_com_offset=[0.0, 0.0, 0.05], viewer=False, external_body=wrist_3_link, external_start=-1.000, external_duration=0.000, external_force=[0.0, 0.0, 0.0], external_torque=[0.0, 0.0, 0.0]
+[joint_command_executor.py-2] [INFO] [1782821242.360260225] [mujoco_joint_executor_node]: Applied UR10 six-link COM offset [0.0, 0.0, 0.05] to MuJoCo plant.
+[closed_loop_mpc_node-1] [INFO] [1782821242.376918834] [closed_loop_mpc_node]: Closed-loop experiment started.
+[closed_loop_mpc_node-1] [INFO] [1782821262.442012777] [closed_loop_mpc_node]: Closed-loop experiment finished. cycles=1000 summary=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/link_com_05cm_z_tetrapga_summary.csv cycles=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/link_com_05cm_z_tetrapga_cycles.csv
+[INFO] [joint_command_executor.py-2]: process has finished cleanly [pid 1006]
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [closed_loop_mpc_node-1]: process has finished cleanly [pid 1004]
+[OK] link_com_05cm_z_tetrapga (launch exited with 124 after writing CSVs)
+
+============================================================
+Running MuJoCo closed-loop case: external_5N_x_tetrapga
+Output prefix: /home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/external_5N_x_tetrapga
+Timeout: 40s
+Viewer: false
+============================================================
+[INFO] [launch]: All log files can be found below /tmp/roslog_ga_ocp_mujoco_20260630_200027/2026-06-30-20-08-01-835555-B3146-1069
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [closed_loop_mpc_node-1]: process started with pid [1070]
+[INFO] [joint_command_executor.py-2]: process started with pid [1072]
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:08:01.876 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:08:01.876 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[closed_loop_mpc_node-1] [INFO] [1782821281.880953146] [closed_loop_mpc_node]: Closed-loop MPC node ready. robot=ur backend=tetrapga budget=10.000 ms horizon=20 dt=0.020 control_rate=50.0Hz enforce_budget=false accel_weight=0 output=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/external_5N_x_tetrapga plant_payload_com=[0 0 0.050000000000000003] controller_payload_com=[0 0 0.050000000000000003] external_body=wrist_3_link external_force=[5 0 0] external_torque=[0 0 0]
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] [37;1m2026-06-30 20:08:02.180 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[joint_command_executor.py-2] [37;1m2026-06-30 20:08:02.180 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[joint_command_executor.py-2] [INFO] [1782821282.292643256] [mujoco_joint_executor_node]: MuJoCo executor ready. robot=ur, mode=direct, model=/home/chenwh/ros2_ws/install/ga_ocp_core/share/ga_ocp_core/robot-assets/ur10/mjcf/scene.xml, cmd=/joint_commands, state=/joint_states, mass_scale=1.000, payload_mass=0.000, payload_com=[0.0, 0.0, 0.05], link_com_offset=[0.0, 0.0, 0.0], viewer=False, external_body=wrist_3_link, external_start=2.000, external_duration=18.000, external_force=[5.0, 0.0, 0.0], external_torque=[0.0, 0.0, 0.0]
+[joint_command_executor.py-2] [INFO] [1782821282.349905585] [mujoco_joint_executor_node]: External wrench enabled on body 'wrist_3_link' from t=2.000s for 18.000s.
+[closed_loop_mpc_node-1] [INFO] [1782821282.361151909] [closed_loop_mpc_node]: Closed-loop experiment started.
+[closed_loop_mpc_node-1] [INFO] [1782821302.426422210] [closed_loop_mpc_node]: Closed-loop experiment finished. cycles=1000 summary=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/external_5N_x_tetrapga_summary.csv cycles=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/external_5N_x_tetrapga_cycles.csv
+[INFO] [joint_command_executor.py-2]: process has finished cleanly [pid 1072]
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [closed_loop_mpc_node-1]: process has finished cleanly [pid 1070]
+[OK] external_5N_x_tetrapga (launch exited with 124 after writing CSVs)
+
+============================================================
+Running MuJoCo closed-loop case: external_5N_y_tetrapga
+Output prefix: /home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/external_5N_y_tetrapga
+Timeout: 40s
+Viewer: false
+============================================================
+[INFO] [launch]: All log files can be found below /tmp/roslog_ga_ocp_mujoco_20260630_200027/2026-06-30-20-08-42-296200-B3146-1133
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [closed_loop_mpc_node-1]: process started with pid [1134]
+[INFO] [joint_command_executor.py-2]: process started with pid [1136]
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:08:42.352 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:08:42.352 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[closed_loop_mpc_node-1] [INFO] [1782821322.357814882] [closed_loop_mpc_node]: Closed-loop MPC node ready. robot=ur backend=tetrapga budget=10.000 ms horizon=20 dt=0.020 control_rate=50.0Hz enforce_budget=false accel_weight=0 output=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/external_5N_y_tetrapga plant_payload_com=[0 0 0.050000000000000003] controller_payload_com=[0 0 0.050000000000000003] external_body=wrist_3_link external_force=[0 5 0] external_torque=[0 0 0]
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] [37;1m2026-06-30 20:08:42.913 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[joint_command_executor.py-2] [37;1m2026-06-30 20:08:42.913 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[joint_command_executor.py-2] [INFO] [1782821322.957832939] [mujoco_joint_executor_node]: MuJoCo executor ready. robot=ur, mode=direct, model=/home/chenwh/ros2_ws/install/ga_ocp_core/share/ga_ocp_core/robot-assets/ur10/mjcf/scene.xml, cmd=/joint_commands, state=/joint_states, mass_scale=1.000, payload_mass=0.000, payload_com=[0.0, 0.0, 0.05], link_com_offset=[0.0, 0.0, 0.0], viewer=False, external_body=wrist_3_link, external_start=2.000, external_duration=18.000, external_force=[0.0, 5.0, 0.0], external_torque=[0.0, 0.0, 0.0]
+[joint_command_executor.py-2] [INFO] [1782821322.995085032] [mujoco_joint_executor_node]: External wrench enabled on body 'wrist_3_link' from t=2.000s for 18.000s.
+[closed_loop_mpc_node-1] [INFO] [1782821322.998029124] [closed_loop_mpc_node]: Closed-loop experiment started.
+[closed_loop_mpc_node-1] [INFO] [1782821343.064655511] [closed_loop_mpc_node]: Closed-loop experiment finished. cycles=1000 summary=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/external_5N_y_tetrapga_summary.csv cycles=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/external_5N_y_tetrapga_cycles.csv
+[INFO] [joint_command_executor.py-2]: process has finished cleanly [pid 1136]
+[INFO] [closed_loop_mpc_node-1]: process has finished cleanly [pid 1134]
+[OK] external_5N_y_tetrapga
+
+============================================================
+Running MuJoCo closed-loop case: external_5N_z_tetrapga
+Output prefix: /home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/external_5N_z_tetrapga
+Timeout: 40s
+Viewer: false
+============================================================
+[INFO] [launch]: All log files can be found below /tmp/roslog_ga_ocp_mujoco_20260630_200027/2026-06-30-20-09-03-628556-B3146-1197
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [closed_loop_mpc_node-1]: process started with pid [1198]
+[INFO] [joint_command_executor.py-2]: process started with pid [1200]
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:09:03.679 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:09:03.679 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[closed_loop_mpc_node-1] [INFO] [1782821343.684365572] [closed_loop_mpc_node]: Closed-loop MPC node ready. robot=ur backend=tetrapga budget=10.000 ms horizon=20 dt=0.020 control_rate=50.0Hz enforce_budget=false accel_weight=0 output=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/external_5N_z_tetrapga plant_payload_com=[0 0 0.050000000000000003] controller_payload_com=[0 0 0.050000000000000003] external_body=wrist_3_link external_force=[0 0 5] external_torque=[0 0 0]
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] [37;1m2026-06-30 20:09:04.004 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[joint_command_executor.py-2] [37;1m2026-06-30 20:09:04.004 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[joint_command_executor.py-2] [INFO] [1782821344.030704994] [mujoco_joint_executor_node]: MuJoCo executor ready. robot=ur, mode=direct, model=/home/chenwh/ros2_ws/install/ga_ocp_core/share/ga_ocp_core/robot-assets/ur10/mjcf/scene.xml, cmd=/joint_commands, state=/joint_states, mass_scale=1.000, payload_mass=0.000, payload_com=[0.0, 0.0, 0.05], link_com_offset=[0.0, 0.0, 0.0], viewer=False, external_body=wrist_3_link, external_start=2.000, external_duration=18.000, external_force=[0.0, 0.0, 5.0], external_torque=[0.0, 0.0, 0.0]
+[joint_command_executor.py-2] [INFO] [1782821344.050013963] [mujoco_joint_executor_node]: External wrench enabled on body 'wrist_3_link' from t=2.000s for 18.000s.
+[closed_loop_mpc_node-1] [INFO] [1782821344.084431736] [closed_loop_mpc_node]: Closed-loop experiment started.
+[closed_loop_mpc_node-1] [INFO] [1782821364.100687385] [closed_loop_mpc_node]: Closed-loop experiment finished. cycles=1000 summary=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/external_5N_z_tetrapga_summary.csv cycles=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/external_5N_z_tetrapga_cycles.csv
+[INFO] [joint_command_executor.py-2]: process has finished cleanly [pid 1200]
+[INFO] [closed_loop_mpc_node-1]: process has finished cleanly [pid 1198]
+[OK] external_5N_z_tetrapga
+
+============================================================
+Running MuJoCo closed-loop case: external_10N_x_tetrapga
+Output prefix: /home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/external_10N_x_tetrapga
+Timeout: 40s
+Viewer: false
+============================================================
+[INFO] [launch]: All log files can be found below /tmp/roslog_ga_ocp_mujoco_20260630_200027/2026-06-30-20-09-24-465234-B3146-1261
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [closed_loop_mpc_node-1]: process started with pid [1262]
+[INFO] [joint_command_executor.py-2]: process started with pid [1264]
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:09:24.522 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:09:24.522 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[closed_loop_mpc_node-1] [INFO] [1782821364.545616823] [closed_loop_mpc_node]: Closed-loop MPC node ready. robot=ur backend=tetrapga budget=10.000 ms horizon=20 dt=0.020 control_rate=50.0Hz enforce_budget=false accel_weight=0 output=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/external_10N_x_tetrapga plant_payload_com=[0 0 0.050000000000000003] controller_payload_com=[0 0 0.050000000000000003] external_body=wrist_3_link external_force=[10 0 0] external_torque=[0 0 0]
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] [37;1m2026-06-30 20:09:25.043 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[joint_command_executor.py-2] [37;1m2026-06-30 20:09:25.043 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[joint_command_executor.py-2] [INFO] [1782821365.068189427] [mujoco_joint_executor_node]: MuJoCo executor ready. robot=ur, mode=direct, model=/home/chenwh/ros2_ws/install/ga_ocp_core/share/ga_ocp_core/robot-assets/ur10/mjcf/scene.xml, cmd=/joint_commands, state=/joint_states, mass_scale=1.000, payload_mass=0.000, payload_com=[0.0, 0.0, 0.05], link_com_offset=[0.0, 0.0, 0.0], viewer=False, external_body=wrist_3_link, external_start=2.000, external_duration=18.000, external_force=[10.0, 0.0, 0.0], external_torque=[0.0, 0.0, 0.0]
+[joint_command_executor.py-2] [INFO] [1782821365.111302212] [mujoco_joint_executor_node]: External wrench enabled on body 'wrist_3_link' from t=2.000s for 18.000s.
+[closed_loop_mpc_node-1] [INFO] [1782821365.125684310] [closed_loop_mpc_node]: Closed-loop experiment started.
+[closed_loop_mpc_node-1] [INFO] [1782821385.193551384] [closed_loop_mpc_node]: Closed-loop experiment finished. cycles=1000 summary=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/external_10N_x_tetrapga_summary.csv cycles=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/external_10N_x_tetrapga_cycles.csv
+[INFO] [joint_command_executor.py-2]: process has finished cleanly [pid 1264]
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [closed_loop_mpc_node-1]: process has finished cleanly [pid 1262]
+[OK] external_10N_x_tetrapga (launch exited with 124 after writing CSVs)
+
+============================================================
+Running MuJoCo closed-loop case: external_10N_y_tetrapga
+Output prefix: /home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/external_10N_y_tetrapga
+Timeout: 40s
+Viewer: false
+============================================================
+[INFO] [launch]: All log files can be found below /tmp/roslog_ga_ocp_mujoco_20260630_200027/2026-06-30-20-10-04-661147-B3146-1325
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [closed_loop_mpc_node-1]: process started with pid [1326]
+[INFO] [joint_command_executor.py-2]: process started with pid [1328]
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:10:04.702 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:10:04.702 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[closed_loop_mpc_node-1] [INFO] [1782821404.707604837] [closed_loop_mpc_node]: Closed-loop MPC node ready. robot=ur backend=tetrapga budget=10.000 ms horizon=20 dt=0.020 control_rate=50.0Hz enforce_budget=false accel_weight=0 output=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/external_10N_y_tetrapga plant_payload_com=[0 0 0.050000000000000003] controller_payload_com=[0 0 0.050000000000000003] external_body=wrist_3_link external_force=[0 10 0] external_torque=[0 0 0]
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] [37;1m2026-06-30 20:10:04.963 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[joint_command_executor.py-2] [37;1m2026-06-30 20:10:04.963 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[joint_command_executor.py-2] [INFO] [1782821404.988440769] [mujoco_joint_executor_node]: MuJoCo executor ready. robot=ur, mode=direct, model=/home/chenwh/ros2_ws/install/ga_ocp_core/share/ga_ocp_core/robot-assets/ur10/mjcf/scene.xml, cmd=/joint_commands, state=/joint_states, mass_scale=1.000, payload_mass=0.000, payload_com=[0.0, 0.0, 0.05], link_com_offset=[0.0, 0.0, 0.0], viewer=False, external_body=wrist_3_link, external_start=2.000, external_duration=18.000, external_force=[0.0, 10.0, 0.0], external_torque=[0.0, 0.0, 0.0]
+[joint_command_executor.py-2] [INFO] [1782821405.040243500] [mujoco_joint_executor_node]: External wrench enabled on body 'wrist_3_link' from t=2.000s for 18.000s.
+[closed_loop_mpc_node-1] [INFO] [1782821405.047742112] [closed_loop_mpc_node]: Closed-loop experiment started.
+[closed_loop_mpc_node-1] [INFO] [1782821425.125425021] [closed_loop_mpc_node]: Closed-loop experiment finished. cycles=1000 summary=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/external_10N_y_tetrapga_summary.csv cycles=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/external_10N_y_tetrapga_cycles.csv
+[INFO] [joint_command_executor.py-2]: process has finished cleanly [pid 1328]
+[INFO] [closed_loop_mpc_node-1]: process has finished cleanly [pid 1326]
+[OK] external_10N_y_tetrapga
+
+============================================================
+Running MuJoCo closed-loop case: external_10N_z_tetrapga
+Output prefix: /home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/external_10N_z_tetrapga
+Timeout: 40s
+Viewer: false
+============================================================
+[INFO] [launch]: All log files can be found below /tmp/roslog_ga_ocp_mujoco_20260630_200027/2026-06-30-20-10-25-711184-B3146-1389
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [closed_loop_mpc_node-1]: process started with pid [1390]
+[INFO] [joint_command_executor.py-2]: process started with pid [1392]
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:10:25.791 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:10:25.791 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[closed_loop_mpc_node-1] [INFO] [1782821425.823000949] [closed_loop_mpc_node]: Closed-loop MPC node ready. robot=ur backend=tetrapga budget=10.000 ms horizon=20 dt=0.020 control_rate=50.0Hz enforce_budget=false accel_weight=0 output=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/external_10N_z_tetrapga plant_payload_com=[0 0 0.050000000000000003] controller_payload_com=[0 0 0.050000000000000003] external_body=wrist_3_link external_force=[0 0 10] external_torque=[0 0 0]
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] [37;1m2026-06-30 20:10:26.582 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[joint_command_executor.py-2] [37;1m2026-06-30 20:10:26.582 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[joint_command_executor.py-2] [INFO] [1782821426.691850370] [mujoco_joint_executor_node]: MuJoCo executor ready. robot=ur, mode=direct, model=/home/chenwh/ros2_ws/install/ga_ocp_core/share/ga_ocp_core/robot-assets/ur10/mjcf/scene.xml, cmd=/joint_commands, state=/joint_states, mass_scale=1.000, payload_mass=0.000, payload_com=[0.0, 0.0, 0.05], link_com_offset=[0.0, 0.0, 0.0], viewer=False, external_body=wrist_3_link, external_start=2.000, external_duration=18.000, external_force=[0.0, 0.0, 10.0], external_torque=[0.0, 0.0, 0.0]
+[joint_command_executor.py-2] [INFO] [1782821426.743289064] [mujoco_joint_executor_node]: External wrench enabled on body 'wrist_3_link' from t=2.000s for 18.000s.
+[closed_loop_mpc_node-1] [INFO] [1782821426.763115161] [closed_loop_mpc_node]: Closed-loop experiment started.
+[closed_loop_mpc_node-1] [INFO] [1782821446.828185254] [closed_loop_mpc_node]: Closed-loop experiment finished. cycles=1000 summary=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/external_10N_z_tetrapga_summary.csv cycles=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/external_10N_z_tetrapga_cycles.csv
+[INFO] [joint_command_executor.py-2]: process has finished cleanly [pid 1392]
+[INFO] [closed_loop_mpc_node-1]: process has finished cleanly [pid 1390]
+[OK] external_10N_z_tetrapga
+
+============================================================
+Running MuJoCo closed-loop case: external_20N_x_tetrapga
+Output prefix: /home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/external_20N_x_tetrapga
+Timeout: 40s
+Viewer: false
+============================================================
+[INFO] [launch]: All log files can be found below /tmp/roslog_ga_ocp_mujoco_20260630_200027/2026-06-30-20-10-47-327945-B3146-1453
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [closed_loop_mpc_node-1]: process started with pid [1454]
+[INFO] [joint_command_executor.py-2]: process started with pid [1456]
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:10:47.395 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:10:47.395 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[closed_loop_mpc_node-1] [INFO] [1782821447.417426699] [closed_loop_mpc_node]: Closed-loop MPC node ready. robot=ur backend=tetrapga budget=10.000 ms horizon=20 dt=0.020 control_rate=50.0Hz enforce_budget=false accel_weight=0 output=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/external_20N_x_tetrapga plant_payload_com=[0 0 0.050000000000000003] controller_payload_com=[0 0 0.050000000000000003] external_body=wrist_3_link external_force=[20 0 0] external_torque=[0 0 0]
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] [37;1m2026-06-30 20:10:47.967 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[joint_command_executor.py-2] [37;1m2026-06-30 20:10:47.967 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[joint_command_executor.py-2] [INFO] [1782821447.992196775] [mujoco_joint_executor_node]: MuJoCo executor ready. robot=ur, mode=direct, model=/home/chenwh/ros2_ws/install/ga_ocp_core/share/ga_ocp_core/robot-assets/ur10/mjcf/scene.xml, cmd=/joint_commands, state=/joint_states, mass_scale=1.000, payload_mass=0.000, payload_com=[0.0, 0.0, 0.05], link_com_offset=[0.0, 0.0, 0.0], viewer=False, external_body=wrist_3_link, external_start=2.000, external_duration=18.000, external_force=[20.0, 0.0, 0.0], external_torque=[0.0, 0.0, 0.0]
+[joint_command_executor.py-2] [INFO] [1782821448.006144511] [mujoco_joint_executor_node]: External wrench enabled on body 'wrist_3_link' from t=2.000s for 18.000s.
+[closed_loop_mpc_node-1] [INFO] [1782821448.017477409] [closed_loop_mpc_node]: Closed-loop experiment started.
+[closed_loop_mpc_node-1] [INFO] [1782821468.083514483] [closed_loop_mpc_node]: Closed-loop experiment finished. cycles=1000 summary=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/external_20N_x_tetrapga_summary.csv cycles=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/external_20N_x_tetrapga_cycles.csv
+[INFO] [joint_command_executor.py-2]: process has finished cleanly [pid 1456]
+[INFO] [closed_loop_mpc_node-1]: process has finished cleanly [pid 1454]
+[OK] external_20N_x_tetrapga
+
+============================================================
+Running MuJoCo closed-loop case: external_20N_y_tetrapga
+Output prefix: /home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/external_20N_y_tetrapga
+Timeout: 40s
+Viewer: false
+============================================================
+[INFO] [launch]: All log files can be found below /tmp/roslog_ga_ocp_mujoco_20260630_200027/2026-06-30-20-11-08-634920-B3146-1517
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [closed_loop_mpc_node-1]: process started with pid [1518]
+[INFO] [joint_command_executor.py-2]: process started with pid [1520]
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:11:08.676 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:11:08.676 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[closed_loop_mpc_node-1] [INFO] [1782821468.683577699] [closed_loop_mpc_node]: Closed-loop MPC node ready. robot=ur backend=tetrapga budget=10.000 ms horizon=20 dt=0.020 control_rate=50.0Hz enforce_budget=false accel_weight=0 output=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/external_20N_y_tetrapga plant_payload_com=[0 0 0.050000000000000003] controller_payload_com=[0 0 0.050000000000000003] external_body=wrist_3_link external_force=[0 20 0] external_torque=[0 0 0]
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] [37;1m2026-06-30 20:11:08.972 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[joint_command_executor.py-2] [37;1m2026-06-30 20:11:08.972 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[joint_command_executor.py-2] [INFO] [1782821468.998242457] [mujoco_joint_executor_node]: MuJoCo executor ready. robot=ur, mode=direct, model=/home/chenwh/ros2_ws/install/ga_ocp_core/share/ga_ocp_core/robot-assets/ur10/mjcf/scene.xml, cmd=/joint_commands, state=/joint_states, mass_scale=1.000, payload_mass=0.000, payload_com=[0.0, 0.0, 0.05], link_com_offset=[0.0, 0.0, 0.0], viewer=False, external_body=wrist_3_link, external_start=2.000, external_duration=18.000, external_force=[0.0, 20.0, 0.0], external_torque=[0.0, 0.0, 0.0]
+[joint_command_executor.py-2] [INFO] [1782821469.013515837] [mujoco_joint_executor_node]: External wrench enabled on body 'wrist_3_link' from t=2.000s for 18.000s.
+[closed_loop_mpc_node-1] [INFO] [1782821469.023648022] [closed_loop_mpc_node]: Closed-loop experiment started.
+[closed_loop_mpc_node-1] [INFO] [1782821489.023728910] [closed_loop_mpc_node]: Closed-loop experiment finished. cycles=1000 summary=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/external_20N_y_tetrapga_summary.csv cycles=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/external_20N_y_tetrapga_cycles.csv
+[INFO] [closed_loop_mpc_node-1]: process has finished cleanly [pid 1518]
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [joint_command_executor.py-2]: process has finished cleanly [pid 1520]
+[OK] external_20N_y_tetrapga (launch exited with 124 after writing CSVs)
+
+============================================================
+Running MuJoCo closed-loop case: external_20N_z_tetrapga
+Output prefix: /home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/external_20N_z_tetrapga
+Timeout: 40s
+Viewer: false
+============================================================
+[INFO] [launch]: All log files can be found below /tmp/roslog_ga_ocp_mujoco_20260630_200027/2026-06-30-20-11-49-005443-B3146-1581
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [closed_loop_mpc_node-1]: process started with pid [1582]
+[INFO] [joint_command_executor.py-2]: process started with pid [1584]
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] getifaddrs: Operation not permitted
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:11:49.079 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[closed_loop_mpc_node-1] [37;1m2026-06-30 20:11:49.079 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[closed_loop_mpc_node-1] [INFO] [1782821509.087977026] [closed_loop_mpc_node]: Closed-loop MPC node ready. robot=ur backend=tetrapga budget=10.000 ms horizon=20 dt=0.020 control_rate=50.0Hz enforce_budget=false accel_weight=0 output=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/external_20N_z_tetrapga plant_payload_com=[0 0 0.050000000000000003] controller_payload_com=[0 0 0.050000000000000003] external_body=wrist_3_link external_force=[0 0 20] external_torque=[0 0 0]
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] getifaddrs: Operation not permitted
+[joint_command_executor.py-2] [37;1m2026-06-30 20:11:49.299 [31;1m[[37;1mTRANSPORT_UDP[31;1m Error] [37mError creating socket: Operation not permitted[34;1m -> Function [36minit[m
+[joint_command_executor.py-2] [37;1m2026-06-30 20:11:49.299 [31;1m[[37;1mRTPS_PARTICIPANT[31;1m Error] [37mUser transport failed to register.[34;1m -> Function [36mRTPSParticipantImpl[m
+[joint_command_executor.py-2] [INFO] [1782821509.323956699] [mujoco_joint_executor_node]: MuJoCo executor ready. robot=ur, mode=direct, model=/home/chenwh/ros2_ws/install/ga_ocp_core/share/ga_ocp_core/robot-assets/ur10/mjcf/scene.xml, cmd=/joint_commands, state=/joint_states, mass_scale=1.000, payload_mass=0.000, payload_com=[0.0, 0.0, 0.05], link_com_offset=[0.0, 0.0, 0.0], viewer=False, external_body=wrist_3_link, external_start=2.000, external_duration=18.000, external_force=[0.0, 0.0, 20.0], external_torque=[0.0, 0.0, 0.0]
+[joint_command_executor.py-2] [INFO] [1782821509.340090368] [mujoco_joint_executor_node]: External wrench enabled on body 'wrist_3_link' from t=2.000s for 18.000s.
+[closed_loop_mpc_node-1] [INFO] [1782821509.388152542] [closed_loop_mpc_node]: Closed-loop experiment started.
+[closed_loop_mpc_node-1] [INFO] [1782821529.445309212] [closed_loop_mpc_node]: Closed-loop experiment finished. cycles=1000 summary=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/external_20N_z_tetrapga_summary.csv cycles=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/external_20N_z_tetrapga_cycles.csv
+[INFO] [closed_loop_mpc_node-1]: process has finished cleanly [pid 1582]
+[INFO] [joint_command_executor.py-2]: process has finished cleanly [pid 1584]
+[OK] external_20N_z_tetrapga
+/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/combined_summary.csv
+/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/batch_20260630_200027_sixlink_com_external/closed_loop_metrics_summary.csv
+/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/mujoco_robustness_combined_summary.csv
+/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/mujoco_robustness_metrics_summary.csv
+/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/mujoco_robustness_paper_summary.csv
+/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/mujoco_inertial_mismatch_table.csv
+/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep/paper_scale/mujoco_external_wrench_table.csv
+
+============================================================
+MuJoCo closed-loop sweep complete
+Results: /home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/06_mujoco_robustness_expanded_sweep
+All cases succeeded.
+============================================================

@@ -1,0 +1,14 @@
+[sample 0/3] method=TetraPGA
+[sample 0/3] method=Pinocchio
+[sample 0/3] method=CasADi
+[sample 1/3] method=TetraPGA
+[sample 1/3] method=Pinocchio
+[sample 1/3] method=CasADi
+[sample 2/3] method=TetraPGA
+[sample 2/3] method=Pinocchio
+[sample 2/3] method=CasADi
+Wrote results to:
+  /home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/02_ocp_fixed_budget/ur10/ur10_samples.csv
+  /home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/02_ocp_fixed_budget/ur10/ur10_runs.csv
+  /home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/02_ocp_fixed_budget/ur10/ur10_trace.csv
+  /home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/02_ocp_fixed_budget/ur10/ur10_summary.csv

@@ -35,6 +35,14 @@ if(NOT EXISTS "${TETRAPGA_ROBOT_ASSETS_DIR}/ur10/urdf/ur10.urdf")
     "Expected to find ur10/urdf/ur10.urdf under '${TETRAPGA_ROBOT_ASSETS_DIR}'.")
 endif()
 
+set(TETRAPGA_MOBILE_MANIPULATOR_URDF
+  "${TETRAPGA_ROBOT_ASSETS_DIR}/stanford_tidybot/urdf/tidybot_gen3_10dof.urdf")
+if(TETRAPGA_BUILD_TESTS AND NOT EXISTS "${TETRAPGA_MOBILE_MANIPULATOR_URDF}")
+  message(FATAL_ERROR
+    "Expected the Stanford TidyBot mobile manipulator URDF at "
+    "'${TETRAPGA_MOBILE_MANIPULATOR_URDF}'.")
+endif()
+
 find_package(Eigen3 REQUIRED)
 find_package(urdfdom REQUIRED)
 
@@ -92,6 +100,8 @@ if(TETRAPGA_BUILD_TESTS)
 
   tetrapga_add_test(TetraPGA_models_test test/TetraPGA_models_test.cpp)
   target_link_libraries(TetraPGA_models_test PRIVATE pinocchio::pinocchio)
+  add_test(NAME TetraPGA_mobile_manipulator_models_test
+    COMMAND TetraPGA_models_test "${TETRAPGA_MOBILE_MANIPULATOR_URDF}")
 
   find_package(PkgConfig REQUIRED)
   pkg_check_modules(COAL REQUIRED IMPORTED_TARGET coal)
@@ -118,6 +128,9 @@ if(TETRAPGA_BUILD_BENCHMARKS)
 
   tetrapga_add_benchmark(TetraPGA_dyn_so_bench benchmark/TetraPGA_dyn_so_bench.cpp)
   target_link_libraries(TetraPGA_dyn_so_bench PRIVATE pinocchio::pinocchio)
+
+  tetrapga_add_benchmark(TetraPGA_operator_bench benchmark/TetraPGA_operator_bench.cpp)
+  target_link_libraries(TetraPGA_operator_bench PRIVATE pinocchio::pinocchio)
 
   pkg_check_modules(COAL QUIET IMPORTED_TARGET coal)
   if(COAL_FOUND)

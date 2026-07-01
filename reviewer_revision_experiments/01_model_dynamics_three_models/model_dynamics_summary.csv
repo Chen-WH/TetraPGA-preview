@@ -1,0 +1,4 @@
+model,urdf,dof,test,status,log
+ur10,/home/chenwh/ros2_ws/src/robot-assets/ur10/urdf/ur10.urdf,6,TetraPGA_models_test,pass,ur10.log
+leap_hand_left,/home/chenwh/ros2_ws/src/robot-assets/leap_hand/urdf/leap_hand_left.urdf,16,TetraPGA_models_test,pass,leap_hand_left.log
+stanford_tidybot,/home/chenwh/ros2_ws/src/robot-assets/stanford_tidybot/urdf/tidybot_gen3_10dof.urdf,10,TetraPGA_models_test,pass,stanford_tidybot.log

@@ -1,0 +1,7 @@
+[  0%] Built target Crocoddyl_fddp_bench_autogen_timestamp_deps
+[ 20%] Automatic MOC for target Crocoddyl_fddp_bench
+[ 20%] Built target Crocoddyl_fddp_bench_autogen
+[ 40%] Building CXX object CMakeFiles/Crocoddyl_fddp_bench.dir/Crocoddyl_fddp_bench_autogen/mocs_compilation.cpp.o
+[ 60%] Building CXX object CMakeFiles/Crocoddyl_fddp_bench.dir/benchmark/Crocoddyl_fddp_bench.cpp.o
+[ 80%] Linking CXX executable Crocoddyl_fddp_bench
+[100%] Built target Crocoddyl_fddp_bench

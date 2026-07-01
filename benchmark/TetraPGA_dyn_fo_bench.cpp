@@ -13,7 +13,7 @@ namespace {
 
 constexpr int kMinLevel = 1;
 constexpr int kMaxLevel = 9;
-constexpr int kMaxLevel_AD = 7;
+constexpr int kMaxLevel_AD = 8;
 constexpr int kSampleBatchSize = 1024;
 constexpr int kBenchmarkIterations = 1024;
 

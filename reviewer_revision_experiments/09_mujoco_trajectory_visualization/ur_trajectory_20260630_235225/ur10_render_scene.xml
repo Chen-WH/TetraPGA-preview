@@ -1,0 +1,88 @@
+<mujoco model="ur10_render_scene">
+  <compiler angle="radian" meshdir="/home/chenwh/ros2_ws/src/robot-assets/ur10/assets" autolimits="true"/>
+  <option integrator="implicitfast" gravity="0 0 -9.81"/>
+
+  <default>
+    <default class="ur10">
+      <joint axis="0 1 0" range="-6.28319 6.28319" armature="0.1"/>
+      <position ctrlrange="-6.2831 6.2831"/>
+      <general biastype="affine" ctrlrange="-6.2831 6.2831" gainprm="5000" biasprm="0 -5000 -500"/>
+    </default>
+  </default>
+
+  <statistic center="0.15 0.0 1.25" extent="1.2"/>
+
+  <visual>
+    <headlight diffuse="0.7 0.7 0.7" ambient="0.2 0.2 0.2" specular="0.1 0.1 0.1"/>
+    <rgba haze="0.15 0.25 0.35 1"/>
+    <global azimuth="125" elevation="-22"/>
+  </visual>
+
+  <asset>
+    <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512" height="3072"/>
+    <texture type="2d" name="groundplane" builtin="checker" mark="edge"
+             rgb1="0.2 0.3 0.4" rgb2="0.1 0.2 0.3" markrgb="0.8 0.8 0.8"
+             width="300" height="300"/>
+    <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5" reflectance="0.2"/>
+    <mesh name="base" file="base.stl"/>
+    <mesh name="shoulder" file="shoulder.stl"/>
+    <mesh name="upperarm" file="upperarm.stl"/>
+    <mesh name="forearm" file="forearm.stl"/>
+    <mesh name="wrist1" file="wrist1.stl"/>
+    <mesh name="wrist2" file="wrist2.stl"/>
+    <mesh name="wrist3" file="wrist3.stl"/>
+  </asset>
+
+  <worldbody>
+    <light pos="0 0 3.0" dir="0 0 -1" directional="true"/>
+    <geom name="floor" size="0 0 0.05" type="plane" material="groundplane"/>
+    <body name="link0" childclass="ur10" pos="0 0 0.96">
+      <geom quat="-1 0 0 0" type="mesh" rgba="0.7 0.7 0.7 1" mesh="base"/>
+      <body name="shoulder_link" pos="0 0 0.1273" quat="0 0 0 1">
+        <inertial pos="0.021 -0.027 0" quat="0.988634 -0.000680926 0.148578 -0.0229591" mass="7.1" diaginertia="0.0353866 0.0352903 0.0202532"/>
+        <joint name="joint1" pos="0 0 0" axis="0 0 1" range="-6.28319 6.28319" damping="10"/>
+        <geom quat="0 0 0 1" type="mesh" rgba="0.7 0.7 0.7 1" mesh="shoulder"/>
+        <body name="upper_arm_link" quat="0.707107 0.707107 0 0">
+          <inertial pos="-0.232 0 0.158" quat="0.500033 0.499784 0.489585 0.510381" mass="12.7" diaginertia="0.77068 0.769758 0.0278114"/>
+          <joint name="joint2" pos="0 0 0" axis="0 0 1" range="-6.28319 6.28319" damping="10"/>
+          <geom pos="0 0 0.220941" quat="0.5 0.5 -0.5 -0.5" type="mesh" rgba="0.7 0.7 0.7 1" mesh="upperarm"/>
+          <body name="forearm_link" pos="-0.612 0 0">
+            <inertial pos="-0.3323 0 0.068" quat="0.492051 0.507971 0.507346 0.492394" mass="4.27" diaginertia="0.30928 0.306743 0.00985709"/>
+            <joint name="joint3" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159" damping="5"/>
+            <geom pos="0 0 0.049042" quat="0.5 0.5 -0.5 -0.5" type="mesh" rgba="0.7 0.7 0.7 1" mesh="forearm"/>
+            <body name="wrist_1_link" pos="-0.5723 0 0.163941">
+              <inertial pos="0 -0.018 0.007" quat="0.525776 0.850564 -0.0100431 9.45801e-05" mass="2" diaginertia="0.00296017 0.00269992 0.00209991"/>
+              <joint name="joint4" pos="0 0 0" axis="0 0 1" range="-6.28319 6.28319" damping="2"/>
+              <geom pos="0 0 -0.1149" quat="0.707107 0.707107 0 0" type="mesh" rgba="0.7 0.7 0.7 1" mesh="wrist1"/>
+              <body name="wrist_2_link" pos="0 -0.1157 -2.37305e-11" quat="0.707107 0.707107 0 0">
+                <inertial pos="0 0.018 -0.007" quat="0.525776 0.850564 -0.0100431 9.45801e-05" mass="2" diaginertia="0.00296017 0.00269992 0.00209991"/>
+                <joint name="joint5" pos="0 0 0" axis="0 0 1" range="-6.28319 6.28319" damping="2"/>
+                <geom pos="0 0 -0.1158" quat="1 0 0 0" type="mesh" rgba="0.7 0.7 0.7 1" mesh="wrist2"/>
+                <body name="wrist_3_link" pos="0 0.0922 -1.89105e-11" quat="0.707107 -0.707107 0 0">
+                  <inertial pos="0 0 -0.026" quat="0.707107 0 0 0.707107" mass="0.365" diaginertia="0.00041 0.0004 0.00034"/>
+                  <joint name="joint6" pos="0 0 0" axis="0 0 1" range="-6.28319 6.28319" damping="2"/>
+                  <geom pos="0 0 -0.0922" quat="0.707107 0.707107 0 0" type="mesh" rgba="0.7 0.7 0.7 1" mesh="wrist3"/>
+                  <body name="attachment" pos="0 0 0.01" quat="0.707107 0 0 -0.707107"></body>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+
+  <actuator>
+    <general class="ur10" name="actuator1" joint="joint1" gainprm="4500" biasprm="0 -4500 -450" forcerange="-330 330"/>
+    <general class="ur10" name="actuator2" joint="joint2" gainprm="4500" biasprm="0 -4500 -450" forcerange="-330 330"/>
+    <general class="ur10" name="actuator3" joint="joint3" gainprm="3500" biasprm="0 -3500 -350" forcerange="-150 150" ctrlrange="-3.1415 3.1415"/>
+    <general class="ur10" name="actuator4" joint="joint4" gainprm="3500" biasprm="0 -3500 -350" forcerange="-56 56"/>
+    <general class="ur10" name="actuator5" joint="joint5" gainprm="2000" biasprm="0 -2000 -200" forcerange="-56 56"/>
+    <general class="ur10" name="actuator6" joint="joint6" gainprm="2000" biasprm="0 -2000 -200" forcerange="-56 56"/>
+  </actuator>
+
+  <keyframe>
+    <key name="home" qpos="0.0 -1.5708 0.0 -1.5708 0.0 0.0" ctrl="0.0 -1.5708 0.0 -1.5708 0.0 0.0"/>
+  </keyframe>
+
+</mujoco>

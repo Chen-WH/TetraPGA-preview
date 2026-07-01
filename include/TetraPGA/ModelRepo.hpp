@@ -232,6 +232,10 @@ inline Model<double> leap_hand(const std::string& urdf_file) {
     return Model<double>(urdf_file);
 }
 
+inline Model<double> stanford_tidybot(const std::string& urdf_file) {
+    return Model<double>(urdf_file);
+}
+
 inline Model<double> model_from_name(const std::string& robot_name, const std::string& urdf_file = "",
                                      const Eigen::Vector3d& g = Eigen::Vector3d(0, 0, -9.81)) {
     if (robot_name == "ur") {
@@ -248,6 +252,12 @@ inline Model<double> model_from_name(const std::string& robot_name, const std::s
             throw std::invalid_argument("leap_left model requires a URDF file path");
         }
         return leap_hand(urdf_file);
+    }
+    if (robot_name == "stanford_tidybot" || robot_name == "tidybot_gen3_10dof") {
+        if (urdf_file.empty()) {
+            throw std::invalid_argument(robot_name + " model requires a URDF file path");
+        }
+        return stanford_tidybot(urdf_file);
     }
     throw std::invalid_argument("Unsupported robot model: " + robot_name);
 }

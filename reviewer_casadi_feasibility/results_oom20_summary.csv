@@ -1,0 +1,4 @@
+case,meaning,memory_policy,last_success_dof,first_failure_dof,first_failure_status,last_success_peak_rss_mb,last_success_graph_build_s,notes
+aba_fo,ABA first-order CasADi graph used by forward-dynamics OCP baseline,"RLIMIT_AS=20GB; RSS kill=19.5GiB",407,408,rss_limit,19927.918,345.651891835,"407 DoF succeeded; 408 DoF exceeded the protected RSS threshold."
+rnea_fo,RNEA first-order CasADi graph used by inverse-dynamics OCP baseline,"RLIMIT_AS=20GB; RSS kill=19.5GiB",413,414,rss_limit,19843.461,157.139863698,"413 DoF succeeded; 414 DoF exceeded the protected RSS threshold."
+rnea_so,RNEA second-order CasADi graph for component-level ID-SO baseline,"RLIMIT_AS=20GB; RSS kill=19.5GiB",72,,,306.938,705.624140086,"72 DoF completed without memory pressure but took about 706 s; this case is construction-time limited at this DoF."

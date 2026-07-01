@@ -1,0 +1,17 @@
+benchmark: /home/chenwh/ros2_ws/src/TetraPGA-preview/build-bench/TetraPGA_dyn_so_bench
+repo_root: /home/chenwh/ros2_ws/src/TetraPGA-preview
+out_dir: /home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/08_casadi_dof_benchmark_rerun/tetrapga_dyn_so_bench_3x_20260629_123525
+runs: 3
+taskset_core: none
+start_time: 2026-06-29T12:35:25+08:00
+extra_args: 
+git_head: b91acb94444d40bb366ca9d620ad317fc2de5a7b
+git_status_short:
+ M CMakeLists.txt
+ M benchmark/TetraPGA_dyn_fo_bench.cpp
+ M benchmark/TetraPGA_dyn_so_bench.cpp
+ M include/TetraPGA/ModelRepo.hpp
+?? reviewer_casadi_feasibility/
+?? reviewer_revision_experiments/
+?? scripts/
+?? "\346\242\263\347\220\206\344\273\243\347\240\201\345\256\236\347\216\260\344\270\216\344\273\277\347\234\237\345\256\236\351\252\214.md"

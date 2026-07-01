@@ -1,0 +1,18 @@
+source_dir: /home/chenwh/ros2_ws/src/GA4Ro
+build_dir: /tmp/ga4ro_crocoddyl_kmaxad_build
+out_dir: /home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/08_casadi_dof_benchmark_rerun/ga4ro_crocoddyl_kmaxad_rerun_20260629_152436
+runs_per_benchmark: 3
+benchmarks: Crocoddyl_fddp_bench Crocoddyl_sqp_bench
+taskset_core: none
+cmake_build_type: Release
+casadi_bench: ON
+do_configure: 1
+do_build: 1
+build_jobs: 1
+python_executable: /usr/bin/python3
+start_time: 2026-06-29T15:24:36+08:00
+git_head: f96c48cee1c8841102dc1e48674110a3ea71f45c
+git_status_short:
+ M benchmark/Crocoddyl_fddp_bench.cpp
+ M benchmark/Crocoddyl_sqp_bench.cpp
+extra_benchmark_args: 

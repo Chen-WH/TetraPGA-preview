@@ -1,0 +1,66 @@
+start_time: 2026-06-29T12:52:08+08:00
+command: /home/chenwh/ros2_ws/src/TetraPGA-preview/build-bench/TetraPGA_dyn_so_bench --benchmark_out=/home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/08_casadi_dof_benchmark_rerun/tetrapga_dyn_so_bench_3x_20260629_123525/TetraPGA_dyn_so_bench_run02.csv --benchmark_out_format=csv
+2026-06-29T12:52:08+08:00
+Running /home/chenwh/ros2_ws/src/TetraPGA-preview/build-bench/TetraPGA_dyn_so_bench
+Run on (24 X 5300 MHz CPU s)
+CPU Caches:
+  L1 Data 48 KiB (x12)
+  L1 Instruction 32 KiB (x12)
+  L2 Unified 2048 KiB (x12)
+  L3 Unified 30720 KiB (x1)
+Load Average: 1.57, 2.73, 11.48
+CSVOutput: /home/chenwh/ros2_ws/src/TetraPGA-preview/reviewer_revision_experiments/08_casadi_dof_benchmark_rerun/tetrapga_dyn_so_bench_3x_20260629_123525/TetraPGA_dyn_so_bench_run02.csv
+CasADiCases: compiled_in
+FixedIterations: 1024
+SampleBatch: 1024
+SeedPolicy: per-run seed, per-case mixed
+Topologies: serial_chain,binary_tree
+***WARNING*** CPU scaling is enabled, the benchmark real time measurements may be noisy and will incur extra overhead.
+-----------------------------------------------------------------------------------------------------------------------------------
+Benchmark                                                                              Time             CPU   Iterations        DOF
+-----------------------------------------------------------------------------------------------------------------------------------
+[0;32mserial_chain/TetraPGA/InverseDynamicsSecondOrderDerivatives/1/iterations:1024 [m[0;33m       634 ns          633 ns   [m[0;36m      1024[m          1[m
+[m[0;32mserial_chain/TetraPGA/InverseDynamicsSecondOrderDerivatives/2/iterations:1024 [m[0;33m      2320 ns         2320 ns   [m[0;36m      1024[m          3[m
+[m[0;32mserial_chain/TetraPGA/InverseDynamicsSecondOrderDerivatives/3/iterations:1024 [m[0;33m     14081 ns        14075 ns   [m[0;36m      1024[m          7[m
+[m[0;32mserial_chain/TetraPGA/InverseDynamicsSecondOrderDerivatives/4/iterations:1024 [m[0;33m     46763 ns        46758 ns   [m[0;36m      1024[m         15[m
+[m[0;32mserial_chain/TetraPGA/InverseDynamicsSecondOrderDerivatives/5/iterations:1024 [m[0;33m    150409 ns       150408 ns   [m[0;36m      1024[m         31[m
+[m[0;32mserial_chain/TetraPGA/InverseDynamicsSecondOrderDerivatives/6/iterations:1024 [m[0;33m   1082105 ns      1082063 ns   [m[0;36m      1024[m         63[m
+[m[0;32mserial_chain/TetraPGA/InverseDynamicsSecondOrderDerivatives/7/iterations:1024 [m[0;33m  12774802 ns     12774238 ns   [m[0;36m      1024[m        127[m
+[m[0;32mserial_chain/TetraPGA/InverseDynamicsSecondOrderDerivatives/8/iterations:1024 [m[0;33m 144262731 ns    144252376 ns   [m[0;36m      1024[m        255[m
+[m[0;32mserial_chain/Pinocchio/ComputeRNEASecondOrderDerivatives/1/iterations:1024    [m[0;33m       791 ns          790 ns   [m[0;36m      1024[m          1[m
+[m[0;32mserial_chain/Pinocchio/ComputeRNEASecondOrderDerivatives/2/iterations:1024    [m[0;33m      2629 ns         2531 ns   [m[0;36m      1024[m          3[m
+[m[0;32mserial_chain/Pinocchio/ComputeRNEASecondOrderDerivatives/3/iterations:1024    [m[0;33m      8094 ns         8030 ns   [m[0;36m      1024[m          7[m
+[m[0;32mserial_chain/Pinocchio/ComputeRNEASecondOrderDerivatives/4/iterations:1024    [m[0;33m     32271 ns        32271 ns   [m[0;36m      1024[m         15[m
+[m[0;32mserial_chain/Pinocchio/ComputeRNEASecondOrderDerivatives/5/iterations:1024    [m[0;33m    173750 ns       173749 ns   [m[0;36m      1024[m         31[m
+[m[0;32mserial_chain/Pinocchio/ComputeRNEASecondOrderDerivatives/6/iterations:1024    [m[0;33m   1299949 ns      1299903 ns   [m[0;36m      1024[m         63[m
+[m[0;32mserial_chain/Pinocchio/ComputeRNEASecondOrderDerivatives/7/iterations:1024    [m[0;33m  14666153 ns     14665404 ns   [m[0;36m      1024[m        127[m
+[m[0;32mserial_chain/Pinocchio/ComputeRNEASecondOrderDerivatives/8/iterations:1024    [m[0;33m 171174410 ns    171165601 ns   [m[0;36m      1024[m        255[m
+[m[0;32mserial_chain/CasADi/ComputeRNEASecondOrderDerivatives/1/iterations:1024       [m[0;33m      1249 ns         1249 ns   [m[0;36m      1024[m          1[m
+[m[0;32mserial_chain/CasADi/ComputeRNEASecondOrderDerivatives/2/iterations:1024       [m[0;33m      2440 ns         2440 ns   [m[0;36m      1024[m          3[m
+[m[0;32mserial_chain/CasADi/ComputeRNEASecondOrderDerivatives/3/iterations:1024       [m[0;33m     15330 ns        15330 ns   [m[0;36m      1024[m          7[m
+[m[0;32mserial_chain/CasADi/ComputeRNEASecondOrderDerivatives/4/iterations:1024       [m[0;33m     85066 ns        85065 ns   [m[0;36m      1024[m         15[m
+[m[0;32mserial_chain/CasADi/ComputeRNEASecondOrderDerivatives/5/iterations:1024       [m[0;33m    591453 ns       591418 ns   [m[0;36m      1024[m         31[m
+[m[0;32mserial_chain/CasADi/ComputeRNEASecondOrderDerivatives/6/iterations:1024       [m[0;33m   5840473 ns      5840184 ns   [m[0;36m      1024[m         63[m
+[m[0;32mbinary_tree/TetraPGA/InverseDynamicsSecondOrderDerivatives/1/iterations:1024  [m[0;33m       627 ns          627 ns   [m[0;36m      1024[m          1[m
+[m[0;32mbinary_tree/TetraPGA/InverseDynamicsSecondOrderDerivatives/2/iterations:1024  [m[0;33m      2079 ns         2079 ns   [m[0;36m      1024[m          3[m
+[m[0;32mbinary_tree/TetraPGA/InverseDynamicsSecondOrderDerivatives/3/iterations:1024  [m[0;33m      5590 ns         5590 ns   [m[0;36m      1024[m          7[m
+[m[0;32mbinary_tree/TetraPGA/InverseDynamicsSecondOrderDerivatives/4/iterations:1024  [m[0;33m     14633 ns        14633 ns   [m[0;36m      1024[m         15[m
+[m[0;32mbinary_tree/TetraPGA/InverseDynamicsSecondOrderDerivatives/5/iterations:1024  [m[0;33m     43492 ns        43491 ns   [m[0;36m      1024[m         31[m
+[m[0;32mbinary_tree/TetraPGA/InverseDynamicsSecondOrderDerivatives/6/iterations:1024  [m[0;33m    239508 ns       239498 ns   [m[0;36m      1024[m         63[m
+[m[0;32mbinary_tree/TetraPGA/InverseDynamicsSecondOrderDerivatives/7/iterations:1024  [m[0;33m   3391658 ns      3391446 ns   [m[0;36m      1024[m        127[m
+[m[0;32mbinary_tree/TetraPGA/InverseDynamicsSecondOrderDerivatives/8/iterations:1024  [m[0;33m  31832084 ns     31830275 ns   [m[0;36m      1024[m        255[m
+[m[0;32mbinary_tree/Pinocchio/ComputeRNEASecondOrderDerivatives/1/iterations:1024     [m[0;33m       768 ns          767 ns   [m[0;36m      1024[m          1[m
+[m[0;32mbinary_tree/Pinocchio/ComputeRNEASecondOrderDerivatives/2/iterations:1024     [m[0;33m      2467 ns         2467 ns   [m[0;36m      1024[m          3[m
+[m[0;32mbinary_tree/Pinocchio/ComputeRNEASecondOrderDerivatives/3/iterations:1024     [m[0;33m      6316 ns         6316 ns   [m[0;36m      1024[m          7[m
+[m[0;32mbinary_tree/Pinocchio/ComputeRNEASecondOrderDerivatives/4/iterations:1024     [m[0;33m     16610 ns        16609 ns   [m[0;36m      1024[m         15[m
+[m[0;32mbinary_tree/Pinocchio/ComputeRNEASecondOrderDerivatives/5/iterations:1024     [m[0;33m     47659 ns        47659 ns   [m[0;36m      1024[m         31[m
+[m[0;32mbinary_tree/Pinocchio/ComputeRNEASecondOrderDerivatives/6/iterations:1024     [m[0;33m    246538 ns       246521 ns   [m[0;36m      1024[m         63[m
+[m[0;32mbinary_tree/Pinocchio/ComputeRNEASecondOrderDerivatives/7/iterations:1024     [m[0;33m   3361111 ns      3360931 ns   [m[0;36m      1024[m        127[m
+[m[0;32mbinary_tree/Pinocchio/ComputeRNEASecondOrderDerivatives/8/iterations:1024     [m[0;33m  31823796 ns     31821974 ns   [m[0;36m      1024[m        255[m
+[m[0;32mbinary_tree/CasADi/ComputeRNEASecondOrderDerivatives/1/iterations:1024        [m[0;33m      1266 ns         1265 ns   [m[0;36m      1024[m          1[m
+[m[0;32mbinary_tree/CasADi/ComputeRNEASecondOrderDerivatives/2/iterations:1024        [m[0;33m      2194 ns         2194 ns   [m[0;36m      1024[m          3[m
+[m[0;32mbinary_tree/CasADi/ComputeRNEASecondOrderDerivatives/3/iterations:1024        [m[0;33m      9104 ns         9104 ns   [m[0;36m      1024[m          7[m
+[m[0;32mbinary_tree/CasADi/ComputeRNEASecondOrderDerivatives/4/iterations:1024        [m[0;33m     40305 ns        40304 ns   [m[0;36m      1024[m         15[m
+[m[0;32mbinary_tree/CasADi/ComputeRNEASecondOrderDerivatives/5/iterations:1024        [m[0;33m    231614 ns       231606 ns   [m[0;36m      1024[m         31[m
+[m[0;32mbinary_tree/CasADi/ComputeRNEASecondOrderDerivatives/6/iterations:1024        [m[0;33m   2399604 ns      2399460 ns   [m[0;36m      1024[m         63[m
+[mend_time: 2026-06-29T13:09:08+08:00

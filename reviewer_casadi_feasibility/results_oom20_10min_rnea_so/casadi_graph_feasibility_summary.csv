@@ -1,0 +1,2 @@
+case,last_success_dof,first_failure_dof,first_failure_status,last_success_peak_rss_mb,last_success_graph_build_s,tested_dofs
+rnea_so,402,403,exit_2,18338.676,,304 356 382 395 401 402 403 408 512

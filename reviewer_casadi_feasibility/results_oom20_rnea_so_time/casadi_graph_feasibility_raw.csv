@@ -1,0 +1,2 @@
+case,dof,status,returncode,elapsed_s,peak_rss_mb,timed_out,model_build_s,graph_build_s,problem_build_s,eval_s,probe_status,error
+rnea_so,72,ok,0,705.720472236,306.938,0,0.00010626,705.624140086,0,0.006415327,ok,

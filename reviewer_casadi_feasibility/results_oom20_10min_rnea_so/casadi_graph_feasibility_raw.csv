@@ -1,0 +1,10 @@
+case,dof,status,returncode,elapsed_s,peak_rss_mb,timed_out,model_build_s,graph_build_s,problem_build_s,eval_s,probe_status,error
+rnea_so,304,timeout_ok,-9,600.720700250,8040.957,1,,,,,,timeout after 600.0s; treated as pass
+rnea_so,512,exit_2,2,15.015904041,15094.672,0,0.000544119,0,0,0,bad_alloc,std::bad_alloc
+rnea_so,408,exit_2,2,25.028585782,18388.648,0,0.001223497,0,0,0,bad_alloc,std::bad_alloc
+rnea_so,356,timeout_ok,-9,600.863657817,12801.840,1,,,,,,timeout after 600.0s; treated as pass
+rnea_so,382,timeout_ok,-9,600.917873634,15767.586,1,,,,,,timeout after 600.0s; treated as pass
+rnea_so,395,timeout_ok,-9,600.948202369,17409.035,1,,,,,,timeout after 600.0s; treated as pass
+rnea_so,401,timeout_ok,-9,600.969216694,18203.746,1,,,,,,timeout after 600.0s; treated as pass
+rnea_so,402,timeout_ok,-9,600.971740655,18338.676,1,,,,,,timeout after 600.0s; treated as pass
+rnea_so,403,exit_2,2,455.435737343,18463.555,0,0.000544791,0,0,0,bad_alloc,std::bad_alloc

@@ -1,0 +1,2 @@
+robot,backend,dof,samples,horizon,dt,max_iterations,success_rate,solve_total_per_iter_mean_ms,non_cost_model_per_iter_mean_ms,cost_state_per_iter_mean_ms,cost_control_per_iter_mean_ms,cost_acc_per_iter_mean_ms,cost_collision_per_iter_mean_ms,cost_other_per_iter_mean_ms,solver_overhead_per_iter_mean_ms,stack_total_per_iter_mean_ms,dam_calc_per_iter_mean_ms,dam_calcdiff_per_iter_mean_ms,dam_total_per_iter_mean_ms
+"ur10","TetraPGA",6,1,50,0.02,2,0,0.4488445,0.2843965,0.0074235,0.0042935,0.032375,0,0,0.120356,0.4488445,0.1304095,0.198079,0.3284885

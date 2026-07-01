@@ -1,0 +1,2 @@
+case,meaning,memory_policy,per_dof_time_policy,last_success_dof,first_failure_dof,first_failure_status,last_success_peak_rss_mb,notes
+rnea_so,RNEA second-order CasADi graph for component-level ID-SO baseline,"RLIMIT_AS=20GiB; no RSS kill","max 600s per DoF; no failure within 600s is treated as pass",402,403,exit_2,18338.676,"Under the 10-minute per-DoF memory-bottleneck rule, 402 DoF did not fail within 600s and is treated as pass; 403 DoF failed with bad_alloc/exit_2 at 455.436s."

@@ -1,0 +1,15 @@
+category,tetrapga_operator,pinocchio_operator,tetrapga_cpu_ns,pinocchio_cpu_ns,pinocchio_over_tetrapga_speedup,faster_backend
+adjoint_inverse_matrix,ga_AdM_matrix,SE3_toActionMatrixInverse,10.053700,19.885700,1.977948,TetraPGA
+adjoint_matrix,ga_rbm_matrix,SE3_toActionMatrix,10.067600,15.023200,1.492233,TetraPGA
+commutator_direct,ga_com,Motion_cross,3.808070,9.002090,2.363951,TetraPGA
+commutator_matrix,ga_com_matrix,Motion_toActionMatrix,7.991130,10.830000,1.355253,TetraPGA
+exp_map,ga_exp,exp6,17.035800,24.762600,1.453562,TetraPGA
+force_transform,ga_rbm,SE3_act_Force,13.937000,4.632680,0.332402,Pinocchio
+inertia_transform,rbm_I_AdM,SE3_act_Inertia,50.773500,7.699590,0.151646,Pinocchio
+log_map,ga_log,log6,9.363160,106.953000,11.422746,TetraPGA
+motion_inverse_transform,ga_AdM,SE3_actInv_Motion,13.844900,4.958440,0.358142,Pinocchio
+motion_transform_direct,ga_rbm,SE3_act_Motion,13.983400,4.384490,0.313550,Pinocchio
+motor_compose,ga_mul,SE3_multiply,8.521570,7.579790,0.889483,Pinocchio
+motor_inverse,ga_rev,SE3_inverse,3.414280,3.719040,1.089260,TetraPGA
+point_commutator,pga_com23,Motion_point_velocity,3.560480,3.582430,1.006165,TetraPGA
+point_transform,pga_rbm3,SE3_act_Vector3,7.647280,3.535810,0.462362,Pinocchio
